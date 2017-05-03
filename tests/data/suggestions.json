@@ -1,0 +1,28 @@
+{
+    
+    "terms": [
+        "word1",
+        "word2",
+        "word3",
+        "word4",
+        "word5"
+    ],
+    "filters": [
+        {
+            "label": "Language",
+            "values": [
+                {"label":"English", "value":"en"}, 
+                {"label":"Russian", "value":"ru"}
+            ]
+        },
+        {
+            "label": "Type",
+            "values": [
+                {"label":"Document", "value":"document"},
+                {"label":"Presentation", "value":"presentation"},
+                {"label":"Image", "value":"image"}
+            ]
+        }
+    ]
+
+}

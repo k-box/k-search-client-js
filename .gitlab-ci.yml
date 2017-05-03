@@ -1,0 +1,58 @@
+## K-Link Search Javascript library Continuous Integration script
+
+stages:
+  - test
+  - build
+  - release
+
+cache:
+  key: "klinksearch"
+  paths:
+  - .npm-cache
+
+## Execute the Unit tests to confirm that at least 
+## something is working
+test:
+  image: node:6
+  stage: test
+  before_script:
+    - npm config set cache .npm-cache
+    - npm install -q
+  script:
+   - npm run test
+  tags:
+    - docker
+
+## Generates the production optimized build starting from the development
+## build already available in the repository
+build_for_release:
+  image: node:6
+  stage: build
+  before_script:
+    - npm config set cache .npm-cache
+    - npm install -q
+  script:
+    - npm run production
+  tags:
+    - docker
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - dist/js
+    - dist/css
+  only:
+    - tags
+
+## move the build artifact to the artifact repository to be server publicly
+release:
+  stage: release
+  script:
+    - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}"; fi
+    - cp dist/js/klinksearch.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.js"
+    - cp dist/css/klinksearch.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.css"
+    - cp dist/js/klinksearch.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.min.js"
+    - cp dist/css/klinksearch.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.min.css"
+  tags:
+    - shell
+  only:
+    - tags

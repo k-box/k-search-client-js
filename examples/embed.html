@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <title>Embed</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            body,html {margin: 0; padding: 0}
+
+            .header {
+                /*display: flex;
+                align-content: space-between;
+                align-items: center;*/
+                height: 80px
+            }
+
+            .hero {
+                height: 300px;
+                background: gray;
+            }
+
+            .logo {
+                float: left;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navigation {
+                display: block;
+                float: right;
+            }
+
+            .logo, .navigation, .page {
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <div id="website1">
+            
+            <header class="header">
+                <h1 class="logo">Website Logo - search page</h1>
+
+
+                <div class="navigation">
+                    
+                </div>
+            </header>
+            <a href="index.html">Overlay (normal)</a>
+            <a href="collapsed.html">Collapsed version (overlay with data-collapsed)</a>
+            <a href="embed.html"><strong>Embed version</strong></a>
+
+        </div>
+
+
+        <div class="page">
+
+
+            <div id="klinksearch" class="klinksearch">
+
+            </div>
+
+            <p>Below the search</p>
+
+        </div>
+
+        <link rel="stylesheet" href="../dist/css/klinksearch.css" />
+        <script type="text/javascript" src="../dist/js/klinksearch.js"></script>
+        <script>
+        klinksearch({
+            token: '<API_KEY>',
+            language: 'en',
+            selector: '#klinksearch',
+            display: 'embed',
+            url: 'https://test.klink.asia/kcore'
+        });
+        </script>
+
+    </body>
+
+
+</html>
+
+
+
+
+
+
+

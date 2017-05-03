@@ -1,0 +1,51 @@
+{
+  "name": "k-search-js",
+  "version": "0.1.0",
+  "description": "Add the ability to search on the K-Link Network from your website",
+  "keywords": ["library","search","k-link","website"],
+  "main": "dist/js/klinksearch.js",
+  "author": "Alessio <alessio@oneofftech.xyz>",
+  "license": "GPLv3",
+  "repository": {
+    "type": "git",
+    "url": "https://git.klink.asia/main/k-search-js.git"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "dev": "gulp",
+    "production": "gulp minify",
+    "lint": "eslint src/**/*",
+    "watch": "gulp watch",
+    "test": "jest tests/*",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "gulp": "~3.9.1",
+    "gulp-clean-css": "^3.0.4",
+    "gulp-less": "~3.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "jest-cli": "^19.0.2",
+    "jest-fetch-mock": "^1.0.8",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.without": "^4.4.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.34.7",
+    "rollup-plugin-commonjs": "^3.3.1",
+    "rollup-plugin-node-resolve": "^2.0.0"
+  },
+  "dependencies": {
+    "eventemitter-light": "~0.2.2",
+    "hogan.js": "^3.0.2",
+    "lodash.assignin": "~4.1.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}

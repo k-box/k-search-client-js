@@ -1,0 +1,269 @@
+/**
+ * K-Link Search stylesheet
+ *
+ * This LESS stylesheet define the presentation of the search box, dialog and results
+ */
+.klinksearch {
+  color: #212529;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+  position: relative;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  min-height: 38px;
+}
+.klinksearch--hide {
+  display: none;
+}
+.klinksearch__dialog {
+  display: none;
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+}
+.klinksearch__dialog--show {
+  display: block;
+}
+.klinksearch__icons {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+.klinksearch__logo {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 32px;
+  height: 32px;
+  display: block;
+  z-index: 200;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  z-index: 4;
+}
+.klinksearch__info {
+  padding: 4px;
+  text-align: right;
+}
+.klinksearch__footer {
+  color: #212529;
+  font-size: 12px;
+  padding: 4px;
+}
+.klinksearch__form {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 38px;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.klinksearch__submit,
+.klinksearch__reset {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  height: 24px;
+  display: block;
+  z-index: 200;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+.klinksearch__reset {
+  display: none;
+}
+.klinksearch__input {
+  padding: 10px 38px 10px 36px;
+  border-radius: 3px;
+  border: solid 1px #228AE6;
+  width: 100%;
+  z-index: 150;
+  outline: none;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.klinksearch__input:focus {
+  border-color: #1670bf;
+}
+.klinksearch__form--expand-overlay {
+  position: absolute;
+  right: 0;
+  width: 480px;
+}
+.klinksearch--status__dialog-open .klinksearch__input {
+  border-color: #1670bf;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.klinksearch--status__dialog-open .klinksearch__dialog {
+  border-top-width: 0;
+}
+.klinksearch--has-results .klinksearch__submit {
+  display: none;
+}
+.klinksearch--has-results .klinksearch__reset {
+  display: inherit;
+}
+.klinksearch--overlay .klinksearch__dialog {
+  position: absolute;
+  border: 1px solid #1670bf;
+  border-top-width: 0;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: block;
+  visibility: hidden;
+  transition: transform .2s,visibility .2s;
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform, visibility;
+}
+.klinksearch--overlay .klinksearch__dialog--show {
+  transform: scaleY(1);
+  visibility: visible;
+}
+.klinksearch--overlay .klinksearch__info {
+  display: none;
+}
+.klinksearch__form--float {
+  position: absolute;
+  right: 0;
+  width: 380px;
+  z-index: 100;
+}
+.klinksearch__form--collapsed {
+  width: 38px;
+  overflow: hidden;
+  border: 1px solid #228AE6;
+  background: #f8f9fa;
+  border-radius: 3px;
+}
+.klinksearch__form--collapsed .klinksearch__input {
+  opacity: 0;
+}
+.klinksearch__form--collapsed .klinksearch__submit {
+  display: none;
+}
+.klinksearch--embed .klinksearch__dialog {
+  position: initial;
+  min-height: 240px;
+  visibility: visible;
+}
+.klinksearch--embed.klinksearch--status__dialog-open .klinksearch__input {
+  border-bottom-width: 1px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.klinksearch__results {
+  padding: 4px;
+  margin-top: 4px;
+}
+.klinksearch__results__info {
+  color: #212529;
+  margin-bottom: 12px;
+}
+.klinksearch__result {
+  margin-bottom: 12px;
+}
+.klinksearch__result__thumbnail {
+  width: 100px;
+  height: 100px;
+  display: block;
+  background: #d4dae1;
+  float: left;
+  margin-right: 8px;
+}
+.klinksearch__result__thumbnail__content {
+  width: 100px;
+  height: 100px;
+  display: block;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.2s ease;
+}
+.klinksearch__result__thumbnail__content--fade-in {
+  opacity: 1;
+}
+.klinksearch__result__icon {
+  display: none;
+}
+.klinksearch__result__title {
+  color: blue;
+  font-size: 16px;
+}
+.klinksearch__result__info {
+  display: block;
+  color: #868e96;
+  margin-top: 4px;
+}
+.klinksearch__result__meta--source {
+  display: block;
+}
+.klinksearch__result__meta:not(:last-of-type) {
+  margin-right: 4px;
+}
+.klinksearch__result__link {
+  color: #212529;
+  display: block;
+  text-decoration: none;
+  padding: 4px;
+  will-change: background;
+  transition: background 0.2s ease;
+}
+.klinksearch__result__link::after,
+.klinksearch__result__link:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+.klinksearch__result__link:hover {
+  background: #abd3f6;
+}
+.klinksearch__result__link:hover .klinksearch__result__info {
+  color: #212529;
+}
+.klinksearch__result__link:focus,
+.klinksearch__result__link:active {
+  background: #228AE6;
+  color: #fff;
+  outline: none;
+}
+.klinksearch__result__link:focus .klinksearch__result__title,
+.klinksearch__result__link:active .klinksearch__result__title {
+  color: #fff;
+}
+.klinksearch__results__pagination {
+  display: block;
+  white-space: nowrap;
+  position: relative;
+  padding: 8px 0;
+}
+.klinksearch__pagination__links {
+  position: absolute;
+  right: 0;
+  top: 8px;
+}
+.klinksearch__pagination__link {
+  padding: 8px;
+  text-decoration: none;
+  color: #1670bf;
+}
+.klinksearch__pagination__link:hover {
+  color: #105592;
+}
+.klinksearch__pagination__link--disabled {
+  opacity: 0.5;
+  color: #868e96;
+  pointer-events: none;
+}

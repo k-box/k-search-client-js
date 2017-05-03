@@ -1,0 +1,145 @@
+{
+	
+    "numFound": 10,
+    "numResults": 5,
+	"startResult": 0,
+	
+    "query": "*",
+    "queryTime": 63,
+	
+	
+	"items": [
+		{
+			"score": 1,
+            "localDocumentID": "c215cd",
+            "institutionID": "KLINK",
+            "visibility": "private",
+            "hash": "c215cd339729980415f944858b09f0f6e86b34447c6d83e4324e9635137573f7bbe54046a666a3988eeadf621411e4314a431b248805b21c17aabad7531a701e",
+            "title": "presentation_example 1 .pptx",
+            "language": "en",
+            "creationDate": "29 may 2015",
+            "documentURI": "http:\/\/localhost\/dms\/klink\/c215cd\/document",
+            "thumbnailURI": "https:\/\/unsplash.it\/100\/100?image=1039",
+            "abstract": "",
+            "userOwner": "admin <admin@klink.local>",
+            "authors": null,
+            "userUploader": "admin <admin@klink.local>",
+            "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "documentType": "presentation",
+            "locationsString": null,
+            "titleAliases": [
+                "presentation_example.pptx"
+            ],
+            "locations": [],
+            "topicTerms": null,
+            "documentFolders": null,
+            "documentGroups": null
+			
+		},
+		{
+			"score": 1,
+            "localDocumentID": "c215cd",
+            "institutionID": "KLINK",
+            "visibility": "private",
+            "hash": "c215cd339729980415f944858b09f0f6e86b34447c6d83e4324e9635137573f7bbe54046a666a3988eeadf621411e4314a431b248805b21c17aabad7531a701e",
+            "title": "presentation_example 2 .pptx",
+            "language": "English",
+            "creationDate": "29 may 2015",
+            "documentURI": "http:\/\/localhost\/dms\/klink\/c215cd\/document",
+            "thumbnailURI": "https:\/\/unsplash.it\/100\/100?image=1039",
+            "abstract": "",
+            "userOwner": "admin <admin@klink.local>",
+            "authors": null,
+            "userUploader": "admin <admin@klink.local>",
+            "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "documentType": "presentation",
+            "locationsString": null,
+            "titleAliases": [
+                "presentation_example.pptx"
+            ],
+            "locations": [],
+            "topicTerms": null,
+            "documentFolders": null,
+            "documentGroups": null
+		},
+		{
+			"score": 1,
+            "localDocumentID": "c215cd",
+            "institutionID": "KLINK",
+            "visibility": "private",
+            "hash": "c215cd339729980415f944858b09f0f6e86b34447c6d83e4324e9635137573f7bbe54046a666a3988eeadf621411e4314a431b248805b21c17aabad7531a701e",
+            "title": "presentation_example 3.pptx",
+            "language": "English",
+            "creationDate": "29 may 2015",
+            "documentURI": "http:\/\/localhost\/dms\/klink\/c215cd\/document",
+            "thumbnailURI": "https:\/\/unsplash.it\/100\/100?image=1039",
+            "abstract": "This is an abstract and I like it.",
+            "userOwner": "admin <admin@klink.local>",
+            "authors": null,
+            "userUploader": "admin <admin@klink.local>",
+            "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "documentType": "presentation",
+            "locationsString": null,
+            "titleAliases": [
+                "presentation_example.pptx"
+            ],
+            "locations": [],
+            "topicTerms": null,
+            "documentFolders": null,
+            "documentGroups": null
+		},
+		{
+			"score": 1,
+            "localDocumentID": "c215cd",
+            "institutionID": "KLINK",
+            "visibility": "private",
+            "hash": "c215cd339729980415f944858b09f0f6e86b34447c6d83e4324e9635137573f7bbe54046a666a3988eeadf621411e4314a431b248805b21c17aabad7531a701e",
+            "title": "presentation_example 4.pptx",
+            "language": "English",
+            "creationDate": "29 may 2015",
+            "documentURI": "http:\/\/localhost\/dms\/klink\/c215cd\/document",
+            "thumbnailURI": "https:\/\/unsplash.it\/100\/100?image=1039",
+            "abstract": "",
+            "userOwner": "admin <admin@klink.local>",
+            "authors": null,
+            "userUploader": "admin <admin@klink.local>",
+            "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "documentType": "presentation",
+            "locationsString": null,
+            "titleAliases": [
+                "presentation_example.pptx"
+            ],
+            "locations": [],
+            "topicTerms": null,
+            "documentFolders": null,
+            "documentGroups": null
+			
+		},
+		{
+			"score": 1,
+            "localDocumentID": "c215cd",
+            "institutionID": "KLINK",
+            "visibility": "private",
+            "hash": "c215cd339729980415f944858b09f0f6e86b34447c6d83e4324e9635137573f7bbe54046a666a3988eeadf621411e4314a431b248805b21c17aabad7531a701e",
+            "title": "presentation_example 5.pptx",
+            "language": "English",
+            "creationDate": "29 may 2015",
+            "documentURI": "http:\/\/localhost\/dms\/klink\/c215cd\/document",
+            "thumbnailURI": "https:\/\/unsplash.it\/100\/100?image=1039",
+            "abstract": "",
+            "userOwner": "admin <admin@klink.local>",
+            "authors": null,
+            "userUploader": "admin <admin@klink.local>",
+            "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "documentType": "presentation",
+            "locationsString": null,
+            "titleAliases": [
+                "presentation_example.pptx"
+            ],
+            "locations": [],
+            "topicTerms": null,
+            "documentFolders": null,
+            "documentGroups": null
+		}
+	]
+}
