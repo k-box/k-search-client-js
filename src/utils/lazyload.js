@@ -6,9 +6,9 @@ var Dom = require('./dom.js');
 /**
  * Image Lazy Load based on Intersection Observer.
  * 
- * To lazy load an image add the class klinkjs-lazy-image and the URL of the image to load 
+ * To lazy load an image add the class k-search-js-lazy-image and the URL of the image to load 
  * in the data-src attribute. The image will be applied as a background to the element 
- * with class klinkjs-lazy-image-content
+ * with class k-search-js-lazy-image-content
  * 
  * @example
  * var LazyLoad = require('lazyload.js');
@@ -27,7 +27,7 @@ module.exports = (function () {
      * The CSS class to add for image already lazy loaded
      * @type {string}
      */
-    var HANDLED_CLASS = 'klinkjs-lazy-image--handled';
+    var HANDLED_CLASS = 'k-search-js-lazy-image--handled';
     /**
      * The treshold used to accept an intersection with the current visible area
      * @type {number} between 0 and 1
@@ -50,7 +50,7 @@ module.exports = (function () {
         
         this._observer = null;
 
-        this._images = document.querySelectorAll('.klinkjs-lazy-image');
+        this._images = document.querySelectorAll('.k-search-js-lazy-image');
 
         this.config = config;
 
@@ -122,7 +122,7 @@ module.exports = (function () {
 
     LazyLoadInternal.prototype._applyImage = function(img, src) {
 
-        var el = img.querySelector('.klinkjs-lazy-image-content');
+        var el = img.querySelector('.k-search-js-lazy-image-content');
         if (!el) {
             return;
         }
@@ -130,7 +130,7 @@ module.exports = (function () {
         // Prevent this from being lazy loaded a second time.
         Dom.classAdd(img, HANDLED_CLASS);
         el.style.backgroundImage = 'url('+src+')';
-        Dom.classAdd(el, 'klinksearch__result__thumbnail__content--fade-in');
+        Dom.classAdd(el, 'k-search__result__thumbnail__content--fade-in');
     }
 
 

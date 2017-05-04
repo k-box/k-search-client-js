@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2017-05-16
+
+### Changed
+
+- Renamed all CSS classes from `klinksearch*` to `k-search*`
+- Renamed JS object to `ksearch`
+
+### Fixed
+
+- Fixed library bundling. Promise polyfill was not included.
+
+## [0.1.1] - 2017-05-05
+
 ### Added 
 
-- Search Module for delivering K-Link search results based on keywords
+- Installation and usage documentation
+
+## [0.1.0] - 2017-05-03
+
+### Added 
+
+- Search Module for delivering K-Search results based on keywords

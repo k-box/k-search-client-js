@@ -1,5 +1,5 @@
 /**
- * K-Link Search stylesheet
+ * K-Search stylesheet
  *
  * This LESS stylesheet define the presentation of the search box, dialog and results
  */
@@ -24,7 +24,7 @@
 
 // Containers and structural components
 
-.klinksearch {
+.k-search {
     // the container of the whole search, this must be applied to the element that will used to deliver search and results
     color: @text-color;
     font-family: @font-family;
@@ -39,11 +39,11 @@
 
 }
 
-.klinksearch--hide {
+.k-search--hide {
     display: none;
 }
 
-.klinksearch__dialog {
+.k-search__dialog {
     display: none;
     box-sizing: border-box;
     width: 100%;
@@ -51,11 +51,11 @@
     box-sizing: border-box;
 }
 
-.klinksearch__dialog--show {
+.k-search__dialog--show {
     display: block;
 }
 
-.klinksearch__icons {
+.k-search__icons {
     // the current container of the svg source for icons
     height: 0;
     width: 0;
@@ -67,7 +67,7 @@
 
 // Logo and branding
 
-.klinksearch__logo {
+.k-search__logo {
     position: absolute;
     left: 4px;
     top: 4px;
@@ -81,12 +81,12 @@
     z-index: 4;
 }
 
-.klinksearch__info {
+.k-search__info {
     padding: 4px;
     text-align: right;
 }
 
-.klinksearch__footer{
+.k-search__footer{
     color: @grey_text_color;
     font-size: 12px;
     padding: 4px;
@@ -95,7 +95,7 @@
 
 // Search form
 
-.klinksearch__form {
+.k-search__form {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -105,7 +105,7 @@
     box-sizing: border-box;
 }
 
-.klinksearch__submit, .klinksearch__reset {
+.k-search__submit, .k-search__reset {
     position: absolute;
     right: 12px;
     top: 8px;
@@ -118,11 +118,11 @@
     box-sizing: border-box;
 }
 
-.klinksearch__reset {
+.k-search__reset {
     display: none;
 }
 
-.klinksearch__input {
+.k-search__input {
     padding: 10px 38px 10px 36px;
     border-radius: 3px;
     border: solid 1px @input_border_normal_color;
@@ -143,7 +143,7 @@
     }
 }
 
-.klinksearch__form--expand-overlay {
+.k-search__form--expand-overlay {
     position: absolute;
     right: 0;
     width: 480px;
@@ -154,27 +154,27 @@
 
 
 
-.klinksearch--status__dialog-open {
+.k-search--status__dialog-open {
 
-    .klinksearch__input {
+    .k-search__input {
         border-color: @input_border_focus_color;
         border-bottom-width: 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }
 
-    .klinksearch__dialog{
+    .k-search__dialog{
         border-top-width: 0;
     }
 
 }
 
-.klinksearch--has-results{
-    .klinksearch__submit{
+.k-search--has-results{
+    .k-search__submit{
         display: none;
     } 
     
-    .klinksearch__reset {
+    .k-search__reset {
         display: inherit;
     }
 }
@@ -183,9 +183,9 @@
 
 
 
-.klinksearch--overlay {
+.k-search--overlay {
 
-    .klinksearch__dialog {
+    .k-search__dialog {
         position: absolute;
         border: 1px solid @input_border_focus_color;
         border-top-width: 0;
@@ -199,18 +199,18 @@
         will-change: transform, visibility;
     }
 
-    .klinksearch__dialog--show {
+    .k-search__dialog--show {
         transform: scaleY(1);
         visibility: visible;
     }
 
-    .klinksearch__info {
+    .k-search__info {
         display: none
     }
 
 }
 
-.klinksearch__form--float {
+.k-search__form--float {
     position: absolute;
     right: 0;
     width: 380px;
@@ -218,7 +218,7 @@
 }
 
 
-.klinksearch__form--collapsed {
+.k-search__form--collapsed {
     // collapsed state 
     width: 38px;
     overflow: hidden;
@@ -227,27 +227,27 @@
     background: @light-gray;
     border-radius: 3px;
 
-    .klinksearch__input {
+    .k-search__input {
         opacity: 0
     }
 
-    .klinksearch__submit{
+    .k-search__submit{
         display: none;
     } 
 
 }
 
 
-.klinksearch--embed {
+.k-search--embed {
 
-    .klinksearch__dialog {
+    .k-search__dialog {
         position: initial;
         min-height: 240px;
         visibility: visible;
     }
 
-    &.klinksearch--status__dialog-open {
-        .klinksearch__input {
+    &.k-search--status__dialog-open {
+        .k-search__input {
             border-bottom-width: 1px;
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
@@ -260,22 +260,22 @@
 
 // Search results component
 
-.klinksearch__results {
+.k-search__results {
     padding: 4px;
     margin-top: 4px;
 }
 
-.klinksearch__results__info {
+.k-search__results__info {
     color: @grey_text_color;
     margin-bottom: 12px;
 }
 
-.klinksearch__result {
+.k-search__result {
     margin-bottom: 12px;
 }
 
 
-.klinksearch__result__thumbnail {
+.k-search__result__thumbnail {
     width: 100px;
     height: 100px;
     display: block;
@@ -285,7 +285,7 @@
 
 }
 
-.klinksearch__result__thumbnail__content {
+.k-search__result__thumbnail__content {
     width: 100px;
     height: 100px;
     display: block;
@@ -294,34 +294,34 @@
     transition: opacity 0.2s ease;
 }
 
-.klinksearch__result__thumbnail__content--fade-in {
+.k-search__result__thumbnail__content--fade-in {
     opacity: 1;
 }
 
-.klinksearch__result__icon {
+.k-search__result__icon {
     display: none
 }
 
-.klinksearch__result__title {
+.k-search__result__title {
     color: blue;
     font-size: @font-size+2;
 }
 
-.klinksearch__result__info {
+.k-search__result__info {
     display: block;
     color: @gray;
     margin-top: 4px;
 }
 
-.klinksearch__result__meta--source {
+.k-search__result__meta--source {
     display: block;
 }
 
-.klinksearch__result__meta:not(:last-of-type) {
+.k-search__result__meta:not(:last-of-type) {
     margin-right: 4px;
 }
 
-.klinksearch__result__link {
+.k-search__result__link {
     color: @text-color;
     display: block;
     text-decoration: none;
@@ -339,7 +339,7 @@
     &:hover {
         background: lighten(@primary, 30%);
 
-        .klinksearch__result__info {
+        .k-search__result__info {
             color: @text-color;
         }
     }
@@ -349,26 +349,26 @@
         color: #fff;
         outline: none;
 
-        .klinksearch__result__title {
+        .k-search__result__title {
             color: #fff;
         }
     }
 }
 
-.klinksearch__results__pagination {
+.k-search__results__pagination {
     display: block;
     white-space: nowrap;
     position: relative;
     padding: 8px 0;
 }
 
-.klinksearch__pagination__links {
+.k-search__pagination__links {
     position: absolute;
     right: 0;
     top: 8px;
 }
 
-.klinksearch__pagination__link {
+.k-search__pagination__link {
     padding: 8px;
     text-decoration: none;
     color: darken(@primary, 10%);
@@ -378,7 +378,7 @@
     }
 }
 
-.klinksearch__pagination__link--disabled {
+.k-search__pagination__link--disabled {
     opacity: 0.5;
     color: @gray;
     pointer-events: none;

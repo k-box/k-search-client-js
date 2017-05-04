@@ -1,3 +1,7 @@
+---
+Order: 1
+---
+
 # Browser support matrix
 
 The library support the latest version of major browsers (see table below) and have a backward compatibility with the latest stable-2 for the specified platform

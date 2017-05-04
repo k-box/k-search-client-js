@@ -48,10 +48,12 @@ release:
   stage: release
   script:
     - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}"; fi
-    - cp dist/js/klinksearch.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.js"
-    - cp dist/css/klinksearch.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.css"
-    - cp dist/js/klinksearch.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.min.js"
-    - cp dist/css/klinksearch.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/klinksearch.min.css"
+    - cp dist/js/k-search.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.js"
+    - cp dist/css/k-search.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.css"
+    - cp dist/js/k-search.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.js"
+    - cp dist/css/k-search.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.css"
+    - cp docs/index.md "${DOCS_LOCATION}/index.md"
+    - cp docs/browser-matrix.md "${DOCS_LOCATION}/browser-matrix.md"
   tags:
     - shell
   only:

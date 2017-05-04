@@ -1,34 +1,22 @@
-# K-Search JavaScript library
+---
+PageTitle: Installation and Usage
+Order: 0
+---
 
-Search on a K-Link from any website.
+# K-Search javascript library
 
-_Features_
-
-- Embed the search form on any website.
-- Easy inclusion and configuration snippets for HTML5 or JavaScript.
-- Three different visualization modes
-- Self contained, no pre-requirements
-
-_Planned enhancements_
-
-* [ ] Show to the user that a search is in progress
-* [ ] Support for Localization and i18n
-* [ ] Ctrl+K Ctrl+F for focusing on the K-Search field
-* [ ] Get the search term from the query string if available
+Search on K-Link from the commodity of your website.
 
 ## Browser support
 
-K-Search support modern browsers: Microsoft Edge (14+), Google Chrome, Mozilla Firefox,
-Opera (40+), Safari (10), iOS Safari 10.3+, Chrome on Android, Firefox on Android and even IE9,
-IE10 and IE11. Support for Internet Explorer 8, Opera Mini or Android Stock Browser before Android 4
+K-Search support modern browsers: Microsoft Edge (14+), Google Chrome, Mozilla Firefox, 
+Opera (40+), Safari (10), iOS Safari 10.3+, Chrome on Android, Firefox on Android and even IE9, 
+IE10 and IE11. Support for Internet Explorer 8, Opera Mini or Android Stock Browser before Android 4 
 is not given and will not be considered for future updates.
-
-For a detailed overview of which technologies we are using and their browser support please
-refer to the [Browser matrix](./docs/browser-matrix.md) documentation page.
 
 ## Setup
 
-To include the K-Search on your page you need to have a container element, like a `div`, in the area you want
+To include the K-Search on your page you need to have a container element, like a `div`, in the area you want 
 the search to appear. For example in the header on the side of the logo
 
 ```html
@@ -42,15 +30,15 @@ the search to appear. For example in the header on the side of the logo
   </header>
 ```
 
-Then you need to place our CSS and Javascript dependencies. We suggest to include the css in the head of the page
+Then you need to place our CSS and Javascript dependencies. We suggest to include the css in the head of the page 
 and the Javascript before the closing `</body>` tag.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2/k-search.min.css" />
+<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.1/k-search.min.css" />
 
 <!-- Javascript -->
-<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2/k-search.min.js"></script>
+<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.1/k-search.min.js"></script>
 ```
 
 To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.
@@ -79,13 +67,13 @@ By default the library search for the first element that has the `data-ksearch` 
 
 - `url: String`: (required) The K-Link compatible endpoint to use for searching
 - `token: String`: (required) The API token to obtain access to the Search
-- `selector: String`: (default `[data-ksearch]`) Where in the page I should put the K-Search.
+- `selector: String`: (default `[data-ksearch]`) Where in the page I should put the K-Search. 
    If more elements matches on the page only the first one will be used
 - `display: String`: (default `overlay`) The display style.
  - overlay the search box is visible and can expand on top of the other elements of the page when active
  - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
 - `collapsed: Boolean`: (default `false`) If the search form should be collapsed to use less space on the page
-- `expandable: Boolean`: (default `true`) If the search input should become bigger when user interacts with it and the
+- `expandable: Boolean`: (default `true`) If the search input should become bigger when user interacts with it and the 
    search results. If the `collapsed` option is set to true the `expandable` option will always be active.
 - `language: String`: (default `en`) The language for user interface localization. Currently supported only `en`
 
@@ -99,12 +87,12 @@ This is the fastest configuration method as its done entirely in html
 
 The following data attributes are supported:
 
-- `data-ksearch-auto`: (required) identify that the element is the search container and should auto load
+- `data-ksearch-auto`: (required) identify that the element is the search container and should auto load 
    the configuration values
 - `data-url`: (required) The K-Link compatible endpoint to use for searching
 - `data-token`: (required) The API token to obtain access to the Search
 - `data-display`: The display style.
- - overlay the search box is visible and can expand on top of the other elements of the page when active. The
+ - overlay the search box is visible and can expand on top of the other elements of the page when active. The 
    results are presented in a dialog below the search input field
  - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
 - `data-collapsed`: If the search form should be collapsed to use less space on the page, for example if used in the header.
@@ -113,12 +101,12 @@ The following data attributes are supported:
 
 ## Testing
 
-Testing ensure that the library will behave as intended in all the supporting browsers.
+Testing ensure that the library will behave as intended in all the supporting browsers. 
 Tests suite use [Jest](https://facebook.github.io/jest/).
 
 All the tests are in the `tests` subfolder.
 
-Test are divided in _unit tests_ and _integration tests_. Unit tests focuses on testing specific functions
+Test are divided in _unit tests_ and _integration tests_. Unit tests focuses on testing specific functions 
 and browser agnostic modules, while integration tests try to replicate the usage of the library in a browser.
 
 To run all the tests use:
@@ -127,18 +115,18 @@ To run all the tests use:
 npm run test
 ```
 
-While developing you can also run
+While developing you can also run 
 
 ```
 npm run test:watch
 ```
 
-This will execute only tests related to changed files based on hg/git (uncommitted files).
+This will execute only tests related to changed files based on hg/git (uncommitted files). 
 (See [Jest Doc](https://facebook.github.io/jest/docs/cli.html#running-from-the-command-line))
 
 ## Contributing
 
 Contribution to the project are very welcomed.
 
-To ensure code consistency between you an other contributors we have `eslint` setup to reject a commit if the code
+To ensure code consistency between you an other contributors we have `eslint` setup to reject a commit if the code 
 style rules are not respected. You can also run the linter by yourself with `run run lint`.

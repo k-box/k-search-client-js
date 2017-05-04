@@ -13,33 +13,33 @@ test('Matches return true', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" />' +
+    '  <span class="k-search--target" />' +
     '  <button id="button" />' +
     '</div>';
 
-  expect(DOM.matches(document.querySelector('.klinksearch--target'), '.klinksearch--target')).toBe(true);
+  expect(DOM.matches(document.querySelector('.k-search--target'), '.k-search--target')).toBe(true);
 });
 
 test('Matches return false', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" />' +
+    '  <span class="k-search--target" />' +
     '  <button id="button" />' +
     '</div>';
 
-  expect(DOM.matches(document.querySelector('.klinksearch--target'), '#button')).toBe(false);
+  expect(DOM.matches(document.querySelector('.k-search--target'), '#button')).toBe(false);
 });
 
 test('Matches handles undefined parameters', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" />' +
+    '  <span class="k-search--target" />' +
     '  <button id="button" />' +
     '</div>';
 
-  expect(DOM.matches(document.querySelector('.klinksearch'))).toBe(false);
+  expect(DOM.matches(document.querySelector('.k-search'))).toBe(false);
   expect(DOM.matches(null, '#button')).toBe(false);
 });
 
@@ -49,11 +49,11 @@ test('parentMatching returns the parent element', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target"><strong class="start--here">Hello</strong></span>' +
+    '  <span class="k-search--target"><strong class="start--here">Hello</strong></span>' +
     '  <button id="button" />' +
     '</div>';
 
-  var parent = DOM.parentMatching(document.querySelector('.start--here'), '.klinksearch--target');
+  var parent = DOM.parentMatching(document.querySelector('.start--here'), '.k-search--target');
 
   expect(parent).not.toBeFalsy();
   expect(parent.tagName).toBe('SPAN');
@@ -63,7 +63,7 @@ test('parentMatching returns the parent of the parent element', () => {
 
    document.body.innerHTML =
     '<div class="parent--parent">' +
-    '  <span class="klinksearch--target"><strong class="start--here">Hello</strong></span>' +
+    '  <span class="k-search--target"><strong class="start--here">Hello</strong></span>' +
     '  <button id="button" />' +
     '</div>';
 
@@ -77,7 +77,7 @@ test('parentMatching returns the current element', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target"><strong class="start--here">Hello</strong></span>' +
+    '  <span class="k-search--target"><strong class="start--here">Hello</strong></span>' +
     '  <button id="button" />' +
     '</div>';
 
@@ -91,7 +91,7 @@ test('parentMatching returns null', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target"><strong class="start--here">Hello</strong></span>' +
+    '  <span class="k-search--target"><strong class="start--here">Hello</strong></span>' +
     '  <button id="button" />' +
     '</div>';
 
@@ -106,10 +106,10 @@ test('data retrieves attribute using getAttribute', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   el.dataset = undefined;
 
@@ -123,10 +123,10 @@ test('data retrieves attribute using dataset', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   var data = DOM.data(el, 'somethingComplex');
 
@@ -138,10 +138,10 @@ test('data retrieves null attribute using getAttribute', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   el.dataset = undefined;
 
@@ -154,10 +154,10 @@ test('data retrieves null attribute using dataset', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   var data = DOM.data(el, 'hello');
 
@@ -170,24 +170,24 @@ test('css class remove', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-removed" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-removed" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   DOM.classRemove(el, 'class-to-be-removed');
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target');
 });
 
 test('css class remove polyfill', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-removed" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-removed" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
   var _remove = el.classList.remove;
 
   el.classList.remove = undefined; //simulate browser that do not support the feature
@@ -196,7 +196,7 @@ test('css class remove polyfill', () => {
 
   el.classList.remove = _remove;
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target');
 });
 
 // classAdd
@@ -205,24 +205,24 @@ test('css class add', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   DOM.classAdd(el, 'class-to-be-added');
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target class-to-be-added');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target class-to-be-added');
 });
 
 test('css class add polyfill', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
   var _add = el.classList.add;
 
   el.classList.add = undefined; //simulate browser that do not support the feature
@@ -231,31 +231,31 @@ test('css class add polyfill', () => {
 
   el.classList.add = _add;
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target class-to-be-added');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target class-to-be-added');
 });
 
 test('css class add twice', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-added" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-added" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   DOM.classAdd(el, 'class-to-be-added');
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target class-to-be-added');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target class-to-be-added');
 });
 
 test('css class add twice polyfill', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-added" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-added" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
   var _add = el.classList.add;
 
   el.classList.add = undefined; //simulate browser that do not support the feature
@@ -264,7 +264,7 @@ test('css class add twice polyfill', () => {
 
   el.classList.add = _add;
 
-  expect(el.getAttribute('class').trim()).toBe('klinksearch--target class-to-be-added');
+  expect(el.getAttribute('class').trim()).toBe('k-search--target class-to-be-added');
 });
 
 // classContains
@@ -273,10 +273,10 @@ test('css class contains true', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-checked" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-checked" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   var result = DOM.classContains(el, 'class-to-be-checked');
 
@@ -287,10 +287,10 @@ test('css class contains true with polyfill', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target class-to-be-checked" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target class-to-be-checked" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
   var _contains = el.classList.contains;
 
   el.classList.contains = undefined; //simulate browser that do not support the feature
@@ -306,10 +306,10 @@ test('css class contains false', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
 
   var result = DOM.classContains(el, 'class-to-be-checked');
 
@@ -320,10 +320,10 @@ test('css class contains false with polyfill', () => {
 
    document.body.innerHTML =
     '<div>' +
-    '  <span class="klinksearch--target" data-something-complex="123456">hello</span>' +
+    '  <span class="k-search--target" data-something-complex="123456">hello</span>' +
     '</div>';
 
-  var el = document.querySelector('.klinksearch--target');
+  var el = document.querySelector('.k-search--target');
   var _contains = el.classList.contains;
 
   el.classList.contains = undefined; //simulate browser that do not support the feature

@@ -1,7 +1,7 @@
 /*!
- * K-Link Search Javascript library
+ * K-Search Javascript library
  * 
- * License disclaimer here
+ * License GPLv3
  */
 'use strict';
 
@@ -13,13 +13,13 @@ import Dom from './utils/dom.js';
 import Ajax from './utils/ajax.js';
 
 /**
- * The K-Link Search
+ * The K-Search
  * 
  * @param {Object} options
  * @return {Object}
  * @global
  */
-window.klinksearch = function (options) {
+window.ksearch = function (options) {
 
     var ee = Object.create(EventEmitter).constructor();
 
@@ -35,11 +35,11 @@ window.klinksearch = function (options) {
          */
         token: null,
         /**
-         * Where in the page I should put the K-Link Search. Default [data-klinksearch]. If more elements matches on the page only the first one will be used
+         * Where in the page I should put the K-Search. Default [data-k-search]. If more elements matches on the page only the first one will be used
          * @type {string}
-         * @default [data-klinksearch]
+         * @default [data-ksearch]
          */
-        selector: '[data-klinksearch]',
+        selector: '[data-ksearch]',
         /**
          * The display style:
          * - overlay the search box is visible and can expand on top of the other elements of the page when active
@@ -71,15 +71,15 @@ window.klinksearch = function (options) {
     var _options = assignIn(defaultOptions, options);
 
     if (typeof document.querySelector === undefined) {
-        throw new Error("K-Link Search: Browser not supported.");
+        throw new Error("K-Search: Browser not supported.");
     }
 
     if (!_options.url) {
-        throw new Error("K-Link Search: Url not specified.");
+        throw new Error("K-Search: Url not specified.");
     }
 
     if (!_options.token) {
-        throw new Error("K-Link Search: API Token/Secret not specified.");
+        throw new Error("K-Search: API Token/Secret not specified.");
     }
 
     /**
@@ -92,29 +92,29 @@ window.klinksearch = function (options) {
      * UI templates
      */
     var templates = {
-        footer: '<div class="klinksearch__footer"> \
-      Search powered by <a class="klinksearch--logo" href="https://klink.asia">K-Link</a> \
+        footer: '<div class="k-search__footer"> \
+      Search powered by <a class="k-search--logo" href="https://klink.asia">K-Link</a> \
     </div>',
         /**
          * Search results template
          */
         results: ' \
   {{#results.numFound}} \
-        <div class="klinksearch__results__info">Found <strong>{{{results.numFound}}}</strong> documents</div> \
+        <div class="k-search__results__info">Found <strong>{{{results.numFound}}}</strong> documents</div> \
         {{#results.items}} \
-            <div class="klinksearch__result klinkjs-lazy-image" data-src="{{{thumbnailURI}}}"> \
-                <a href="{{{documentURI}}}" class="klinksearch__result__link" rel="nofollow noopener"> \
-                    <span class="klinksearch__result__icon"></span> \
-                    <span class="klinksearch__result__thumbnail"><span class="klinksearch__result__thumbnail__content klinkjs-lazy-image-content"></span></span> \
-                    <span class="klinksearch__result__title">{{{title}}}</span> \
-                    <span class="klinksearch__result__info"> \
-                        <span class="klinksearch__result__meta"> \
+            <div class="k-search__result k-search-js-lazy-image" data-src="{{{thumbnailURI}}}"> \
+                <a href="{{{documentURI}}}" class="k-search__result__link" rel="nofollow noopener"> \
+                    <span class="k-search__result__icon"></span> \
+                    <span class="k-search__result__thumbnail"><span class="k-search__result__thumbnail__content k-search-js-lazy-image-content"></span></span> \
+                    <span class="k-search__result__title">{{{title}}}</span> \
+                    <span class="k-search__result__info"> \
+                        <span class="k-search__result__meta"> \
                             {{{language}}} \
                         </span> \
-                        <span class="klinksearch__result__meta"> \
+                        <span class="k-search__result__meta"> \
                             {{{creationDate}}} \
                         </span> \
-                        <span class="klinksearch__result__meta klinksearch__result__meta--source"> \
+                        <span class="k-search__result__meta k-search__result__meta--source"> \
                             {{{institutionID}}} \
                         </span> \
                     </span> \
@@ -122,11 +122,11 @@ window.klinksearch = function (options) {
             </div> \
         {{/results.items}} \
         {{#pagination.needed}} \
-        <div class="klinksearch__results__pagination"> \
+        <div class="k-search__results__pagination"> \
             {{{pagination.current}}} / {{{pagination.total}}} \
-            <div class="klinksearch__pagination__links"> \
-                <a href="ks-page-{{pagination.prev}}" class="klinksearch__pagination__link {{^pagination.prev}} klinksearch__pagination__link--disabled {{/pagination.prev}}" data-prev="{{pagination.prev}}">< Prev</a> \
-                <a href="ks-page-{{pagination.next}}" class="klinksearch__pagination__link {{^pagination.next}} klinksearch__pagination__link--disabled {{/pagination.next}}" data-next="{{pagination.next}}">Next ></a> \
+            <div class="k-search__pagination__links"> \
+                <a href="ks-page-{{pagination.prev}}" class="k-search__pagination__link {{^pagination.prev}} k-search__pagination__link--disabled {{/pagination.prev}}" data-prev="{{pagination.prev}}">< Prev</a> \
+                <a href="ks-page-{{pagination.next}}" class="k-search__pagination__link {{^pagination.next}} k-search__pagination__link--disabled {{/pagination.next}}" data-next="{{pagination.next}}">Next ></a> \
             </div> \
         </div> \
         {{/pagination.needed}} \
@@ -136,8 +136,8 @@ window.klinksearch = function (options) {
          * Search result in case of nothing found
          */
         empty: ' \
-    <div class="klinksearch--title"> \
-        <div class="klinksearch--text"> \
+    <div class="k-search--title"> \
+        <div class="k-search--text"> \
             No results found for <b>"{{{query}}}"</b> \
         </div> \
     </div> \
@@ -145,39 +145,39 @@ window.klinksearch = function (options) {
         /**
          * Dialog and search result container
          */
-        dialog: '<div class="klinksearch__info"> \
-        <a href="https://klink.asia" class="klinksearch__link">K-Link</a> offers you documents from us and partners. \
+        dialog: '<div class="k-search__info"> \
+        <a href="https://klink.asia" class="k-search__link">K-Link</a> offers you documents from us and partners. \
     </div> \
-    <div class="klinksearch__results" id="klinksearch__results-simple"></div>',
+    <div class="k-search__results" id="k-search__results-simple"></div>',
         /**
          * Search form
          */
         searchBox: ' \
-  <form novalidate="novalidate" onsubmit="return false;" role="search" name="klink-search" class="klinksearch__form {{#state.isCollapsed}}klinksearch__form--collapsed{{/state.isCollapsed}}"> \
-		<div class="klinksearch__logo" data-action="logo"> \
-            <svg width=32 height=32 role="img" aria-label="K-Link Search"> \
+  <form novalidate="novalidate" onsubmit="return false;" role="search" name="klink-search" class="k-search__form {{#state.isCollapsed}}k-search__form--collapsed{{/state.isCollapsed}}"> \
+		<div class="k-search__logo" data-action="logo"> \
+            <svg width=32 height=32 role="img" aria-label="K-Search"> \
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sbx-logo" data-action="logo"></use> \
             </svg> \
         </div> \
 		</button> \
-        <input id="ks" type="text" name="search" placeholder="Search for documents..." autocomplete="off" required="required" class="klinksearch__input"> \
-		<button type="submit" title="Search" class="klinksearch__submit" > \
+        <input id="ks" type="text" name="search" placeholder="Search for documents..." autocomplete="off" required="required" class="k-search__input"> \
+		<button type="submit" title="Search" class="k-search__submit" > \
             <svg width=14 height=14 role="img" aria-label="Search"> \
                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sbx-icon-search-13"></use> \
             </svg> \
         </button> \
-		<button type="reset" title="Clear the search current search."  data-action="reset" class="klinksearch__reset"> \
+		<button type="reset" title="Clear the search current search."  data-action="reset" class="k-search__reset"> \
             <svg width=14 height=14 role="img" aria-label="Reset" data-action="reset"> \
                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sbx-icon-clear-3"  data-action="reset"></use> \
 			</svg> \
 		</button> \
  \
-        <div class="klinksearch__dialog" id="klinksearch__dialog"> \
+        <div class="k-search__dialog" id="k-search__dialog"> \
             {{{dialog}}} \
         </div> \
 </form> \
  \
-<div class="klinksearch__icons" style=""> \
+<div class="k-search__icons" style=""> \
 	<svg xmlns="http://www.w3.org/2000/svg"> \
 		<symbol id="sbx-icon-clear-3" viewBox="0 0 40 40"><path d="M16.228 20L1.886 5.657 0 3.772 3.772 0l1.885 1.886L20 16.228 34.343 1.886 36.228 0 40 3.772l-1.886 1.885L23.772 20l14.342 14.343L40 36.228 36.228 40l-1.885-1.886L20 23.772 5.657 38.114 3.772 40 0 36.228l1.886-1.885L16.228 20z" fill-rule="evenodd"/></symbol> \
 		<symbol id="sbx-icon-search-13" viewBox="0 0 40 40"><path d="M26.806 29.012a16.312 16.312 0 0 1-10.427 3.746C7.332 32.758 0 25.425 0 16.378 0 7.334 7.333 0 16.38 0c9.045 0 16.378 7.333 16.378 16.38 0 3.96-1.406 7.593-3.746 10.426L39.547 37.34c.607.608.61 1.59-.004 2.203a1.56 1.56 0 0 1-2.202.004L26.807 29.012zm-10.427.627c7.322 0 13.26-5.938 13.26-13.26 0-7.324-5.938-13.26-13.26-13.26-7.324 0-13.26 5.936-13.26 13.26 0 7.322 5.936 13.26 13.26 13.26z" fill-rule="evenodd"/></symbol> \
@@ -322,7 +322,7 @@ window.klinksearch = function (options) {
      * if the search request completes sucessfully the results are stored in the {module.results} field
      * @param {string} term The search terms
      * @param {Object} options The option parameter to customize the search request
-     * @fires {KlinkSearch#update}
+     * @fires {ksearch#update}
      */
     function search(term, options) {
 
@@ -371,12 +371,12 @@ window.klinksearch = function (options) {
      */
     function showDialog() {
         if (!module.elements.dialogBox) {
-            module.elements.dialogBox = module.elements.searchBox.querySelector(".klinksearch__dialog");
+            module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
         }
 
-        Dom.classAdd(module.elements.dialogBox, 'klinksearch__dialog--show');
+        Dom.classAdd(module.elements.dialogBox, 'k-search__dialog--show');
         module.isDialogShowed = true;
-        Dom.classAdd(module.elements.searchBox, "klinksearch--status__dialog-open");
+        Dom.classAdd(module.elements.searchBox, "k-search--status__dialog-open");
     }
 
     /**
@@ -384,12 +384,12 @@ window.klinksearch = function (options) {
      */
     function hideDialog() {
         if (!module.elements.dialogBox) {
-            module.elements.dialogBox = module.elements.searchBox.querySelector(".klinksearch__dialog");
+            module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
         }
 
-        Dom.classRemove(module.elements.dialogBox, 'klinksearch__dialog--show');
+        Dom.classRemove(module.elements.dialogBox, 'k-search__dialog--show');
         module.isDialogShowed = false;
-        Dom.classRemove(module.elements.searchBox, "klinksearch--status__dialog-open");
+        Dom.classRemove(module.elements.searchBox, "k-search--status__dialog-open");
     }
 
     /**
@@ -397,10 +397,10 @@ window.klinksearch = function (options) {
      */
     function initialize() {
 
-        module.elements.searchResults = module.elements.searchBox.querySelector("#klinksearch__results-simple");
-        module.elements.searchInput = module.elements.searchBox.querySelector(".klinksearch__input");
-        module.elements.searchForm = module.elements.searchBox.querySelector(".klinksearch__form");
-        module.elements.dialogBox = module.elements.searchBox.querySelector(".klinksearch__dialog");
+        module.elements.searchResults = module.elements.searchBox.querySelector("#k-search__results-simple");
+        module.elements.searchInput = module.elements.searchBox.querySelector(".k-search__input");
+        module.elements.searchForm = module.elements.searchBox.querySelector(".k-search__form");
+        module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
 
 
 
@@ -458,7 +458,7 @@ window.klinksearch = function (options) {
 
         module.elements.searchBox.addEventListener('click', function (e) {
 
-            var el = Dom.parentMatching(e.target, '.klinksearch__reset');
+            var el = Dom.parentMatching(e.target, '.k-search__reset');
 
             if (el) {
 
@@ -479,7 +479,7 @@ window.klinksearch = function (options) {
 
             }
 
-            el = Dom.parentMatching(e.target, '.klinksearch__logo');
+            el = Dom.parentMatching(e.target, '.k-search__logo');
 
             if (el) {
 
@@ -524,13 +524,13 @@ window.klinksearch = function (options) {
         });
 
         // add the specific display style class based on the display option
-        var containerDisplayClass = module.options.display === 'embed' ? 'klinksearch--embed' : 'klinksearch--overlay';
+        var containerDisplayClass = module.options.display === 'embed' ? 'k-search--embed' : 'k-search--overlay';
         if (!Dom.classContains(module.elements.searchBox, containerDisplayClass)) {
             Dom.classAdd(module.elements.searchBox, containerDisplayClass);
         }
 
         if (module.options.collapsed) {
-            Dom.classAdd(module.elements.searchBox, 'klinksearch--collapsed');
+            Dom.classAdd(module.elements.searchBox, 'k-search--collapsed');
         }
 
         // if display === embed ensure that the area for results is expanded
@@ -550,32 +550,32 @@ window.klinksearch = function (options) {
         if (module.results && module.results.numFound > 0) {
             module.elements.searchResults.innerHTML = getResultsTemplate();
             LazyLoad.init();
-            Dom.classAdd(module.elements.searchBox, "klinksearch--has-results");
+            Dom.classAdd(module.elements.searchBox, "k-search--has-results");
         }
         else if (module.results && module.results.numFound === 0) {
             render(module.elements.searchResults, templates.empty, { query: module.search_terms });
             LazyLoad.init();
-            Dom.classAdd(module.elements.searchBox, "klinksearch--has-results");
+            Dom.classAdd(module.elements.searchBox, "k-search--has-results");
         }
         else {
-            Dom.classRemove(module.elements.searchBox, "klinksearch--has-results");
+            Dom.classRemove(module.elements.searchBox, "k-search--has-results");
             module.elements.searchResults.innerHTML = '';
         }
 
-        if (!module.isCollapsed && module.options.display!=='embed' && Dom.classContains(module.elements.searchForm, 'klinksearch__form--collapsed')) {
-            Dom.classRemove(module.elements.searchForm, 'klinksearch__form--collapsed');
-            Dom.classAdd(module.elements.searchForm, "klinksearch__form--float");
+        if (!module.isCollapsed && module.options.display!=='embed' && Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+            Dom.classRemove(module.elements.searchForm, 'k-search__form--collapsed');
+            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
         }
-        if (module.isCollapsed && module.options.display!=='embed' && !Dom.classContains(module.elements.searchForm, 'klinksearch__form--collapsed')) {
-            Dom.classAdd(module.elements.searchForm, 'klinksearch__form--collapsed');
-            Dom.classRemove(module.elements.searchForm, "klinksearch__form--float");
+        if (module.isCollapsed && module.options.display!=='embed' && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+            Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
+            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
         }
 
         if(module.isFocus && module.options.expandable && module.options.display!=='embed'){
-            Dom.classAdd(module.elements.searchForm, "klinksearch__form--float");
+            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
         }
         else if(!module.isFocus && !module.isDialogShowed && module.options.expandable && module.options.display!=='embed'){
-            Dom.classRemove(module.elements.searchForm, "klinksearch__form--float");
+            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
         }
 
         if (!module.results && module.options.display !== 'embed' && module.isDialogShowed) {
@@ -605,25 +605,25 @@ window.klinksearch = function (options) {
 /**
  * To support data- attribute initialization
  * 
- * It search in the page for an element with attribute data-klinksearch-auto
- * If available initialize a klinksearch by invoking window.klinksearch, like a
+ * It search in the page for an element with attribute data-ksearch-auto
+ * If available initialize a ksearch by invoking window.ksearch, like a
  * normal Javascript based initialization
  */
 (function(){
 
-    var klinksearch = document.querySelector('[data-klinksearch-auto]');
+    var ksearch = document.querySelector('[data-ksearch-auto]');
 
-    if(klinksearch){
+    if(ksearch){
         var options = {
-            token: Dom.data(klinksearch, 'token'),
+            token: Dom.data(ksearch, 'token'),
             language: 'en',
-            selector: '[data-klinksearch-auto]',
-            url: Dom.data(klinksearch, 'url'),
-            display: Dom.data(klinksearch, 'display')||'overlay',
-            collapsed: Dom.data(klinksearch, 'collapsed') ? true : false,
+            selector: '[data-ksearch-auto]',
+            url: Dom.data(ksearch, 'url'),
+            display: Dom.data(ksearch, 'display')||'overlay',
+            collapsed: Dom.data(ksearch, 'collapsed') ? true : false,
         }
 
-        window.klinksearch(options);
+        window.ksearch(options);
     }
 
 })();

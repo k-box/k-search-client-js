@@ -1,5 +1,5 @@
-const klinksearch = require('../dist/js/klinksearch.js');
+const ksearch = require('../dist/js/k-search.js');
 
-test('klinksearch is defined', () => {
-  expect(window.klinksearch).not.toBeUndefined();
+test('k-search is defined', () => {
+  expect(window.ksearch).not.toBeUndefined();
 });

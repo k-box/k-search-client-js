@@ -20,7 +20,7 @@ var resource_path = './',
  * Transform the LESS based stylesheet in plain CSS
  */
 gulp.task('less', function () {
-    return gulp.src(resource_path + 'less/klinksearch.less')
+    return gulp.src(resource_path + 'less/k-search.less')
         .pipe(less())
         .pipe(gulp.dest(build_path + 'css'));
 });
@@ -34,7 +34,7 @@ gulp.task('less', function () {
 gulp.task('scripts', function () {
 
     return rollup({
-        entry: 'src/klinksearch.js',
+        entry: 'src/k-search.js',
         plugins: [
             nodeResolve({ jsnext: true }),
             commonjs()
@@ -42,7 +42,7 @@ gulp.task('scripts', function () {
     }).then(function (bundle) {
         return bundle.write({
             format: 'iife',
-            dest: 'dist/js/klinksearch.js'
+            dest: 'dist/js/k-search.js'
         });
     });
 });
@@ -56,7 +56,7 @@ gulp.task('default', ['less', 'scripts']);
  * Minify the CSS
  */
 gulp.task('minify-css', function () {
-    return gulp.src(build_path + 'css/klinksearch.css')
+    return gulp.src(build_path + 'css/k-search.css')
         .pipe(cleanCSS())
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(build_path + 'css'));
@@ -68,7 +68,7 @@ gulp.task('minify-css', function () {
  */
 gulp.task('minify-js', function () {
 
-    return gulp.src(build_path + 'js/klinksearch.js')
+    return gulp.src(build_path + 'js/k-search.js')
         .pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(build_path + 'js'));
