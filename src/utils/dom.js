@@ -32,18 +32,21 @@ module.exports = {
             function () {
                 return false;
             };
-
         return _polyfill.call(elem, selector);
     },
 
     /**
      * Gets the parent of the element that matches the selector
-     * @param {HTMLElement} el The Element to retrieve the parent from
+     * @param {HTMLElement} elem The Element to retrieve the parent from
      * @param {string} selector The selector to match against elem as a string representation. The selector can be any string that is valid for document.querySelector.
      * @return {HTMLElement|null} the current element if already matches the selector, the parent element that matches the selector or null if no parent element matches the selector
      */
-    parentMatching: function(el, selector) {
-        if (this.matches(el, selector)) {
+    parentMatching: function(elem, selector) {
+        var el = elem;
+        if(el.correspondingUseElement){
+            el = el.correspondingUseElement;
+        }
+        if(this.matches(el, selector)){
             return el;
         }
         else if (el.parentElement) {

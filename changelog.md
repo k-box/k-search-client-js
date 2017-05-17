@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2017-05-18
+
+### Changed
+
+- Changed button and input styles to reduce the chance that the website style will affect them
+
+### Fixed
+
+- Fixed a case that prevented a collapsible K-Search to return to its collapsed state.
+- Fixed a case in the `dom.parentMatching()` that, in Edge, prevented to the get the current 
+  element if an element in the SVG shadow DOM was clicked.
+- Result template not populated with result data
+
 ## [0.2.0] - 2017-05-16
 
 ### Changed

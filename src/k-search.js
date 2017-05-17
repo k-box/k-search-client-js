@@ -102,20 +102,20 @@ window.ksearch = function (options) {
   {{#results.numFound}} \
         <div class="k-search__results__info">Found <strong>{{{results.numFound}}}</strong> documents</div> \
         {{#results.items}} \
-            <div class="k-search__result k-search-js-lazy-image" data-src="{{{thumbnailURI}}}"> \
-                <a href="{{{documentURI}}}" class="k-search__result__link" rel="nofollow noopener"> \
+            <div class="k-search__result k-search-js-lazy-image" data-src="{{{document_descriptor.thumbnailURI}}}"> \
+                <a href="{{{document_descriptor.documentURI}}}" class="k-search__result__link" rel="nofollow noopener"> \
                     <span class="k-search__result__icon"></span> \
                     <span class="k-search__result__thumbnail"><span class="k-search__result__thumbnail__content k-search-js-lazy-image-content"></span></span> \
-                    <span class="k-search__result__title">{{{title}}}</span> \
+                    <span class="k-search__result__title">{{{document_descriptor.title}}}</span> \
                     <span class="k-search__result__info"> \
                         <span class="k-search__result__meta"> \
-                            {{{language}}} \
+                            {{{document_descriptor.language}}} \
                         </span> \
                         <span class="k-search__result__meta"> \
-                            {{{creationDate}}} \
+                            {{{document_descriptor.creationDate}}} \
                         </span> \
                         <span class="k-search__result__meta k-search__result__meta--source"> \
-                            {{{institutionID}}} \
+                            {{{document_descriptor.institutionID}}} \
                         </span> \
                     </span> \
                 </a> \
@@ -312,7 +312,6 @@ window.ksearch = function (options) {
         var compiled = Hogan.compile(templates.results);
         var footer = templates.footer;
         var output = compiled.render({ results: module.results, pagination: module.page });
-
         return output + footer;
 
     }
@@ -474,6 +473,7 @@ window.ksearch = function (options) {
                     module.page.needed=false;
                     module.search_terms = null;
                     ee.emit('update');
+                    return;
                 }
 
 
@@ -489,7 +489,6 @@ window.ksearch = function (options) {
 
                     if (module.options.collapsed) {
                         module.isCollapsed = !module.isCollapsed;
-                        ee.emit('update');
                         if (!module.isCollapsed) {
                             module.elements.searchInput.focus();
                         }
@@ -576,6 +575,9 @@ window.ksearch = function (options) {
         }
         else if(!module.isFocus && !module.isDialogShowed && module.options.expandable && module.options.display!=='embed'){
             Dom.classRemove(module.elements.searchForm, "k-search__form--float");
+            if (module.options.collapsed && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+                Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
+            }
         }
 
         if (!module.results && module.options.display !== 'embed' && module.isDialogShowed) {
