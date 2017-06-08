@@ -47,10 +47,10 @@ and the **Javascript before the closing `</body>`** tag.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.css" />
+<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
 
 <!-- Javascript -->
-<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.js"></script>
+<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
 ```
 
 To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.

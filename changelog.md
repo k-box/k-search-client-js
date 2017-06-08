@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+## Changed
+
+## Fixed
+
+## [0.3.0] - 2017-06-15
+
+## Added
+
+- Document icons based on descriptor.documentType
+- Background color to the thumbnail based on descriptor.documentType
+- Expand ability to cover available space on the left of the search container
+- Chevron for expanding and collapsing the field
+
+## Changed
+
+- Result meta information now have labels and are in columns
+- Repositioned the info message in the search box
+
+## Fixed
+
+- Search field bottom border not visible when display embed was selected
+- Search field top border was not thicker than the rest
+
 ## [0.2.3] - 2017-06-08
 
 ### Fixed

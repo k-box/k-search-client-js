@@ -10,9 +10,10 @@ Search on K-Link from the commodity of your website.
 ## Browser support
 
 K-Search support modern browsers: Microsoft Edge (14+), Google Chrome, Mozilla Firefox,
-Opera (40+), Safari (10), iOS Safari 10.3+, Chrome on Android, Firefox on Android and even IE9,
-IE10 and IE11. Support for Internet Explorer 8, Opera Mini or Android Stock Browser before Android 4
-is not given and will not be considered for future updates.
+Opera (40+), Safari (10), iOS Safari 10.3+, Chrome on Android, Firefox on Android and even
+IE10 and IE11. Support for IE9 is given on best effort. Support for Internet Explorer 8, 
+Opera Mini or Android Stock Browser before Android 4 is not given and will not be 
+considered for future updates.
 
 For a detailed overview of which technologies we are using and their browser support please
 refer to the [Browser matrix](./docs/browser-matrix.md) documentation page.
@@ -38,10 +39,10 @@ and the **Javascript before the closing `</body>`** tag.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.css" />
+<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
 
 <!-- Javascript -->
-<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.js"></script>
+<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
 ```
 
 To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.
@@ -77,7 +78,8 @@ By default the library search for the first element that has the `data-ksearch` 
  - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
 - `collapsed: Boolean`: (default `false`) If the search form should be collapsed to use less space on the page
 - `expandable: Boolean`: (default `true`) If the search input should become bigger when user interacts with it and the
-   search results. If the `collapsed` option is set to true the `expandable` option will always be active.
+   search results. If the `collapsed` option is set to true the `expandable` option will always be active. If expandable
+   the search box will occupy the available space on the left of the search container.
 - `language: String`: (default `en`) The language for user interface localization. Currently supported only `en`
 
 ### via data attributes

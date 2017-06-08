@@ -35,20 +35,28 @@
 }
 .k-search__logo {
   position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  padding: 4px;
   display: block;
   z-index: 200;
   border: 0;
   background: transparent;
   box-sizing: border-box;
   z-index: 4;
+  border-radius: 3px;
+  background: #228AE6;
+}
+.k-search__logo svg {
+  fill: #fff;
 }
 .k-search__info {
   padding: 4px;
   text-align: right;
+  font-size: 12px;
+  position: absolute;
+  right: 48px;
+  top: 0;
 }
 .k-search__footer {
   color: #212529;
@@ -63,11 +71,14 @@
   position: relative;
   display: inline-block;
   box-sizing: border-box;
+  will-change: width;
+  transition: width 0.2s ease-in-out;
 }
 .k-search__submit,
-.k-search__reset {
+.k-search__reset,
+.k-search__chevron {
   position: absolute;
-  right: 12px;
+  right: 28px;
   top: 8px;
   padding: 0;
   height: 24px;
@@ -80,11 +91,31 @@
 .k-search__reset {
   display: none;
 }
+.k-search__chevron {
+  color: #fff;
+  right: 0;
+  width: 16px;
+  background: #228AE6;
+  height: 40px;
+  top: 0;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.k-search__chevron__close {
+  display: none;
+}
+.k-search--focus .k-search__chevron__close {
+  display: initial;
+}
+.k-search--focus .k-search__chevron__open {
+  display: none;
+}
 .k-search__input {
-  padding: 10px 38px 10px 36px !important;
+  padding: 10px 38px 10px 48px !important;
   margin: 0 !important;
   border-radius: 3px !important;
   border: solid 1px #228AE6 !important;
+  border-top-width: 3px !important;
   width: 100%;
   height: initial;
   z-index: 150;
@@ -106,7 +137,6 @@
 }
 .k-search--status__dialog-open .k-search__input {
   border-color: #1670bf !important;
-  border-bottom-width: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
@@ -145,6 +175,9 @@
   width: 380px;
   z-index: 100;
 }
+.k-search__form--float .k-search__info {
+  display: inline;
+}
 .k-search__form--collapsed {
   width: 38px;
   overflow: hidden;
@@ -164,17 +197,18 @@
   visibility: visible;
 }
 .k-search--embed.k-search--status__dialog-open .k-search__input {
-  border-bottom-width: 1px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-bottom-width: 1px !important;
+  border-bottom-left-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
 }
 .k-search__results {
-  padding: 4px;
+  padding: 4px 8px;
   margin-top: 4px;
 }
 .k-search__results__info {
   color: #212529;
   margin-bottom: 12px;
+  padding: 0 8px;
 }
 .k-search__result {
   margin-bottom: 12px;
@@ -186,6 +220,42 @@
   background: #d4dae1;
   float: left;
   margin-right: 8px;
+}
+.k-search__result__thumbnail--document {
+  background: #b4cffa;
+}
+.k-search__result__thumbnail--pdf {
+  background: #f26666;
+}
+.k-search__result__thumbnail--video {
+  background: #cba3e2;
+}
+.k-search__result__thumbnail--geo {
+  background: #afd6b7;
+}
+.k-search__result__thumbnail--georaster {
+  background: #b4cffa;
+}
+.k-search__result__thumbnail--spreadsheet {
+  background: #afd6b7;
+}
+.k-search__result__thumbnail--image {
+  background: #fbc98e;
+}
+.k-search__result__thumbnail--svg {
+  background: #afaef5;
+}
+.k-search__result__thumbnail--presentation {
+  background: #f5b79f;
+}
+.k-search__result__thumbnail--audio {
+  background: #f693b0;
+}
+.k-search__result__thumbnail--web-page {
+  background: #93e6f6;
+}
+.k-search__result__thumbnail--archive {
+  background: #f7de79;
 }
 .k-search__result__thumbnail__content {
   width: 100px;
@@ -199,19 +269,33 @@
   opacity: 1;
 }
 .k-search__result__icon {
-  display: none;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 8px;
+  background: #fff;
+  border-radius: 16px;
+  z-index: 4;
 }
 .k-search__result__title {
-  color: blue;
-  font-size: 16px;
+  font-size: 18px;
+  word-wrap: break-word;
 }
 .k-search__result__info {
   display: block;
-  color: #868e96;
+  color: #4b5157;
   margin-top: 4px;
 }
-.k-search__result__meta--source {
+.k-search__result__meta {
+  display: inline-block;
+  padding: 8px 8px 8px 0;
+}
+.k-search__result__meta label {
   display: block;
+  color: #868e96;
+}
+.k-search__result__thumbnail {
+  margin-right: 16px;
 }
 .k-search__result__meta:not(:last-of-type) {
   margin-right: 4px;
@@ -221,6 +305,7 @@
   display: block;
   text-decoration: none;
   padding: 4px;
+  position: relative;
   will-change: background;
   transition: background 0.2s ease;
 }
