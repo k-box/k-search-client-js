@@ -69,7 +69,7 @@ module.exports = (function () {
             }
 
             this._observer.observe(image);
-        });
+        }.bind(this));
     }
 
     LazyLoadInternal.prototype.disconnect = function() {

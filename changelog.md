@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.3] - 2017-06-08
+
+### Fixed
+
+- lazy loading callback was not bound to `this`
+
+## [0.2.2] - 2017-06-08
+
+### Changed
+
+- Updated documentation with examples for all the different usage scenarios
+
 ## [0.2.1] - 2017-05-18
 
 ### Changed

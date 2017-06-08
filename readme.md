@@ -42,18 +42,20 @@ the search to appear. For example in the header on the side of the logo
   </header>
 ```
 
-Then you need to place our CSS and Javascript dependencies. We suggest to include the css in the head of the page
-and the Javascript before the closing `</body>` tag.
+Then you need to place our CSS and Javascript dependencies. We suggest to include the **css in the `head`** of the page
+and the **Javascript before the closing `</body>`** tag.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2/k-search.min.css" />
+<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.css" />
 
 <!-- Javascript -->
-<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2/k-search.min.js"></script>
+<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.js"></script>
 ```
 
 To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.
+
+?[Before proceed make sure you have the token and the K-Link endpoint url]
 
 More integration examples can be found in the [`examples` folder](./examples).
 
@@ -71,7 +73,7 @@ ksearch({
 </script>
 ```
 
-where `<YOUR_INPUT_DOM_SELECTOR>` to the query selector that identifies the HTMLElement you want the search to appear-in.
+where `<YOUR_INPUT_DOM_SELECTOR>` is the query selector that identifies the HTMLElement you want the search to appear in.
 By default the library search for the first element that has the `data-ksearch` attribute (selector: `[data-ksearch]`).
 
 

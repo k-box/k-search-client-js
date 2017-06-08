@@ -48,12 +48,19 @@ release:
   stage: release
   script:
     - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}"; fi
+    - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}"; fi
     - cp dist/js/k-search.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.js"
     - cp dist/css/k-search.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.css"
     - cp dist/js/k-search.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.js"
     - cp dist/css/k-search.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.css"
+    - cp dist/js/k-search.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.js"
+    - cp dist/css/k-search.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.css"
+    - cp dist/js/k-search.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.min.js"
+    - cp dist/css/k-search.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.min.css"
     - cp docs/index.md "${DOCS_LOCATION}/index.md"
     - cp docs/browser-matrix.md "${DOCS_LOCATION}/browser-matrix.md"
+    - cp -r docs/examples "${DOCS_LOCATION}/"
+    - cp -r docs/assets "${DOCS_LOCATION}/"
   tags:
     - shell
   only:
