@@ -4632,6 +4632,9 @@ window.ksearch = function (options) {
         </div> \
 		</button> \
         <input id="ks" type="text" name="search" placeholder="Search for documents..." autocomplete="off" required="required" class="k-search__input"> \
+        <div class="k-search__info"> \
+            <a href="https://klink.asia" class="k-search__link">K-Link</a> offers you documents<br/>from us and partners. \
+        </div> \
 		<button type="submit" title="Search" class="k-search__submit" > \
             <svg width=14 height=14 role="img" aria-label="Search"> \
                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ksearchjs-icon-search"></use> \
@@ -4645,9 +4648,6 @@ window.ksearch = function (options) {
         <button class="k-search__chevron" data-action="expandCollapse">\
           <span class="k-search__chevron__open"><</span><span class="k-search__chevron__close">></span> \
         </button> \
-        <div class="k-search__info"> \
-            <a href="https://klink.asia" class="k-search__link">K-Link</a> offers you documents<br/>from us and partners. \
-        </div> \
  \
         <div class="k-search__dialog" id="k-search__dialog"> \
             {{{dialog}}} \
@@ -4734,6 +4734,13 @@ window.ksearch = function (options) {
          * @type {boolean}
          */
         isFocus: false,
+        /**
+         * The search input field was in focus.
+         * This is used by the blur event to let the rest of logic know about 
+         * being already out of focus, in particular if the chevron is clicked
+         * @type {boolean}
+         */
+        wasFocus: false,
 
         /**
          * The dialog window is showed or hided? 
@@ -4922,8 +4929,6 @@ window.ksearch = function (options) {
         module.elements.searchForm = module.elements.searchBox.querySelector(".k-search__form");
         module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
 
-
-
         module.elements.searchBox.addEventListener('submit', function (e) {
 
                 e.stopPropagation();
@@ -4970,8 +4975,11 @@ window.ksearch = function (options) {
         module.elements.searchInput.addEventListener('blur', function (e) {
 
             if (e.target.id === 'ks') {
-                module.isFocus = false;
-                ee.emit('update');
+                if(module.isFocus){
+                    module.isFocus = false;
+                    module.wasFocused = true;
+                    ee.emit('update');
+                }
             }
 
         });
@@ -5004,7 +5012,12 @@ window.ksearch = function (options) {
 
             if (el) {
 
-                if (Dom.data(el, 'action') === 'logo') {
+                if (Dom.data(el, 'action') === 'logo' && !module.isCollapsed && module.isFocus) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    module.elements.searchForm.submit();
+                }
+                else if (Dom.data(el, 'action') === 'logo'){
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -5031,7 +5044,28 @@ window.ksearch = function (options) {
                 if (Dom.data(el, 'action') === 'expandCollapse') {
                     e.stopPropagation();
                     e.preventDefault();
-                    module.isFocus = !module.isFocus;
+                    
+                    if(module.isFocus || module.wasFocused){
+                        module.results = null;
+                        module.page.current=1;
+                        module.page.total=1;
+                        module.page.prev=null;
+                        module.page.next=null;
+                        module.page.needed=false;
+                        module.search_terms = null;
+                        module.isFocus = false;
+                        module.elements.searchInput.blur();
+                        module.elements.searchInput.value = "";
+                        module.isDialogShowed = false;
+                        hideDialog();
+                        if (module.options.collapsed) {
+                            module.isCollapsed = true;
+                        }
+                        module.wasFocused = false;
+                    }
+                    else {
+                        module.isFocus = true;
+                    }
                     ee.emit('update');
                     return;
                 }
@@ -5107,7 +5141,7 @@ window.ksearch = function (options) {
             module.elements.searchForm.style.width = "";
         }
 
-        if(module.isFocus){
+        if(module.isFocus || (!module.isFocus && module.isDialogShowed)){
             Dom.classAdd(module.elements.searchBox, "k-search--focus");
         }
         else {
@@ -5168,9 +5202,9 @@ window.ksearch = function (options) {
             selector: '[data-ksearch-auto]',
             url: Dom.data(ksearch, 'url'),
             display: Dom.data(ksearch, 'display')||'overlay',
-            collapsed: Dom.data(ksearch, 'collapsed') ? true : false,
+            collapsed: Dom.data(ksearch, 'collapsed') !== undefined && (Dom.data(ksearch, 'collapsed') === 'true' || Dom.data(ksearch, 'collapsed').length === 0) ? true : false,
         }
-
+        
         window.ksearch(options);
     }
 

@@ -13,6 +13,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Fixed
 
+## Removed
+
+## [0.4.0] - 2017-06-19
+
+## Changed
+
+- Font size of the `.k-search__info` message
+- If a search was active clicking on the expand/collapse chevron will clear it
+- Background color of the search input
+
+## Fixed
+
+- `data-collapsed` not properly checked
+- Clicking on the chevron sometimes don't collapse the (search in overlay mode)
+
+## Removed
+
+- Submit and cancel button that were not in the original concept
+- Expand and collapse animation as was causing layout problems when collapsing
+
 ## [0.3.0] - 2017-06-15
 
 ## Added

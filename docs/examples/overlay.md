@@ -74,7 +74,7 @@ ksearch({
             }
 
         </style>
-        <link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.css" />
+        <link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
     </head>
     <body>
         <div id="website1">
@@ -99,7 +99,7 @@ ksearch({
 
         <div class="page"></div>
 
-        <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.js"></script>
+        <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
     </body>
 </html>
 ```

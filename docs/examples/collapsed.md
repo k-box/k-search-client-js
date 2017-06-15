@@ -1,7 +1,7 @@
 ---
 PageTitle: Overlay and Collapsed display
 Slug: collapsed-display
-Order: 1
+Order: 2
 ---
 
 # Overlay and Collapsed style example
@@ -92,8 +92,8 @@ ksearch({
 
         <div class="page"></div>
 
-        <link rel="stylesheet" href="../dist/css/k-search.css" />
-        <script type="text/javascript" src="../dist/js/k-search.js"></script>
+        <link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
+        <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
         <script>
             ksearch({
                 token: '<API_KEY>',

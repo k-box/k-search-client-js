@@ -71,7 +71,7 @@ The next code block shows a full page example of the integration
             }
 
         </style>
-        <link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.css" />
+        <link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
     </head>
     <body>
         <div id="website1">            
@@ -89,7 +89,7 @@ The next code block shows a full page example of the integration
 
         </div>
 
-        <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0.2.2/k-search.min.js"></script>
+        <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
         <script>
             ksearch({
                 token: '<API_KEY>',
