@@ -147,7 +147,7 @@ test('data retrieves null attribute using getAttribute', () => {
 
   var data = DOM.data(el, 'hello');
 
-  expect(data).toBeNull();
+  expect(data).toBeFalsy();
 });
 
 test('data retrieves null attribute using dataset', () => {
@@ -161,7 +161,7 @@ test('data retrieves null attribute using dataset', () => {
 
   var data = DOM.data(el, 'hello');
 
-  expect(data).toBeNull();
+  expect(data).toBeFalsy();
 });
 
 // classRemove

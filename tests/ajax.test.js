@@ -13,10 +13,6 @@ const mockResponse = (status, statusText, response) => {
   });
 };
 
-// Grab a mock of fetch
-
-// global.fetch = window.fetch = require('jest-fetch-mock');
-
 // module definition 
 
 test('Ajax functions are defined', () => {
@@ -29,7 +25,7 @@ test('Ajax POST completes', () => {
 
   fetch.mockResponse(JSON.stringify({access_token: '12345' }), {status:200});
 
-  Ajax.post('test', 'token', {s: 'one'}).then(function(data){
+  Ajax.post('http://test.com', 'token', {s: 'one'}).then(function(data){
     expect(data).not.toBeUndefined();
     expect(data).toMatchObject({access_token: "12345" });
   });
@@ -41,7 +37,7 @@ test('Ajax Get completes', () => {
 
   fetch.mockResponse(JSON.stringify({access_token: '12345' }), {status:200});
 
-  Ajax.get('test', 'token', args).then(function(data){
+  Ajax.get('http://test.com', 'token', args).then(function(data){
     expect(data).not.toBeUndefined();
     expect(data).toMatchObject({access_token: "12345" });
   });

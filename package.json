@@ -1,7 +1,7 @@
 {
   "name": "k-search-js",
-  "version": "0.4.0",
-  "description": "Add the ability to search on the K-Link Network from your website",
+  "version": "0.5.0",
+  "description": "Search on the K-Link from javascript",
   "keywords": [
     "library",
     "search",
@@ -10,13 +10,13 @@
   ],
   "main": "dist/js/k-search.js",
   "author": "Alessio <alessio@oneofftech.xyz>",
-  "license": "GPLv3",
+  "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://git.klink.asia/main/k-search-js.git"
+    "url": "https://github.com/k-box/k-search-client-js.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.9.0"
   },
   "scripts": {
     "dev": "gulp",
@@ -27,31 +27,26 @@
     "test:watch": "jest --watch"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
+    "eslint": "^4.18.2",
     "gulp": "~3.9.1",
     "gulp-clean-css": "^3.0.4",
-    "gulp-less": "~3.1.0",
+    "gulp-less": "~4.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.1.2",
-    "jest": "^20.0.1",
-    "jest-cli": "^19.0.2",
+    "gulp-uglify": "^3.0.0",
+    "jest": "^22.4.2",
+    "jest-cli": "^22.4.2",
     "jest-fetch-mock": "^1.0.8",
     "lodash.camelcase": "^4.3.0",
     "lodash.foreach": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.without": "^4.4.0",
-    "pre-commit": "^1.2.2",
-    "rollup": "^0.34.7",
-    "rollup-plugin-commonjs": "^3.3.1",
-    "rollup-plugin-node-resolve": "^2.0.0"
+    "rollup": "^0.56.5",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.2.0"
   },
   "dependencies": {
-    "eventemitter-light": "~0.2.2",
     "hogan.js": "^3.0.2",
-    "lodash.assignin": "~4.1.0",
-    "promise-polyfill": "^6.0.2"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+    "lodash.assignin": "~4.2.0",
+    "promise-polyfill": "^7.1.0"
+  }
 }
