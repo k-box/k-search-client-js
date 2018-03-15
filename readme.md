@@ -126,7 +126,7 @@ Before going into development, install the dependencies
 yarn
 ```
 
-**Do not edit the dependencies directly in package.json, use the `yarn` command line instead**
+> **Do not edit the dependencies directly in package.json, use the `yarn` command line instead**
 
 ## Testing
 
