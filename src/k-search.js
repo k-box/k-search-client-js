@@ -1,14 +1,14 @@
 /*!
- * K-Search Javascript library
+ * K-Link Javascript Search widget
  * 
- * License GPLv3
+ * License AGPL-3.0
  * @version {VERSION}
  */
 'use strict';
 
 import Hogan from 'hogan.js';
 import assignIn from 'lodash.assignin';
-import EventEmitter from 'eventemitter-light';
+import EventEmitter from './utils/ee.js';
 import LazyLoad from './utils/lazyload.js';
 import Dom from './utils/dom.js';
 import Ajax from './utils/ajax.js';

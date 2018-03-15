@@ -34,7 +34,7 @@ gulp.task('less', function () {
 gulp.task('scripts', function () {
 
     return rollup({
-        entry: 'src/k-search.js',
+        input: 'src/k-search.js',
         plugins: [
             nodeResolve({ jsnext: true }),
             commonjs()
@@ -42,7 +42,7 @@ gulp.task('scripts', function () {
     }).then(function (bundle) {
         return bundle.write({
             format: 'iife',
-            dest: 'dist/js/k-search.js'
+            file: 'dist/js/k-search.js'
         });
     });
 });

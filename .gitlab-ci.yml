@@ -6,18 +6,19 @@ stages:
   - release
 
 cache:
-  key: "klinksearch"
+  key: "klinksearchjs"
   paths:
-  - .npm-cache
+  - .yarn
 
 ## Execute the Unit tests to confirm that at least 
 ## something is working
 test:
-  image: node:6
+  image: node:8
   stage: test
   before_script:
-    - npm config set cache .npm-cache
-    - npm install -q
+    - yarn config set cache-folder .yarn
+    - yarn
+    - yarn test
   script:
    - npm run test
   tags:
@@ -26,13 +27,13 @@ test:
 ## Generates the production optimized build starting from the development
 ## build already available in the repository
 build_for_release:
-  image: node:6
+  image: node:8
   stage: build
   before_script:
-    - npm config set cache .npm-cache
-    - npm install -q
+    - yarn config set cache-folder .yarn
+    - yarn
   script:
-    - npm run production
+    - yarn production
   tags:
     - docker
   artifacts:
@@ -43,25 +44,3 @@ build_for_release:
   only:
     - tags
 
-## move the build artifact to the artifact repository to be server publicly
-release:
-  stage: release
-  script:
-    - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}"; fi
-    - if [ ! -d "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}" ]; then mkdir "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}"; fi
-    - cp dist/js/k-search.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.js"
-    - cp dist/css/k-search.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.css"
-    - cp dist/js/k-search.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.js"
-    - cp dist/css/k-search.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME}/k-search.min.css"
-    - cp dist/js/k-search.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.js"
-    - cp dist/css/k-search.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.css"
-    - cp dist/js/k-search.min.js "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.min.js"
-    - cp dist/css/k-search.min.css "${RELEASE_LOCATION}/${CI_BUILD_REF_NAME:0:2}/k-search.min.css"
-    - cp docs/index.md "${DOCS_LOCATION}/index.md"
-    - cp docs/browser-matrix.md "${DOCS_LOCATION}/browser-matrix.md"
-    - cp -r docs/examples "${DOCS_LOCATION}/"
-    - cp -r docs/assets "${DOCS_LOCATION}/"
-  tags:
-    - shell
-  only:
-    - tags

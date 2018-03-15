@@ -1,11 +1,7 @@
 (function () {
 'use strict';
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {}
-
-function interopDefault(ex) {
-	return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
-}
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -89,7 +85,7 @@ var compiler = createCommonjsModule(function (module, exports) {
           if (tokens[j].text) {
             if ((next = tokens[j+1]) && next.tag == '>') {
               // set indent to token value
-              next.indent = tokens[j].text.toString()
+              next.indent = tokens[j].text.toString();
             }
             tokens.splice(j, 1);
           }
@@ -171,7 +167,7 @@ var compiler = createCommonjsModule(function (module, exports) {
     filterLine(seenTag, true);
 
     return tokens;
-  }
+  };
 
   function cleanTripleStache(token) {
     if (token.n.substr(token.n.length - 1) === '}') {
@@ -281,7 +277,7 @@ var compiler = createCommonjsModule(function (module, exports) {
 
   Hogan.stringify = function(codeObj, text, options) {
     return "{code: function (c,p,i) { " + Hogan.wrapMain(codeObj.code) + " }," + stringifyPartials(codeObj) +  "}";
-  }
+  };
 
   var serialNo = 0;
   Hogan.generate = function(tree, text, options) {
@@ -294,11 +290,11 @@ var compiler = createCommonjsModule(function (module, exports) {
     }
 
     return this.makeTemplate(context, text, options);
-  }
+  };
 
   Hogan.wrapMain = function(code) {
     return 'var t=this;t.b(i=i||"");' + code + 'return t.fl();';
-  }
+  };
 
   Hogan.template = Hogan.Template;
 
@@ -306,7 +302,7 @@ var compiler = createCommonjsModule(function (module, exports) {
     var template = this.makePartials(codeObj);
     template.code = new Function('c', 'p', 'i', this.wrapMain(codeObj.code));
     return new this.template(template, text, this, options);
-  }
+  };
 
   Hogan.makePartials = function(codeObj) {
     var key, template = {subs: {}, partials: codeObj.partials, name: codeObj.name};
@@ -317,7 +313,7 @@ var compiler = createCommonjsModule(function (module, exports) {
       template.subs[key] = new Function('c', 'p', 't', 'i', codeObj.subs[key]);
     }
     return template;
-  }
+  };
 
   function esc(s) {
     return s.replace(rSlash, '\\\\')
@@ -388,7 +384,7 @@ var compiler = createCommonjsModule(function (module, exports) {
     '{': tripleStache,
 
     '&': tripleStache
-  }
+  };
 
   function tripleStache(node, context) {
     context.code += 't.b(t.t(t.' + chooseMethod(node.n) + '("' + esc(node.n) + '",c,p,0)));';
@@ -405,18 +401,18 @@ var compiler = createCommonjsModule(function (module, exports) {
       func && func(nodelist[i], context);
     }
     return context;
-  }
+  };
 
   Hogan.parse = function(tokens, text, options) {
     options = options || {};
     return buildTree(tokens, '', [], options.sectionTags || []);
-  }
+  };
 
   Hogan.cache = {};
 
   Hogan.cacheKey = function(text, options) {
     return [text, !!options.asString, !!options.disableLambda, options.delimiters, !!options.modelGet].join('||');
-  }
+  };
 
   Hogan.compile = function(text, options) {
     options = options || {};
@@ -433,34 +429,11 @@ var compiler = createCommonjsModule(function (module, exports) {
 
     template = this.generate(this.parse(this.scan(text, options.delimiters), text, options), text, options);
     return this.cache[key] = template;
-  }
-})(typeof exports !== 'undefined' ? exports : Hogan);
-});
-
-var compiler$1 = interopDefault(compiler);
-
-
-var require$$1 = Object.freeze({
-  default: compiler$1
+  };
+})(exports);
 });
 
 var template = createCommonjsModule(function (module, exports) {
-/*
- *  Copyright 2011 Twitter, Inc.
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
-var Hogan = {};
 
 (function (Hogan) {
   Hogan.Template = function (codeObj, text, compiler, options) {
@@ -472,7 +445,7 @@ var Hogan = {};
     this.partials = codeObj.partials || {};
     this.subs = codeObj.subs || {};
     this.buf = '';
-  }
+  };
 
   Hogan.Template.prototype = {
     // render: replaced by generated code.
@@ -726,10 +699,8 @@ var Hogan = {};
   }
 
   function createSpecializedPartial(instance, subs, partials, stackSubs, stackPartials, stackText) {
-    function PartialTemplate() {};
-    PartialTemplate.prototype = instance;
-    function Substitutions() {};
-    Substitutions.prototype = instance.subs;
+    function PartialTemplate() {}    PartialTemplate.prototype = instance;
+    function Substitutions() {}    Substitutions.prototype = instance.subs;
     var key;
     var partial = new PartialTemplate();
     partial.subs = new Substitutions();
@@ -785,17 +756,9 @@ var Hogan = {};
     return Object.prototype.toString.call(a) === '[object Array]';
   };
 
-})(typeof exports !== 'undefined' ? exports : Hogan);
+})(exports);
 });
 
-var template$1 = interopDefault(template);
-
-
-var require$$0 = Object.freeze({
-  default: template$1
-});
-
-var hogan = createCommonjsModule(function (module) {
 /*
  *  Copyright 2011 Twitter, Inc.
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -813,15 +776,11 @@ var hogan = createCommonjsModule(function (module) {
 
 // This file is for use with Node.js. See dist/ for browser files.
 
-var Hogan = interopDefault(require$$1);
-Hogan.Template = interopDefault(require$$0).Template;
-Hogan.template = Hogan.Template;
-module.exports = Hogan;
-});
 
-var Hogan$1 = interopDefault(hogan);
+compiler.Template = template.Template;
+compiler.template = compiler.Template;
+var hogan = compiler;
 
-var index = createCommonjsModule(function (module) {
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -837,20 +796,10 @@ var MAX_SAFE_INTEGER = 9007199254740991;
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
     funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    stringTag = '[object String]';
+    genTag = '[object GeneratorFunction]';
 
 /** Used to detect unsigned integer values. */
 var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
 
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
@@ -873,19 +822,6 @@ function apply(func, thisArg, args) {
 }
 
 /**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new accessor function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
  *
@@ -904,23 +840,6 @@ function baseTimes(n, iteratee) {
   return result;
 }
 
-/**
- * Converts `iterator` to an array.
- *
- * @private
- * @param {Object} iterator The iterator to convert.
- * @returns {Array} Returns the converted array.
- */
-function iteratorToArray(iterator) {
-  var data,
-      result = [];
-
-  while (!(data = iterator.next()).done) {
-    result.push(data.value);
-  }
-  return result;
-}
-
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -929,25 +848,47 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
  * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
 
 /** Built-in value references. */
-var Reflect = root.Reflect,
-    enumerate = Reflect ? Reflect.enumerate : undefined,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
 
-/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
-var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  // Safari 9 makes `arguments.length` enumerable in strict mode.
+  var result = (isArray(value) || isArguments(value))
+    ? baseTimes(value.length, String)
+    : [];
+
+  var length = result.length,
+      skipIndexes = !!length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
 
 /**
  * Assigns `value` to `key` of `object` if the existing value is not equivalent
- * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * for equality comparisons.
  *
  * @private
@@ -964,28 +905,25 @@ function assignValue(object, key, value) {
 }
 
 /**
- * The base implementation of `_.keysIn` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
+ * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
  *
  * @private
  * @param {Object} object The object to query.
  * @returns {Array} Returns the array of property names.
  */
 function baseKeysIn(object) {
-  object = object == null ? object : Object(object);
+  if (!isObject(object)) {
+    return nativeKeysIn(object);
+  }
+  var isProto = isPrototype(object),
+      result = [];
 
-  var result = [];
   for (var key in object) {
-    result.push(key);
+    if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
   }
   return result;
-}
-
-// Fallback for IE < 9 with es6-shim.
-if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-  baseKeysIn = function(object) {
-    return iteratorToArray(enumerate(object));
-  };
 }
 
 /**
@@ -1079,36 +1017,6 @@ function createAssigner(assigner) {
 }
 
 /**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a
- * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
- * Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Creates an array of index keys for `object` values of arrays,
- * `arguments` objects, and strings, otherwise `null` is returned.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array|null} Returns index keys, else `null`.
- */
-function indexKeys(object) {
-  var length = object ? object.length : undefined;
-  if (isLength(length) &&
-      (isArray(object) || isString(object) || isArguments(object))) {
-    return baseTimes(length, String);
-  }
-  return null;
-}
-
-/**
  * Checks if `value` is a valid array-like index.
  *
  * @private
@@ -1162,8 +1070,27 @@ function isPrototype(value) {
 }
 
 /**
+ * This function is like
+ * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * except that it includes inherited enumerable properties.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function nativeKeysIn(object) {
+  var result = [];
+  if (object != null) {
+    for (var key in Object(object)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
  * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * comparison between two values to determine if they are equivalent.
  *
  * @static
@@ -1195,669 +1122,6 @@ function isPrototype(value) {
  */
 function eq(value, other) {
   return value === other || (value !== value && other !== other);
-}
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value)) && !isFunction(value);
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length,
- *  else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a string, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-}
-
-/**
- * This method is like `_.assign` except that it iterates over own and
- * inherited source properties.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @alias extend
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @see _.assign
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * function Bar() {
- *   this.c = 3;
- * }
- *
- * Foo.prototype.b = 2;
- * Bar.prototype.d = 4;
- *
- * _.assignIn({ 'a': 0 }, new Foo, new Bar);
- * // => { 'a': 1, 'b': 2, 'c': 3, 'd': 4 }
- */
-var assignIn = createAssigner(function(object, source) {
-  if (nonEnumShadows || isPrototype(source) || isArrayLike(source)) {
-    copyObject(source, keysIn(source), object);
-    return;
-  }
-  for (var key in source) {
-    assignValue(object, key, source[key]);
-  }
-});
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  var index = -1,
-      isProto = isPrototype(object),
-      props = baseKeysIn(object),
-      propsLength = props.length,
-      indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = assignIn;
-});
-
-var assignIn = interopDefault(index);
-
-var ee = createCommonjsModule(function (module) {
-module.exports = {
-    on: function (ev, handler) {
-        var events = this._events
-
-        ;(events[ev] || (events[ev] = [])).push(handler)
-    },
-    removeListener: function (ev, handler) {
-        var array = this._events[ev]
-
-        array && array.splice(array.indexOf(handler), 1)
-    },
-    emit: function (ev) {
-        var args = [].slice.call(arguments, 1),
-            array = this._events[ev] || []
-
-        for (var i = 0, len = array.length; i < len; i++) {
-            array[i].apply(this, args)
-        }
-    },
-    once: function (ev, handler) {
-        this.on(ev, function () {
-            handler.apply(this, arguments)
-            this.removeListener(ev, handler)
-        })
-    },
-    constructor: function constructor() {
-        this._events = {}
-        return this
-    }
-}
-
-module.exports.constructor.prototype = module.exports
-});
-
-var EventEmitter = interopDefault(ee);
-
-var index$1 = createCommonjsModule(function (module) {
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.times` without support for iteratee shorthands
- * or max array length checks.
- *
- * @private
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the array of results.
- */
-function baseTimes(n, iteratee) {
-  var index = -1,
-      result = Array(n);
-
-  while (++index < n) {
-    result[index] = iteratee(index);
-  }
-  return result;
-}
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeKeys = overArg(Object.keys, Object);
-
-/**
- * Creates an array of the enumerable property names of the array-like `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @param {boolean} inherited Specify returning inherited property names.
- * @returns {Array} Returns the array of property names.
- */
-function arrayLikeKeys(value, inherited) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  // Safari 9 makes `arguments.length` enumerable in strict mode.
-  var result = (isArray(value) || isArguments(value))
-    ? baseTimes(value.length, String)
-    : [];
-
-  var length = result.length,
-      skipIndexes = !!length;
-
-  for (var key in value) {
-    if ((inherited || hasOwnProperty.call(value, key)) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.forEach` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- */
-var baseEach = createBaseEach(baseForOwn);
-
-/**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` and invokes `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-/**
- * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeys(object) {
-  if (!isPrototype(object)) {
-    return nativeKeys(object);
-  }
-  var result = [];
-  for (var key in Object(object)) {
-    if (hasOwnProperty.call(object, key) && key != 'constructor') {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function(collection, iteratee) {
-    if (collection == null) {
-      return collection;
-    }
-    if (!isArrayLike(collection)) {
-      return eachFunc(collection, iteratee);
-    }
-    var length = collection.length,
-        index = fromRight ? length : -1,
-        iterable = Object(collection);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-/**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
-}
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-/**
- * Iterates over elements of `collection` and invokes `iteratee` for each element.
- * The iteratee is invoked with three arguments: (value, index|key, collection).
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * **Note:** As with other "Collections" methods, objects with a "length"
- * property are iterated like arrays. To avoid this behavior use `_.forIn`
- * or `_.forOwn` for object iteration.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @alias each
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- * @see _.forEachRight
- * @example
- *
- * _([1, 2]).forEach(function(value) {
- *   console.log(value);
- * });
- * // => Logs `1` then `2`.
- *
- * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
- *   console.log(key);
- * });
- * // => Logs 'a' then 'b' (iteration order is not guaranteed).
- */
-function forEach(collection, iteratee) {
-  var func = isArray(collection) ? arrayEach : baseEach;
-  return func(collection, typeof iteratee == 'function' ? iteratee : identity);
 }
 
 /**
@@ -2081,6 +1345,628 @@ function isObjectLike(value) {
 }
 
 /**
+ * This method is like `_.assign` except that it iterates over own and
+ * inherited source properties.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @alias extend
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @see _.assign
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * function Bar() {
+ *   this.c = 3;
+ * }
+ *
+ * Foo.prototype.b = 2;
+ * Bar.prototype.d = 4;
+ *
+ * _.assignIn({ 'a': 0 }, new Foo, new Bar);
+ * // => { 'a': 1, 'b': 2, 'c': 3, 'd': 4 }
+ */
+var assignIn = createAssigner(function(object, source) {
+  copyObject(source, keysIn(source), object);
+});
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+}
+
+var lodash_assignin = assignIn;
+
+var ee = createCommonjsModule(function (module) {
+/**
+ * Event Emitter light
+ * https://github.com/Raynos/eventemitter-light
+ */
+
+module.exports = {
+    on: function (ev, handler) {
+        var events = this._events
+
+        ;(events[ev] || (events[ev] = [])).push(handler);
+    },
+    removeListener: function (ev, handler) {
+        var array = this._events[ev];
+
+        array && array.splice(array.indexOf(handler), 1);
+    },
+    emit: function (ev) {
+        var args = [].slice.call(arguments, 1),
+            array = this._events[ev] || [];
+
+        for (var i = 0, len = array.length; i < len; i++) {
+            array[i].apply(this, args);
+        }
+    },
+    once: function (ev, handler) {
+        this.on(ev, remover);
+        
+        function remover() {
+            handler.apply(this, arguments);
+            this.removeListener(ev, remover);
+        }
+    },
+    constructor: function constructor() {
+        this._events = {};
+        return this
+    }
+};
+
+module.exports.constructor.prototype = module.exports;
+});
+var ee_1 = ee.on;
+var ee_2 = ee.removeListener;
+var ee_3 = ee.emit;
+var ee_4 = ee.once;
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER$1 = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag$1 = '[object Arguments]',
+    funcTag$1 = '[object Function]',
+    genTag$1 = '[object GeneratorFunction]';
+
+/** Used to detect unsigned integer values. */
+var reIsUint$1 = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * A specialized version of `_.forEach` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array ? array.length : 0;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes$1(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var objectProto$1 = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString$1 = objectProto$1.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable$1 = objectProto$1.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = overArg(Object.keys, Object);
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys$1(value, inherited) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  // Safari 9 makes `arguments.length` enumerable in strict mode.
+  var result = (isArray$1(value) || isArguments$1(value))
+    ? baseTimes$1(value.length, String)
+    : [];
+
+  var length = result.length,
+      skipIndexes = !!length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty$1.call(value, key)) &&
+        !(skipIndexes && (key == 'length' || isIndex$1(key, length)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+/**
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  if (!isPrototype$1(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty$1.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike$1(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex$1(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER$1 : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint$1.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype$1(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto$1;
+
+  return value === proto;
+}
+
+/**
+ * Iterates over elements of `collection` and invokes `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length"
+ * property are iterated like arrays. To avoid this behavior use `_.forIn`
+ * or `_.forOwn` for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @see _.forEachRight
+ * @example
+ *
+ * _([1, 2]).forEach(function(value) {
+ *   console.log(value);
+ * });
+ * // => Logs `1` then `2`.
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+ */
+function forEach(collection, iteratee) {
+  var func = isArray$1(collection) ? arrayEach : baseEach;
+  return func(collection, typeof iteratee == 'function' ? iteratee : identity);
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments$1(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject$1(value) && hasOwnProperty$1.call(value, 'callee') &&
+    (!propertyIsEnumerable$1.call(value, 'callee') || objectToString$1.call(value) == argsTag$1);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray$1 = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike$1(value) {
+  return value != null && isLength$1(value.length) && !isFunction$1(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject$1(value) {
+  return isObjectLike$1(value) && isArrayLike$1(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction$1(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject$1(value) ? objectToString$1.call(value) : '';
+  return tag == funcTag$1 || tag == genTag$1;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength$1(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$1;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject$1(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike$1(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
  * Creates an array of the own enumerable property names of `object`.
  *
  * **Note:** Non-object values are coerced to objects. See the
@@ -2109,7 +1995,7 @@ function isObjectLike(value) {
  * // => ['0', '1']
  */
 function keys(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+  return isArrayLike$1(object) ? arrayLikeKeys$1(object) : baseKeys(object);
 }
 
 /**
@@ -2132,17 +2018,8 @@ function identity(value) {
   return value;
 }
 
-module.exports = forEach;
-});
+var lodash_foreach = forEach;
 
-var forEach = interopDefault(index$1);
-
-
-var require$$1$1 = Object.freeze({
-  default: forEach
-});
-
-var index$2 = createCommonjsModule(function (module) {
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -2376,14 +2253,14 @@ function unicodeWords(string) {
 }
 
 /** Used for built-in method references. */
-var objectProto = Object.prototype;
+var objectProto$2 = Object.prototype;
 
 /**
  * Used to resolve the
  * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objectToString = objectProto.toString;
+var objectToString$2 = objectProto$2.toString;
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -2449,7 +2326,7 @@ function createCompounder(callback) {
  * _.isObjectLike(null);
  * // => false
  */
-function isObjectLike(value) {
+function isObjectLike$2(value) {
   return !!value && typeof value == 'object';
 }
 
@@ -2472,7 +2349,7 @@ function isObjectLike(value) {
  */
 function isSymbol(value) {
   return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+    (isObjectLike$2(value) && objectToString$2.call(value) == symbolTag);
 }
 
 /**
@@ -2577,17 +2454,8 @@ function words(string, pattern, guard) {
   return string.match(pattern) || [];
 }
 
-module.exports = kebabCase;
-});
+var lodash_kebabcase = kebabCase;
 
-var index$3 = interopDefault(index$2);
-
-
-var require$$1$2 = Object.freeze({
-  default: index$3
-});
-
-var index$4 = createCommonjsModule(function (module) {
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -2604,11 +2472,11 @@ var LARGE_ARRAY_SIZE = 200;
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
 /** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
+var MAX_SAFE_INTEGER$2 = 9007199254740991;
 
 /** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
+var funcTag$2 = '[object Function]',
+    genTag$2 = '[object GeneratorFunction]';
 
 /**
  * Used to match `RegExp`
@@ -2620,13 +2488,13 @@ var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
 
 /** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
 
 /** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
 
 /** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
+var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
 
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
@@ -2638,7 +2506,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
  * @param {Array} args The arguments to invoke `func` with.
  * @returns {*} Returns the result of `func`.
  */
-function apply(func, thisArg, args) {
+function apply$1(func, thisArg, args) {
   switch (args.length) {
     case 0: return func.call(thisArg);
     case 1: return func.call(thisArg, args[0]);
@@ -2820,10 +2688,10 @@ function isHostObject(value) {
 /** Used for built-in method references. */
 var arrayProto = Array.prototype,
     funcProto = Function.prototype,
-    objectProto = Object.prototype;
+    objectProto$3 = Object.prototype;
 
 /** Used to detect overreaching core-js shims. */
-var coreJsData = root['__core-js_shared__'];
+var coreJsData = root$1['__core-js_shared__'];
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -2835,18 +2703,18 @@ var maskSrcKey = (function() {
 var funcToString = funcProto.toString;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
+var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
 
 /**
  * Used to resolve the
  * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objectToString = objectProto.toString;
+var objectToString$3 = objectProto$3.toString;
 
 /** Used to detect if a method is native. */
 var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  funcToString.call(hasOwnProperty$2).replace(reRegExpChar, '\\$&')
   .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
 );
 
@@ -2854,10 +2722,10 @@ var reIsNative = RegExp('^' +
 var splice = arrayProto.splice;
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
+var nativeMax$1 = Math.max;
 
 /* Built-in method references that are verified to be native. */
-var Map = getNative(root, 'Map'),
+var Map = getNative(root$1, 'Map'),
     nativeCreate = getNative(Object, 'create');
 
 /**
@@ -2918,7 +2786,7 @@ function hashGet(key) {
     var result = data[key];
     return result === HASH_UNDEFINED ? undefined : result;
   }
-  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+  return hasOwnProperty$2.call(data, key) ? data[key] : undefined;
 }
 
 /**
@@ -2932,7 +2800,7 @@ function hashGet(key) {
  */
 function hashHas(key) {
   var data = this.__data__;
-  return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+  return nativeCreate ? data[key] !== undefined : hasOwnProperty$2.call(data, key);
 }
 
 /**
@@ -3225,7 +3093,7 @@ SetCache.prototype.has = setCacheHas;
 function assocIndexOf(array, key) {
   var length = array.length;
   while (length--) {
-    if (eq(array[length][0], key)) {
+    if (eq$1(array[length][0], key)) {
       return length;
     }
   }
@@ -3297,10 +3165,10 @@ function baseDifference(array, values, iteratee, comparator) {
  *  else `false`.
  */
 function baseIsNative(value) {
-  if (!isObject(value) || isMasked(value)) {
+  if (!isObject$2(value) || isMasked(value)) {
     return false;
   }
-  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  var pattern = (isFunction$2(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
   return pattern.test(toSource(value));
 }
 
@@ -3312,12 +3180,12 @@ function baseIsNative(value) {
  * @param {number} [start=func.length-1] The start position of the rest parameter.
  * @returns {Function} Returns the new function.
  */
-function baseRest(func, start) {
-  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+function baseRest$1(func, start) {
+  start = nativeMax$1(start === undefined ? (func.length - 1) : start, 0);
   return function() {
     var args = arguments,
         index = -1,
-        length = nativeMax(args.length - start, 0),
+        length = nativeMax$1(args.length - start, 0),
         array = Array(length);
 
     while (++index < length) {
@@ -3329,7 +3197,7 @@ function baseRest(func, start) {
       otherArgs[index] = args[index];
     }
     otherArgs[start] = array;
-    return apply(func, this, otherArgs);
+    return apply$1(func, this, otherArgs);
   };
 }
 
@@ -3425,8 +3293,8 @@ function toSource(func) {
  * _.without([2, 1, 2, 3], 1, 2);
  * // => [3]
  */
-var without = baseRest(function(array, values) {
-  return isArrayLikeObject(array)
+var without = baseRest$1(function(array, values) {
+  return isArrayLikeObject$2(array)
     ? baseDifference(array, values)
     : [];
 });
@@ -3463,7 +3331,7 @@ var without = baseRest(function(array, values) {
  * _.eq(NaN, NaN);
  * // => true
  */
-function eq(value, other) {
+function eq$1(value, other) {
   return value === other || (value !== value && other !== other);
 }
 
@@ -3492,8 +3360,8 @@ function eq(value, other) {
  * _.isArrayLike(_.noop);
  * // => false
  */
-function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
+function isArrayLike$2(value) {
+  return value != null && isLength$2(value.length) && !isFunction$2(value);
 }
 
 /**
@@ -3521,8 +3389,8 @@ function isArrayLike(value) {
  * _.isArrayLikeObject(_.noop);
  * // => false
  */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
+function isArrayLikeObject$2(value) {
+  return isObjectLike$3(value) && isArrayLike$2(value);
 }
 
 /**
@@ -3542,11 +3410,11 @@ function isArrayLikeObject(value) {
  * _.isFunction(/abc/);
  * // => false
  */
-function isFunction(value) {
+function isFunction$2(value) {
   // The use of `Object#toString` avoids issues with the `typeof` operator
   // in Safari 8-9 which returns 'object' for typed array and other constructors.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
+  var tag = isObject$2(value) ? objectToString$3.call(value) : '';
+  return tag == funcTag$2 || tag == genTag$2;
 }
 
 /**
@@ -3575,9 +3443,9 @@ function isFunction(value) {
  * _.isLength('3');
  * // => false
  */
-function isLength(value) {
+function isLength$2(value) {
   return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$2;
 }
 
 /**
@@ -3605,7 +3473,7 @@ function isLength(value) {
  * _.isObject(null);
  * // => false
  */
-function isObject(value) {
+function isObject$2(value) {
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
 }
@@ -3634,31 +3502,17 @@ function isObject(value) {
  * _.isObjectLike(null);
  * // => false
  */
-function isObjectLike(value) {
+function isObjectLike$3(value) {
   return !!value && typeof value == 'object';
 }
 
-module.exports = without;
-});
-
-var index$5 = interopDefault(index$4);
-
-
-var require$$0$2 = Object.freeze({
-  default: index$5
-});
-
-var dom = createCommonjsModule(function (module) {
-'use strict';
-
-var kebabCase = interopDefault(require$$1$2);
-var withOut = interopDefault(require$$0$2);
+var lodash_without = without;
 
 /**
  * DOM Module.
  * Helpers to interact with the Document Object Model
  */
-module.exports = {
+var dom = {
 
     /**
      * Matches a selector against an HTMLElement
@@ -3723,7 +3577,7 @@ module.exports = {
         }
 
         // bad luck Brian!, no browser support
-        return el.getAttribute('data-' + kebabCase(key));
+        return el.getAttribute('data-' + lodash_kebabcase(key));
     },
 
     /**
@@ -3765,7 +3619,7 @@ module.exports = {
         var classes = el.getAttribute('class').
             trim().
             split(/\s+/);
-        var arr = withOut(classes, cssClass);
+        var arr = lodash_without(classes, cssClass);
         return el.setAttribute('class', arr.join(" "));
 
     },
@@ -3786,32 +3640,7 @@ module.exports = {
         return this.matches(el, "." + cssClass);
 
     }
-}
-});
-
-var Dom = interopDefault(dom);
-var matches = dom.matches;
-var parentMatching = dom.parentMatching;
-var data = dom.data;
-var classAdd = dom.classAdd;
-var classRemove = dom.classRemove;
-var classContains = dom.classContains;
-
-var require$$0$1 = Object.freeze({
-    default: Dom,
-    matches: matches,
-    parentMatching: parentMatching,
-    data: data,
-    classAdd: classAdd,
-    classRemove: classRemove,
-    classContains: classContains
-});
-
-var lazyload = createCommonjsModule(function (module) {
-'use strict';
-
-var forEach = interopDefault(require$$1$1);
-var Dom = interopDefault(require$$0$1);
+};
 
 /**
  * Image Lazy Load based on Intersection Observer.
@@ -3826,7 +3655,7 @@ var Dom = interopDefault(require$$0$1);
  * 
  * @uses window
  */
-module.exports = (function () {
+var lazyload = (function () {
 
     /**
      * Is IntersectionObserver supported by the browser?
@@ -3873,7 +3702,7 @@ module.exports = (function () {
         this._onIntersection = this._onIntersection.bind(this);
         this._observer = new IntersectionObserver(this._onIntersection, this.config);
 
-        forEach(this._images, function(image) {
+        lodash_foreach(this._images, function(image) {
             if (image.classList.contains(HANDLED_CLASS)) {
                 return;
             }
@@ -3888,10 +3717,10 @@ module.exports = (function () {
         }
 
         this._observer.disconnect();
-    }
+    };
 
     LazyLoadInternal.prototype._onIntersection = function(entries) {
-        forEach(entries, function(entry) {
+        lodash_foreach(entries, function(entry) {
             if (entry.intersectionRatio < 0) {
                 return;
             }
@@ -3906,7 +3735,7 @@ module.exports = (function () {
         }
 
         this._observer.disconnect();
-    }
+    };
 
     LazyLoadInternal.prototype._preloadImage = function(image) {
         
@@ -3922,13 +3751,13 @@ module.exports = (function () {
             this._applyImage(image, src);
         }.bind(this);
 
-    }
+    };
 
     LazyLoadInternal.prototype._loadImagesImmediately = function(images) {
-        forEach(images, function(image){ 
+        lodash_foreach(images, function(image){ 
             this._preloadImage(image);
         }.bind(this));
-    }
+    };
 
     LazyLoadInternal.prototype._applyImage = function(img, src) {
 
@@ -3938,10 +3767,10 @@ module.exports = (function () {
         }
 
         // Prevent this from being lazy loaded a second time.
-        Dom.classAdd(img, HANDLED_CLASS);
+        dom.classAdd(img, HANDLED_CLASS);
         el.style.backgroundImage = 'url('+src+')';
-        Dom.classAdd(el, 'k-search__result__thumbnail__content--fade-in');
-    }
+        dom.classAdd(el, 'k-search__result__thumbnail__content--fade-in');
+    };
 
 
     return {
@@ -3959,257 +3788,252 @@ module.exports = (function () {
     };
 
 })();
-});
 
-var LazyLoad = interopDefault(lazyload);
+// Store setTimeout reference so promise-polyfill will be unaffected by
+// other code modifying setTimeout (like sinon.useFakeTimers())
+var setTimeoutFunc = setTimeout;
 
-var promise = createCommonjsModule(function (module) {
-(function (root) {
+function noop() {}
 
-  // Store setTimeout reference so promise-polyfill will be unaffected by
-  // other code modifying setTimeout (like sinon.useFakeTimers())
-  var setTimeoutFunc = setTimeout;
+// Polyfill for Function.prototype.bind
+function bind(fn, thisArg) {
+  return function() {
+    fn.apply(thisArg, arguments);
+  };
+}
 
-  function noop() {}
-  
-  // Polyfill for Function.prototype.bind
-  function bind(fn, thisArg) {
-    return function () {
-      fn.apply(thisArg, arguments);
-    };
+function Promise(fn) {
+  if (!(this instanceof Promise))
+    throw new TypeError('Promises must be constructed via new');
+  if (typeof fn !== 'function') throw new TypeError('not a function');
+  this._state = 0;
+  this._handled = false;
+  this._value = undefined;
+  this._deferreds = [];
+
+  doResolve(fn, this);
+}
+
+function handle(self, deferred) {
+  while (self._state === 3) {
+    self = self._value;
   }
-
-  function Promise(fn) {
-    if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
-    if (typeof fn !== 'function') throw new TypeError('not a function');
-    this._state = 0;
-    this._handled = false;
-    this._value = undefined;
-    this._deferreds = [];
-
-    doResolve(fn, this);
+  if (self._state === 0) {
+    self._deferreds.push(deferred);
+    return;
   }
-
-  function handle(self, deferred) {
-    while (self._state === 3) {
-      self = self._value;
-    }
-    if (self._state === 0) {
-      self._deferreds.push(deferred);
+  self._handled = true;
+  Promise._immediateFn(function() {
+    var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+    if (cb === null) {
+      (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
       return;
     }
-    self._handled = true;
-    Promise._immediateFn(function () {
-      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
-      if (cb === null) {
-        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+    var ret;
+    try {
+      ret = cb(self._value);
+    } catch (e) {
+      reject(deferred.promise, e);
+      return;
+    }
+    resolve(deferred.promise, ret);
+  });
+}
+
+function resolve(self, newValue) {
+  try {
+    // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+    if (newValue === self)
+      throw new TypeError('A promise cannot be resolved with itself.');
+    if (
+      newValue &&
+      (typeof newValue === 'object' || typeof newValue === 'function')
+    ) {
+      var then = newValue.then;
+      if (newValue instanceof Promise) {
+        self._state = 3;
+        self._value = newValue;
+        finale(self);
+        return;
+      } else if (typeof then === 'function') {
+        doResolve(bind(then, newValue), self);
         return;
       }
-      var ret;
-      try {
-        ret = cb(self._value);
-      } catch (e) {
-        reject(deferred.promise, e);
-        return;
+    }
+    self._state = 1;
+    self._value = newValue;
+    finale(self);
+  } catch (e) {
+    reject(self, e);
+  }
+}
+
+function reject(self, newValue) {
+  self._state = 2;
+  self._value = newValue;
+  finale(self);
+}
+
+function finale(self) {
+  if (self._state === 2 && self._deferreds.length === 0) {
+    Promise._immediateFn(function() {
+      if (!self._handled) {
+        Promise._unhandledRejectionFn(self._value);
       }
-      resolve(deferred.promise, ret);
     });
   }
 
-  function resolve(self, newValue) {
-    try {
-      // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
-      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-        var then = newValue.then;
-        if (newValue instanceof Promise) {
-          self._state = 3;
-          self._value = newValue;
-          finale(self);
-          return;
-        } else if (typeof then === 'function') {
-          doResolve(bind(then, newValue), self);
-          return;
-        }
-      }
-      self._state = 1;
-      self._value = newValue;
-      finale(self);
-    } catch (e) {
-      reject(self, e);
-    }
+  for (var i = 0, len = self._deferreds.length; i < len; i++) {
+    handle(self, self._deferreds[i]);
   }
+  self._deferreds = null;
+}
 
-  function reject(self, newValue) {
-    self._state = 2;
-    self._value = newValue;
-    finale(self);
-  }
+function Handler(onFulfilled, onRejected, promise) {
+  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+  this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+  this.promise = promise;
+}
 
-  function finale(self) {
-    if (self._state === 2 && self._deferreds.length === 0) {
-      Promise._immediateFn(function() {
-        if (!self._handled) {
-          Promise._unhandledRejectionFn(self._value);
-        }
-      });
-    }
-
-    for (var i = 0, len = self._deferreds.length; i < len; i++) {
-      handle(self, self._deferreds[i]);
-    }
-    self._deferreds = null;
-  }
-
-  function Handler(onFulfilled, onRejected, promise) {
-    this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-    this.onRejected = typeof onRejected === 'function' ? onRejected : null;
-    this.promise = promise;
-  }
-
-  /**
-   * Take a potentially misbehaving resolver function and make sure
-   * onFulfilled and onRejected are only called once.
-   *
-   * Makes no guarantees about asynchrony.
-   */
-  function doResolve(fn, self) {
-    var done = false;
-    try {
-      fn(function (value) {
+/**
+ * Take a potentially misbehaving resolver function and make sure
+ * onFulfilled and onRejected are only called once.
+ *
+ * Makes no guarantees about asynchrony.
+ */
+function doResolve(fn, self) {
+  var done = false;
+  try {
+    fn(
+      function(value) {
         if (done) return;
         done = true;
         resolve(self, value);
-      }, function (reason) {
+      },
+      function(reason) {
         if (done) return;
         done = true;
         reject(self, reason);
+      }
+    );
+  } catch (ex) {
+    if (done) return;
+    done = true;
+    reject(self, ex);
+  }
+}
+
+Promise.prototype['catch'] = function(onRejected) {
+  return this.then(null, onRejected);
+};
+
+Promise.prototype.then = function(onFulfilled, onRejected) {
+  var prom = new this.constructor(noop);
+
+  handle(this, new Handler(onFulfilled, onRejected, prom));
+  return prom;
+};
+
+Promise.prototype['finally'] = function(callback) {
+  var constructor = this.constructor;
+  return this.then(
+    function(value) {
+      return constructor.resolve(callback()).then(function() {
+        return value;
       });
-    } catch (ex) {
-      if (done) return;
-      done = true;
-      reject(self, ex);
+    },
+    function(reason) {
+      return constructor.resolve(callback()).then(function() {
+        return constructor.reject(reason);
+      });
     }
-  }
+  );
+};
 
-  Promise.prototype['catch'] = function (onRejected) {
-    return this.then(null, onRejected);
-  };
-
-  Promise.prototype.then = function (onFulfilled, onRejected) {
-    var prom = new (this.constructor)(noop);
-
-    handle(this, new Handler(onFulfilled, onRejected, prom));
-    return prom;
-  };
-
-  Promise.all = function (arr) {
+Promise.all = function(arr) {
+  return new Promise(function(resolve, reject) {
+    if (!arr || typeof arr.length === 'undefined')
+      throw new TypeError('Promise.all accepts an array');
     var args = Array.prototype.slice.call(arr);
+    if (args.length === 0) return resolve([]);
+    var remaining = args.length;
 
-    return new Promise(function (resolve, reject) {
-      if (args.length === 0) return resolve([]);
-      var remaining = args.length;
-
-      function res(i, val) {
-        try {
-          if (val && (typeof val === 'object' || typeof val === 'function')) {
-            var then = val.then;
-            if (typeof then === 'function') {
-              then.call(val, function (val) {
+    function res(i, val) {
+      try {
+        if (val && (typeof val === 'object' || typeof val === 'function')) {
+          var then = val.then;
+          if (typeof then === 'function') {
+            then.call(
+              val,
+              function(val) {
                 res(i, val);
-              }, reject);
-              return;
-            }
+              },
+              reject
+            );
+            return;
           }
-          args[i] = val;
-          if (--remaining === 0) {
-            resolve(args);
-          }
-        } catch (ex) {
-          reject(ex);
         }
+        args[i] = val;
+        if (--remaining === 0) {
+          resolve(args);
+        }
+      } catch (ex) {
+        reject(ex);
       }
-
-      for (var i = 0; i < args.length; i++) {
-        res(i, args[i]);
-      }
-    });
-  };
-
-  Promise.resolve = function (value) {
-    if (value && typeof value === 'object' && value.constructor === Promise) {
-      return value;
     }
 
-    return new Promise(function (resolve) {
-      resolve(value);
-    });
-  };
-
-  Promise.reject = function (value) {
-    return new Promise(function (resolve, reject) {
-      reject(value);
-    });
-  };
-
-  Promise.race = function (values) {
-    return new Promise(function (resolve, reject) {
-      for (var i = 0, len = values.length; i < len; i++) {
-        values[i].then(resolve, reject);
-      }
-    });
-  };
-
-  // Use polyfill for setImmediate for performance gains
-  Promise._immediateFn = (typeof setImmediate === 'function' && function (fn) { setImmediate(fn); }) ||
-    function (fn) {
-      setTimeoutFunc(fn, 0);
-    };
-
-  Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-    if (typeof console !== 'undefined' && console) {
-      console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+    for (var i = 0; i < args.length; i++) {
+      res(i, args[i]);
     }
-  };
+  });
+};
 
-  /**
-   * Set the immediate function to execute callbacks
-   * @param fn {function} Function to execute
-   * @deprecated
-   */
-  Promise._setImmediateFn = function _setImmediateFn(fn) {
-    Promise._immediateFn = fn;
-  };
-
-  /**
-   * Change the function to execute on unhandled rejection
-   * @param {function} fn Function to execute on unhandled rejection
-   * @deprecated
-   */
-  Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
-    Promise._unhandledRejectionFn = fn;
-  };
-  
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = Promise;
-  } else if (!root.Promise) {
-    root.Promise = Promise;
+Promise.resolve = function(value) {
+  if (value && typeof value === 'object' && value.constructor === Promise) {
+    return value;
   }
 
-})(commonjsGlobal);
+  return new Promise(function(resolve) {
+    resolve(value);
+  });
+};
+
+Promise.reject = function(value) {
+  return new Promise(function(resolve, reject) {
+    reject(value);
+  });
+};
+
+Promise.race = function(values) {
+  return new Promise(function(resolve, reject) {
+    for (var i = 0, len = values.length; i < len; i++) {
+      values[i].then(resolve, reject);
+    }
+  });
+};
+
+// Use polyfill for setImmediate for performance gains
+Promise._immediateFn =
+  (typeof setImmediate === 'function' &&
+    function(fn) {
+      setImmediate(fn);
+    }) ||
+  function(fn) {
+    setTimeoutFunc(fn, 0);
+  };
+
+Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
+  if (typeof console !== 'undefined' && console) {
+    console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+  }
+};
+
+
+var src = Object.freeze({
+	default: Promise
 });
 
-var promise$1 = interopDefault(promise);
-
-
-var require$$0$4 = Object.freeze({
-  default: promise$1
-});
-
-var fetch = createCommonjsModule(function (module) {
-'use strict';
-
-var forEach = interopDefault(require$$1$1);
+var require$$0 = ( src && Promise ) || src;
 
 /**
  * Fetch.
@@ -4223,12 +4047,12 @@ var forEach = interopDefault(require$$1$1);
  * @param {Object} options the request options
  * @return {Promise} the promise of a response
  */
-module.exports = function (url, options) {
+var fetch = function (url, options) {
 
     var Promise = window.Promise;
 
     if (!Promise) {
-        Promise = interopDefault(require$$0$4);
+        Promise = require$$0;
     }
 
 
@@ -4257,11 +4081,11 @@ module.exports = function (url, options) {
      */
     Response.prototype.json = function(){
       return JSON.parse(this.text);
-    }
+    };
 
 
     // HTTP methods whose capitalization should be normalized
-    var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+    var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
 
     /**
      * Normalize HTTP verbs
@@ -4269,7 +4093,7 @@ module.exports = function (url, options) {
      * @return {string} the normalized HTTP verb in uppercase
      */
     function normalizeMethod(method) {
-        var upcased = method.toUpperCase()
+        var upcased = method.toUpperCase();
         return (methods.indexOf(upcased) > -1) ? upcased : method
     }
 
@@ -4281,11 +4105,11 @@ module.exports = function (url, options) {
     function parseHeaders(rawHeaders) {
         var headers = {};
 
-        forEach(rawHeaders.split(/\r?\n/), function(line) {
-            var parts = line.split(':')
-            var key = parts.shift().trim()
+        lodash_foreach(rawHeaders.split(/\r?\n/), function(line) {
+            var parts = line.split(':');
+            var key = parts.shift().trim();
             if (key) {
-                var value = parts.join(':').trim()
+                var value = parts.join(':').trim();
                 headers[key] = value;
             }
         });
@@ -4307,19 +4131,19 @@ module.exports = function (url, options) {
                 status: xhr.status,
                 statusText: xhr.statusText,
                 headers: parseHeaders(xhr.getAllResponseHeaders() || '')
-            }
+            };
             options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers['X-Request-URL'];
             var body = xhr.responseText;
             resolve(new Response(body, options));
-        }
+        };
 
         xhr.onerror = function () {
             reject(new TypeError('Network request failed'));
-        }
+        };
 
         xhr.ontimeout = function () {
             reject(new TypeError('Network request failed'));
-        }
+        };
 
         xhr.open(request.method, request.url, true);
 
@@ -4327,7 +4151,7 @@ module.exports = function (url, options) {
             xhr.withCredentials = true;
         }
 
-        forEach(request.headers, function (value, name) {
+        lodash_foreach(request.headers, function (value, name) {
             xhr.setRequestHeader(name, value);
         });
 
@@ -4336,19 +4160,6 @@ module.exports = function (url, options) {
     });
 
 };
-});
-
-var fetch$1 = interopDefault(fetch);
-
-
-var require$$0$3 = Object.freeze({
-    default: fetch$1
-});
-
-var ajax = createCommonjsModule(function (module) {
-'use strict';
-
-var forEach = interopDefault(require$$1$1);
 
 /**
  * Ajax.
@@ -4356,9 +4167,9 @@ var forEach = interopDefault(require$$1$1);
  * Abstract a bit the AJAX calls to a K-Link API using fetch and Promises.
  * All the calls are JSON based
  */
-module.exports = (function(){
+var ajax = (function(){
 
-    var _fetch = window.fetch || interopDefault(require$$0$3);
+    var _fetch = window.fetch || fetch;
 
     /**
      * Verify if the response was completed without errors.
@@ -4429,7 +4240,7 @@ module.exports = (function(){
 
             var paramString = [];
 
-            forEach(data, function(value, key){
+            lodash_foreach(data, function(value, key){
                 paramString.push(key+"="+value);
             });
 
@@ -4448,9 +4259,13 @@ module.exports = (function(){
 
     return inner;
 })();
-});
 
-var Ajax = interopDefault(ajax);
+/*!
+ * K-Link Javascript Search widget
+ * 
+ * License AGPL-3.0
+ * @version {VERSION}
+ */
 
 /**
  * The K-Search
@@ -4461,7 +4276,7 @@ var Ajax = interopDefault(ajax);
  */
 window.ksearch = function (options) {
 
-    var ee = Object.create(EventEmitter).constructor();
+    var ee$$1 = Object.create(ee).constructor();
 
     var defaultOptions = {
         /**
@@ -4534,7 +4349,7 @@ window.ksearch = function (options) {
         }
     };
 
-    var _options = assignIn(defaultOptions, options);
+    var _options = lodash_assignin(defaultOptions, options);
 
     if (typeof document.querySelector === undefined) {
         throw new Error("K-Search: Browser not supported.");
@@ -4827,7 +4642,7 @@ window.ksearch = function (options) {
      */
     function getResultsTemplate() {
 
-        var compiled = Hogan$1.compile(templates.results);
+        var compiled = hogan.compile(templates.results);
         var output = compiled.render({ results: module.results, pagination: module.page });
 
         return output;
@@ -4853,16 +4668,16 @@ window.ksearch = function (options) {
 
         module.isSearching = true;
 
-        Ajax.get(SEARCH_ENDPOINT, module.options.token, requestData).then(function (value) {
+        ajax.get(SEARCH_ENDPOINT, module.options.token, requestData).then(function (value) {
 
             if(value.itemCount > 0){
-                forEach(value.items, function(el){
+                lodash_foreach(value.items, function(el){
                     var dt = Date.parse(el.document_descriptor.creationDate.substring(0, el.document_descriptor.creationDate.indexOf('T')));
 
                     el.document_descriptor.documentType = el.document_descriptor.documentType.toLowerCase();
                     el.document_descriptor.creationDate = Date.prototype.toLocaleDateString ? new Date(dt).toLocaleDateString() : new Date(dt).toDateString();
                     el.document_descriptor.icon = icons.available[el.document_descriptor.documentType] || icons.default;
-                })
+                });
             }
 
             module.results = value;
@@ -4874,7 +4689,7 @@ window.ksearch = function (options) {
             module.page.next = module.page.current < module.page.total ? module.page.current + 1 : null;
             module.isSearching = false;
 
-            ee.emit('update');
+            ee$$1.emit('update');
 
         });
     }
@@ -4887,7 +4702,7 @@ window.ksearch = function (options) {
      * @return {void}
      */
     function render(el, template, data) {
-        var compiled = Hogan$1.compile(template);
+        var compiled = hogan.compile(template);
         var output = compiled.render(data);
 
         el.innerHTML = output;
@@ -4901,9 +4716,9 @@ window.ksearch = function (options) {
             module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
         }
 
-        Dom.classAdd(module.elements.dialogBox, 'k-search__dialog--show');
+        dom.classAdd(module.elements.dialogBox, 'k-search__dialog--show');
         module.isDialogShowed = true;
-        Dom.classAdd(module.elements.searchBox, "k-search--status__dialog-open");
+        dom.classAdd(module.elements.searchBox, "k-search--status__dialog-open");
     }
 
     /**
@@ -4914,9 +4729,9 @@ window.ksearch = function (options) {
             module.elements.dialogBox = module.elements.searchBox.querySelector(".k-search__dialog");
         }
 
-        Dom.classRemove(module.elements.dialogBox, 'k-search__dialog--show');
+        dom.classRemove(module.elements.dialogBox, 'k-search__dialog--show');
         module.isDialogShowed = false;
-        Dom.classRemove(module.elements.searchBox, "k-search--status__dialog-open");
+        dom.classRemove(module.elements.searchBox, "k-search--status__dialog-open");
     }
 
     /**
@@ -4952,7 +4767,7 @@ window.ksearch = function (options) {
                 else {
                     module.results = null;
                     // suggestion(e.target.value);
-                    ee.emit('update');
+                    ee$$1.emit('update');
                 }
             }
 
@@ -4963,11 +4778,11 @@ window.ksearch = function (options) {
             if (e.target.id === 'ks' && module.search_terms && module.search_terms.length >= 3) {
                 search(module.search_terms);
                 module.isFocus = true;
-                ee.emit('update');
+                ee$$1.emit('update');
             }
             else if(e.target.id === 'ks'){
                 module.isFocus = true;
-                ee.emit('update');
+                ee$$1.emit('update');
             }
 
         });
@@ -4978,7 +4793,7 @@ window.ksearch = function (options) {
                 if(module.isFocus){
                     module.isFocus = false;
                     module.wasFocused = true;
-                    ee.emit('update');
+                    ee$$1.emit('update');
                 }
             }
 
@@ -4986,11 +4801,11 @@ window.ksearch = function (options) {
 
         module.elements.searchBox.addEventListener('click', function (e) {
 
-            var el = Dom.parentMatching(e.target, '.k-search__reset');
+            var el = dom.parentMatching(e.target, '.k-search__reset');
 
             if (el) {
 
-                if (Dom.data(el, 'action') === 'reset') {
+                if (dom.data(el, 'action') === 'reset') {
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -5001,23 +4816,23 @@ window.ksearch = function (options) {
                     module.page.next=null;
                     module.page.needed=false;
                     module.search_terms = null;
-                    ee.emit('update');
+                    ee$$1.emit('update');
                     return;
                 }
 
 
             }
 
-            el = Dom.parentMatching(e.target, '.k-search__logo');
+            el = dom.parentMatching(e.target, '.k-search__logo');
 
             if (el) {
 
-                if (Dom.data(el, 'action') === 'logo' && !module.isCollapsed && module.isFocus) {
+                if (dom.data(el, 'action') === 'logo' && !module.isCollapsed && module.isFocus) {
                     e.stopPropagation();
                     e.preventDefault();
                     module.elements.searchForm.submit();
                 }
-                else if (Dom.data(el, 'action') === 'logo'){
+                else if (dom.data(el, 'action') === 'logo'){
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -5037,11 +4852,11 @@ window.ksearch = function (options) {
 
             }
             
-            el = Dom.parentMatching(e.target, '.k-search__chevron');
+            el = dom.parentMatching(e.target, '.k-search__chevron');
 
             if (el) {
 
-                if (Dom.data(el, 'action') === 'expandCollapse') {
+                if (dom.data(el, 'action') === 'expandCollapse') {
                     e.stopPropagation();
                     e.preventDefault();
                     
@@ -5066,18 +4881,18 @@ window.ksearch = function (options) {
                     else {
                         module.isFocus = true;
                     }
-                    ee.emit('update');
+                    ee$$1.emit('update');
                     return;
                 }
 
             }
 
-            if(Dom.parentMatching(e.target, '[data-prev]') && module.page.current > 1){
+            if(dom.parentMatching(e.target, '[data-prev]') && module.page.current > 1){
                 e.preventDefault();
                 e.stopPropagation();
                 search(module.search_terms, {page: module.page.current - 1});
             }
-            else if(Dom.parentMatching(e.target, '[data-next]') && module.page.current < module.page.total){
+            else if(dom.parentMatching(e.target, '[data-next]') && module.page.current < module.page.total){
                 e.preventDefault();
                 e.stopPropagation();
                 search(module.search_terms, {page: module.page.current + 1});
@@ -5093,12 +4908,12 @@ window.ksearch = function (options) {
 
         // add the specific display style class based on the display option
         var containerDisplayClass = module.options.display === 'embed' ? 'k-search--embed' : 'k-search--overlay';
-        if (!Dom.classContains(module.elements.searchBox, containerDisplayClass)) {
-            Dom.classAdd(module.elements.searchBox, containerDisplayClass);
+        if (!dom.classContains(module.elements.searchBox, containerDisplayClass)) {
+            dom.classAdd(module.elements.searchBox, containerDisplayClass);
         }
 
         if (module.options.collapsed) {
-            Dom.classAdd(module.elements.searchBox, 'k-search--collapsed');
+            dom.classAdd(module.elements.searchBox, 'k-search--collapsed');
         }
 
         // if display === embed ensure that the area for results is expanded
@@ -5117,46 +4932,46 @@ window.ksearch = function (options) {
 
         if (module.results && module.results.numFound > 0) {
             module.elements.searchResults.innerHTML = getResultsTemplate();
-            LazyLoad.init();
-            Dom.classAdd(module.elements.searchBox, "k-search--has-results");
+            lazyload.init();
+            dom.classAdd(module.elements.searchBox, "k-search--has-results");
         }
         else if (module.results && module.results.numFound === 0) {
             render(module.elements.searchResults, templates.empty, { query: module.search_terms });
-            LazyLoad.init();
-            Dom.classAdd(module.elements.searchBox, "k-search--has-results");
+            lazyload.init();
+            dom.classAdd(module.elements.searchBox, "k-search--has-results");
         }
         else {
-            Dom.classRemove(module.elements.searchBox, "k-search--has-results");
+            dom.classRemove(module.elements.searchBox, "k-search--has-results");
             module.elements.searchResults.innerHTML = '';
         }
 
-        if (!module.isCollapsed && module.options.display!=='embed' && Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-            Dom.classRemove(module.elements.searchForm, 'k-search__form--collapsed');
-            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
+        if (!module.isCollapsed && module.options.display!=='embed' && dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+            dom.classRemove(module.elements.searchForm, 'k-search__form--collapsed');
+            dom.classAdd(module.elements.searchForm, "k-search__form--float");
             module.elements.searchForm.style.width = module.width+"px";
         }
-        if (module.isCollapsed && module.options.display!=='embed' && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-            Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
-            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
+        if (module.isCollapsed && module.options.display!=='embed' && !dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+            dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
+            dom.classRemove(module.elements.searchForm, "k-search__form--float");
             module.elements.searchForm.style.width = "";
         }
 
         if(module.isFocus || (!module.isFocus && module.isDialogShowed)){
-            Dom.classAdd(module.elements.searchBox, "k-search--focus");
+            dom.classAdd(module.elements.searchBox, "k-search--focus");
         }
         else {
-            Dom.classRemove(module.elements.searchBox, "k-search--focus");
+            dom.classRemove(module.elements.searchBox, "k-search--focus");
         }
 
         if(module.isFocus && module.options.expandable && module.options.display!=='embed'){
-            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
+            dom.classAdd(module.elements.searchForm, "k-search__form--float");
             module.elements.searchForm.style.width = module.width+"px";
         }
         else if(!module.isFocus && !module.isDialogShowed && module.options.expandable && module.options.display!=='embed'){
-            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
+            dom.classRemove(module.elements.searchForm, "k-search__form--float");
             module.elements.searchForm.style.width = "";
-            if (module.options.collapsed && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-                Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
+            if (module.options.collapsed && !dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
+                dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
             }
         }
 
@@ -5175,10 +4990,10 @@ window.ksearch = function (options) {
     /**
      * Register the updateUI function as update event handler
      */
-    ee.on('update', updateUI);
+    ee$$1.on('update', updateUI);
 
 
-    setTimeout(function () { initialize() }, 10);
+    setTimeout(function () { initialize(); }, 10);
 
     return module;
 
@@ -5197,13 +5012,13 @@ window.ksearch = function (options) {
 
     if(ksearch){
         var options = {
-            token: Dom.data(ksearch, 'token'),
+            token: dom.data(ksearch, 'token'),
             language: 'en',
             selector: '[data-ksearch-auto]',
-            url: Dom.data(ksearch, 'url'),
-            display: Dom.data(ksearch, 'display')||'overlay',
-            collapsed: Dom.data(ksearch, 'collapsed') !== undefined && (Dom.data(ksearch, 'collapsed') === 'true' || Dom.data(ksearch, 'collapsed').length === 0) ? true : false,
-        }
+            url: dom.data(ksearch, 'url'),
+            display: dom.data(ksearch, 'display')||'overlay',
+            collapsed: dom.data(ksearch, 'collapsed') !== undefined && (dom.data(ksearch, 'collapsed') === 'true' || dom.data(ksearch, 'collapsed').length === 0) ? true : false,
+        };
         
         window.ksearch(options);
     }

@@ -113,6 +113,21 @@ The following data attributes are supported:
   This is a boolean attribute, so no explicit value is required.
 
 
+## Development
+
+Development of the library rely on
+
+- Node 8.9+
+- [Yarn](https://yarnpkg.com/)
+
+Before going into development, install the dependencies
+
+```
+yarn
+```
+
+> **Do not edit the dependencies directly in package.json, use the `yarn` command line instead**
+
 ## Testing
 
 Testing ensure that the library will behave as intended in all the supporting browsers.
@@ -126,13 +141,13 @@ and browser agnostic modules, while integration tests try to replicate the usage
 To run all the tests use:
 
 ```
-npm run test
+yarn test
 ```
 
 While developing you can also run
 
 ```
-npm run test:watch
+yarn test:watch
 ```
 
 This will execute only tests related to changed files based on hg/git (uncommitted files).
