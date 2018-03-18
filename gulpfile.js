@@ -31,7 +31,23 @@ gulp.task('less', function () {
  * 
  * Bundle the module and all its dependencies using RollupJS
  */
-gulp.task('scripts', function () {
+gulp.task('scripts:client', function () {
+
+    return rollup({
+        input: 'src/k-search-client.js',
+        plugins: [
+            nodeResolve({ jsnext: true }),
+            commonjs()
+        ]
+    }).then(function (bundle) {
+        return bundle.write({
+            format: 'iife',
+            file: 'dist/js/k-search-client.js'
+        });
+    });
+});
+
+gulp.task('scripts:all', function () {
 
     return rollup({
         input: 'src/k-search.js',
@@ -50,7 +66,7 @@ gulp.task('scripts', function () {
 /**
  * Define the Gulp default task
  */
-gulp.task('default', ['less', 'scripts']);
+gulp.task('default', ['less', 'scripts:client', 'scripts:all']);
 
 /**
  * Minify the CSS
@@ -68,7 +84,7 @@ gulp.task('minify-css', function () {
  */
 gulp.task('minify-js', function () {
 
-    return gulp.src(build_path + 'js/k-search.js')
+    return gulp.src([build_path + 'js/k-search.js', build_path + 'js/k-search-client.js'])
         .pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(build_path + 'js'));
@@ -83,5 +99,5 @@ gulp.task('minify', ['minify-css', 'minify-js']);
  */
 gulp.task('watch', function () {
     gulp.watch(resource_path + 'less/**/*.less', ['less']);
-    gulp.watch(resource_path + 'src/**/*.js', ['scripts']);
+    gulp.watch(resource_path + 'src/**/*.js', ['scripts:client', 'scripts:all']);
 });
