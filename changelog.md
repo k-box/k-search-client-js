@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Standalone API client to communicate with the K-Search v3 API [#2](https://github.com/k-box/k-search-client-js/pull/2)
 - Ability to get the total amount of resourced published on a K-Search instance [#3](https://github.com/k-box/k-search-client-js/pull/3)
+- Compatibility option to use the old `Authentication: token` scheme instead of the new `Authentication: Bearer`. This is related to a breaking change introduced in [K-Search 3.1](https://github.com/k-box/k-search/blob/master/changelog.md#v311-1)
 
 ## Changed
 
