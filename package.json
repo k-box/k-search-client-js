@@ -8,7 +8,7 @@
     "k-link",
     "website"
   ],
-  "main": "k-search-client-module.js",
+  "main": "src/k-search-client-module.js",
   "author": "Alessio <alessio@oneofftech.xyz>",
   "license": "AGPL-3.0",
   "repository": {
