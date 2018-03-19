@@ -11877,7 +11877,7 @@ function KSearchClient(options) {
                 aggregations: aggregations
             }).then(function (results) {
 
-                return results.results.total;
+                return results.results.aggregations;
 
             });
         },
