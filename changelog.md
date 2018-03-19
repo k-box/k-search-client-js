@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Added
 
 - Standalone API client to communicate with the K-Search v3 API [#2](https://github.com/k-box/k-search-client-js/pull/2)
-- Ability to get the total amount of resourced published on a K-Search instance
+- Ability to get the total amount of resourced published on a K-Search instance [#3](https://github.com/k-box/k-search-client-js/pull/3)
 
 ## Changed
 
