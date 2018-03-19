@@ -11,8 +11,9 @@ import assignIn from 'lodash.assignin';
 import EventEmitter from './utils/ee.js';
 import LazyLoad from './utils/lazyload.js';
 import Dom from './utils/dom.js';
-import Ajax from './utils/ajax.js';
+// import Ajax from './utils/ajax.js';
 import forEach from 'lodash.foreach';
+import Client from './k-search-client-module.js';
 
 /**
  * The K-Search
@@ -102,19 +103,7 @@ window.ksearch = function (options) {
         throw new Error("K-Search: Browser not supported.");
     }
 
-    if (!_options.url) {
-        throw new Error("K-Search: Url not specified.");
-    }
-
-    if (!_options.token) {
-        throw new Error("K-Search: API Token/Secret not specified.");
-    }
-
-    /**
-     * The URL of the API endpoint used to get search results
-     * @type {string}
-     */
-    var SEARCH_ENDPOINT = _options.url + "/search/public/";
+    var SearchClient = new Client({url: _options.url, token: _options.token});
 
     /**
      * UI templates
@@ -124,39 +113,34 @@ window.ksearch = function (options) {
          * Search results template
          */
         results: ' \
-  {{#results.numFound}} \
-        <div class="k-search__results__info">Found <strong>{{{results.numFound}}}</strong> documents</div> \
-        {{#results.items}} \
-            <div class="k-search__result k-search-js-lazy-image" data-src="{{{document_descriptor.thumbnailURI}}}"> \
-                <a href="{{{document_descriptor.documentURI}}}" class="k-search__result__link" rel="nofollow noopener"> \
+        <div class="k-search__results__info">Found <strong>{{{results.results.total}}}</strong> documents</div> \
+        {{#results.data}} \
+            <div class="k-search__result k-search-js-lazy-image" data-src="{{{thumbnail}}}"> \
+                <a href="{{{url}}}" class="k-search__result__link" rel="nofollow noopener"> \
                     <span class="k-search__result__icon"> \
                     <svg width=24 height=24 role="img"> \
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#{{{document_descriptor.icon}}}"></use> \
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#{{{icon}}}"></use> \
                     </svg> \
                     </span> \
-                    <span class="k-search__result__thumbnail k-search__result__thumbnail--{{{document_descriptor.documentType}}}"><span class="k-search__result__thumbnail__content k-search-js-lazy-image-content"></span></span> \
-                    <span class="k-search__result__title">{{{document_descriptor.title}}}</span> \
+                    <span class="k-search__result__thumbnail k-search__result__thumbnail--{{{type}}}"><span class="k-search__result__thumbnail__content k-search-js-lazy-image-content"></span></span> \
+                    <span class="k-search__result__title">{{{title}}}</span> \
                     <span class="k-search__result__info"> \
                         <span class="k-search__result__meta"> \
                             <label>type</label>\
-                            {{{document_descriptor.documentType}}} \
+                            {{{type}}} \
                         </span> \
                         <span class="k-search__result__meta"> \
                             <label>language</label>\
-                            {{{document_descriptor.language}}} \
+                            {{{language}}} \
                         </span> \
                         <span class="k-search__result__meta"> \
                             <label>added on</label>\
-                            {{{document_descriptor.creationDate}}} \
-                        </span> \
-                        <span class="k-search__result__meta k-search__result__meta--source"> \
-                            <label>source</label>\
-                            {{{document_descriptor.institutionID}}} \
+                            {{{created_at}}} \
                         </span> \
                     </span> \
                 </a> \
             </div> \
-        {{/results.items}} \
+        {{/results.data}} \
         {{#pagination.needed}} \
         <div class="k-search__results__pagination"> \
             {{{pagination.current}}} / {{{pagination.total}}} \
@@ -166,7 +150,6 @@ window.ksearch = function (options) {
             </div> \
         </div> \
         {{/pagination.needed}} \
-  {{/results.numFound}} \
   ',
         /**
          * Search result in case of nothing found
@@ -390,8 +373,11 @@ window.ksearch = function (options) {
     function getResultsTemplate() {
 
         var compiled = Hogan.compile(templates.results);
+        
         var output = compiled.render({ results: module.results, pagination: module.page });
 
+
+        console.log(output);
         return output;
 
     }
@@ -408,32 +394,32 @@ window.ksearch = function (options) {
         var ITEMS_PER_PAGE = 5;
 
         var requestData = { 
-            query: term, 
-            numResults: ITEMS_PER_PAGE, 
-            startResult: options && options.page && options.page > 0 ? ITEMS_PER_PAGE * (options.page - 1) : 0 
+            term: term,
+            page: options && options.page ? options.page : 1,
+            limit: ITEMS_PER_PAGE, 
         };
 
         module.isSearching = true;
 
-        Ajax.get(SEARCH_ENDPOINT, module.options.token, requestData).then(function (value) {
+        // Ajax.get(SEARCH_ENDPOINT, module.options.token, requestData)
 
-            if(value.itemCount > 0){
-                forEach(value.items, function(el){
-                    var dt = Date.parse(el.document_descriptor.creationDate.substring(0, el.document_descriptor.creationDate.indexOf('T')));
+        SearchClient.find(requestData).then(function (value) {
 
-                    el.document_descriptor.documentType = el.document_descriptor.documentType.toLowerCase();
-                    el.document_descriptor.creationDate = Date.prototype.toLocaleDateString ? new Date(dt).toLocaleDateString() : new Date(dt).toDateString();
-                    el.document_descriptor.icon = icons.available[el.document_descriptor.documentType] || icons.default;
+            // value is an instance of SearchClient.SearchResults
+
+            if(value.results.total > 0){
+                forEach(value.data, function(el){
+                    el.icon = icons.available[el.type] || icons.default;
                 })
             }
 
             module.results = value;
-
-            module.page.current = options && options.page && options.page > 0 ? options.page : 1;
-            module.page.total = Math.floor(value.numFound / ITEMS_PER_PAGE);
+console.log(value);
+            module.page.current = value.pagination.current;
+            module.page.total = value.pagination.total;
             module.page.needed = module.page.total > 1;
-            module.page.prev = module.page.current > 1 ? module.page.current - 1 : null;
-            module.page.next = module.page.current < module.page.total ? module.page.current + 1 : null;
+            module.page.prev = value.pagination.prev;
+            module.page.next = value.pagination.next;
             module.isSearching = false;
 
             ee.emit('update');
@@ -677,12 +663,14 @@ window.ksearch = function (options) {
      */
     function updateUI() {
 
-        if (module.results && module.results.numFound > 0) {
+        console.log('updateUI', module.results)
+
+        if (module.results && module.results.results.total > 0) {
             module.elements.searchResults.innerHTML = getResultsTemplate();
             LazyLoad.init();
             Dom.classAdd(module.elements.searchBox, "k-search--has-results");
         }
-        else if (module.results && module.results.numFound === 0) {
+        else if (module.results && module.results.results.total === 0) {
             render(module.elements.searchResults, templates.empty, { query: module.search_terms });
             LazyLoad.init();
             Dom.classAdd(module.elements.searchBox, "k-search--has-results");

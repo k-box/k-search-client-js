@@ -9,11 +9,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Added
 
+- Standalone API client to communicate with the K-Search v3 API [#2](https://github.com/k-box/k-search-client-js/pull/2)
+
 ## Changed
+
+- Moved to Yarn for dependency management [#1](https://github.com/k-box/k-search-client-js/pull/1)
+- Upgraded all dependencies to the latest version [#1](https://github.com/k-box/k-search-client-js/pull/1)
+- Updated Search UI module to use the API v3 client [#2](https://github.com/k-box/k-search-client-js/pull/2)
 
 ## Fixed
 
 ## Removed
+
+- Support for K-Search API v2 [#2](https://github.com/k-box/k-search-client-js/pull/2)
 
 ## [0.4.0] - 2017-06-19
 
