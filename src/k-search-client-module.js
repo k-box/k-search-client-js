@@ -305,7 +305,7 @@ function KSearchClient(options) {
 
             return module.find({
                 term: "*",
-                offset: 0,
+                page: 0,
                 limit: typeof uuid === "string" ? 1 : uuid.length,
                 filters: typeof uuid === "string" ? "uuid:" + uuid : map(uuid, function (id) {
                     return 'uuid:' + id;
@@ -328,7 +328,7 @@ function KSearchClient(options) {
          * @return {Promise} The SearchResults
          */
         find: function (request) {
-
+            
             return search({
                 search: request.term,
                 offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
@@ -336,7 +336,27 @@ function KSearchClient(options) {
                 filters: request.filters || ""
             });
 
-        }
+        },
+
+        /**
+         * Get the amount of published data that respect the given filter
+         * 
+         * @param {string} filters The filter query. Can be optional, by default the total published data is reported.
+         * @return {Promise} The amount of published data
+         */
+        total: function (filters) {
+
+            return module.find({
+                term: "*",
+                page: 0,
+                limit: 0,
+                filters: filters || ""
+            }).then(function (results) {
+
+                return results.results.total;
+
+            });
+        },
 
     }
 
