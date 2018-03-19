@@ -315,7 +315,7 @@ function KSearchClient(options) {
      */
     function mapFilters(filter){
 
-        if(!filters){
+        if(!filter){
             return "";
         }
 
@@ -326,6 +326,7 @@ function KSearchClient(options) {
 
         // map shortcut to expanded filters
         // removes filters that are not compatible
+        return filter;
     }
     
     /**
