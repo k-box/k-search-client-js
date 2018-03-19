@@ -54,12 +54,12 @@ module.exports = (function(){
          * @return {Promise} The Promise of the request to be made. In case of success the promise will be 
          *   resolved with the response data as first parameter, otherwise will be rejected with the error as first parameter
          */
-        post: function (url, token, data) {
+        post: function (url, token, data, compatibility) {
 
             return _fetch(url, {
                       method: 'POST',
                       headers: {
-                          'Authorization': 'token ' + token,
+                          'Authorization': compatibility ? 'token ' + token : 'Bearer ' + token,
                           'Content-Type': 'application/json'
                       },
                       body: JSON.stringify(data)
@@ -77,7 +77,7 @@ module.exports = (function(){
          * @return {Promise} The Promise of the request to be made. In case of success the promise will be 
          *   resolved with the response data as first parameter, otherwise will be rejected with the error as first parameter
          */
-        get: function (url, token, data) {
+        get: function (url, token, data, compatibility) {
 
             var paramString = [];
 
@@ -88,7 +88,7 @@ module.exports = (function(){
             return _fetch(url + "?" + paramString.join("&"), {
                       method: 'GET',
                       headers: {
-                          'Authorization': 'token ' + token,
+                        'Authorization': compatibility ? 'token ' + token : 'Bearer ' + token,
                           'Content-Type': 'application/json'
                       }
                    }).

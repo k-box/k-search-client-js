@@ -4248,12 +4248,12 @@ var ajax = (function(){
          * @return {Promise} The Promise of the request to be made. In case of success the promise will be 
          *   resolved with the response data as first parameter, otherwise will be rejected with the error as first parameter
          */
-        post: function (url, token, data) {
+        post: function (url, token, data, compatibility) {
 
             return _fetch(url, {
                       method: 'POST',
                       headers: {
-                          'Authorization': 'token ' + token,
+                          'Authorization': compatibility ? 'token ' + token : 'Bearer ' + token,
                           'Content-Type': 'application/json'
                       },
                       body: JSON.stringify(data)
@@ -4271,7 +4271,7 @@ var ajax = (function(){
          * @return {Promise} The Promise of the request to be made. In case of success the promise will be 
          *   resolved with the response data as first parameter, otherwise will be rejected with the error as first parameter
          */
-        get: function (url, token, data) {
+        get: function (url, token, data, compatibility) {
 
             var paramString = [];
 
@@ -4282,7 +4282,7 @@ var ajax = (function(){
             return _fetch(url + "?" + paramString.join("&"), {
                       method: 'GET',
                       headers: {
-                          'Authorization': 'token ' + token,
+                        'Authorization': compatibility ? 'token ' + token : 'Bearer ' + token,
                           'Content-Type': 'application/json'
                       }
                    }).
@@ -11462,6 +11462,7 @@ module.exports = transform;
  * @param {Object} options The client configuration options
  * @param {string} options.url The URL of the K-Search
  * @param {string} options.token The authentication token to use
+ * @param {boolean} options.compatibility In case is required to use the old authentication protocol
  * @return {KSearchClient}
  */
 function KSearchClient(options) {
@@ -11562,6 +11563,13 @@ function KSearchClient(options) {
          * @type {string}
          */
         token: null,
+
+        /**
+         * Consider the API running in compatibility mode with respect to the beta 3.0 release
+         * This implies using "Authorization: token" instead of "Authorization: Bearer" header
+         * @type {boolean}
+         */
+        compatibility: false,
     };
 
     var _options = lodash_assignin(defaultOptions, options);
@@ -11589,7 +11597,7 @@ function KSearchClient(options) {
             params: searchRequest,
         };
 
-        return ajax.post(_options.url + "/" + API_URL + "/" + SEARCH_ENDPOINT, _options.token, requestData).
+        return ajax.post(_options.url + "/" + API_URL + "/" + SEARCH_ENDPOINT, _options.token, requestData, _options.compatibility).
             then(function (response) {
 
                 if (response.error) {
@@ -11615,7 +11623,7 @@ function KSearchClient(options) {
             }
         };
 
-        return ajax.post(_options.url + "/" + API_URL + "/" + GET_ENDPOINT, _options.token, requestData).
+        return ajax.post(_options.url + "/" + API_URL + "/" + GET_ENDPOINT, _options.token, requestData, _options.compatibility).
             then(function (response) {
 
                 if (response.error && response.error.data && response.error.data['params.uuid']) {
@@ -11657,7 +11665,7 @@ function KSearchClient(options) {
         this.size = format.filesize(result.properties.size);
         this.copyright = {
             license: result.copyright.usage.name,
-            contact: result.copyright.owner.contact,
+            contact: result.copyright.owner.contact || result.copyright.owner.name + " " + (result.copyright.owner.email || result.copyright.owner.website),
         };
 
         var streamings = {};

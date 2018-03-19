@@ -26,6 +26,7 @@ var transform = require('lodash.transform');
  * @param {Object} options The client configuration options
  * @param {string} options.url The URL of the K-Search
  * @param {string} options.token The authentication token to use
+ * @param {boolean} options.compatibility In case is required to use the old authentication protocol
  * @return {KSearchClient}
  */
 function KSearchClient(options) {
@@ -126,6 +127,13 @@ function KSearchClient(options) {
          * @type {string}
          */
         token: null,
+
+        /**
+         * Consider the API running in compatibility mode with respect to the beta 3.0 release
+         * This implies using "Authorization: token" instead of "Authorization: Bearer" header
+         * @type {boolean}
+         */
+        compatibility: false,
     };
 
     var _options = assignIn(defaultOptions, options);
@@ -153,7 +161,7 @@ function KSearchClient(options) {
             params: searchRequest,
         };
 
-        return Ajax.post(_options.url + "/" + API_URL + "/" + SEARCH_ENDPOINT, _options.token, requestData).
+        return Ajax.post(_options.url + "/" + API_URL + "/" + SEARCH_ENDPOINT, _options.token, requestData, _options.compatibility).
             then(function (response) {
 
                 if (response.error) {
@@ -179,7 +187,7 @@ function KSearchClient(options) {
             }
         };
 
-        return Ajax.post(_options.url + "/" + API_URL + "/" + GET_ENDPOINT, _options.token, requestData).
+        return Ajax.post(_options.url + "/" + API_URL + "/" + GET_ENDPOINT, _options.token, requestData, _options.compatibility).
             then(function (response) {
 
                 if (response.error && response.error.data && response.error.data['params.uuid']) {
@@ -221,7 +229,7 @@ function KSearchClient(options) {
         this.size = Format.filesize(result.properties.size);
         this.copyright = {
             license: result.copyright.usage.name,
-            contact: result.copyright.owner.contact,
+            contact: result.copyright.owner.contact || result.copyright.owner.name + " " + (result.copyright.owner.email || result.copyright.owner.website),
         };
 
         var streamings = {};
