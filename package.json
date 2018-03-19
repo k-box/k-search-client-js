@@ -8,7 +8,7 @@
     "k-link",
     "website"
   ],
-  "main": "dist/js/k-search.js",
+  "main": "k-search-client-module.js",
   "author": "Alessio <alessio@oneofftech.xyz>",
   "license": "AGPL-3.0",
   "repository": {
@@ -37,10 +37,7 @@
     "jest-cli": "^22.4.2",
     "jest-fetch-mock": "^1.0.8",
     "lodash.camelcase": "^4.3.0",
-    "lodash.foreach": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
-    "lodash.map": "^4.6.0",
-    "lodash.transform": "^4.6.0",
     "lodash.without": "^4.4.0",
     "rollup": "^0.56.5",
     "rollup-plugin-commonjs": "^9.1.0",
@@ -50,6 +47,9 @@
     "hogan.js": "^3.0.2",
     "lodash.assignin": "^4.2.0",
     "lodash.filter": "^4.6.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.map": "^4.6.0",
+    "lodash.transform": "^4.6.0",
     "promise-polyfill": "^7.1.0"
   }
 }
