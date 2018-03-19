@@ -8902,6 +8902,8 @@ function KSearchClient(options) {
      */
     var ITEMS_PER_PAGE = 12;
     
+    var AGGREGATION_VALUES_LIMIT = 10;
+    
     /**
      * Version of the K-Search API to request
      */
@@ -8927,6 +8929,24 @@ function KSearchClient(options) {
         "tg" : "Тоҷикӣ (Tajik)",
         "ru" : "Русский (Russian)",
     };
+
+    var AGGREGATIONS = {
+        "mime_type": "properties.mime_type",
+        "language": "properties.language",
+        "collections": "properties.collections",
+        "tags": "properties.tags",
+        "created_at": "properties.created_at",
+        "updated_at": "properties.updated_at",
+        "size": "properties.size",
+        "uploader": "uploader.name",
+        "copyright_owner_name": "copyright.owner.name",
+        "copyright_usage_short": "copyright.usage.short",
+    };
+    
+    var FILTERS = lodash_assignin(AGGREGATIONS, {
+        "uuid": "uuid",
+        "hash": "hash",
+    });
 
     var defaultOptions = {
         /**
@@ -9088,7 +9108,8 @@ function KSearchClient(options) {
         this.data = items;
         this.term = request.search;
         this.results = {
-            total: results.total_matches
+            total: results.total_matches,
+            aggregations: results.aggregations
         };
         this.pagination = {
             current: current,
@@ -9098,6 +9119,47 @@ function KSearchClient(options) {
         };
     }
 
+
+    /**
+     * Map a filter object to the corresponding filter query
+     * @param {mixed} filter The filter object or an already valid filter query
+     * @return {string} the filter query
+     */
+    function mapFilters(filter){
+
+        if(!filters){
+            return "";
+        }
+
+        if(typeof filter === "string"){
+            return filter;
+        }
+
+
+        // map shortcut to expanded filters
+        // removes filters that are not compatible
+    }
+    
+    /**
+     * 
+     * @param {Array} aggregations The aggregations 
+     */
+    function mapAggregations(aggregations){
+
+        if(!aggregations){
+            return null;
+        }
+
+        // map shortcut to expanded aggregations and assign default options
+        var transformed = lodash_transform(aggregations, function (result, aggregate) {
+            result[AGGREGATIONS[aggregate] || aggregate] = {
+                "limit": AGGREGATION_VALUES_LIMIT,
+                "counts_filtered": true
+            };
+        }, {});
+
+        return transformed;
+    }
 
     var module = {
 
@@ -9144,16 +9206,18 @@ function KSearchClient(options) {
          * @param {string} request.term The keywords or phrase to search for
          * @param {number} request.page The result page to retrieve. Default 1
          * @param {number} request.limit The number of result per page. Default ITEMS_PER_PAGE
-         * @param {string} request.filters The filter query
+         * @param {string|Object} request.filters The filter query
+         * @param {Array} request.aggregations The aggregations to activate
          * @return {Promise} The SearchResults
          */
         find: function (request) {
-            
+            console.log("find called", request, mapAggregations(request.aggregations));
             return search({
                 search: request.term,
                 offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
                 limit: request.limit || ITEMS_PER_PAGE,
-                filters: request.filters || ""
+                filters: mapFilters(request.filters),
+                aggregations: mapAggregations(request.aggregations)
             });
 
         },
@@ -9171,6 +9235,21 @@ function KSearchClient(options) {
                 page: 0,
                 limit: 0,
                 filters: filters || ""
+            }).then(function (results) {
+
+                return results.results.total;
+
+            });
+        },
+        
+        aggregations: function (aggregations) {
+
+            return module.find({
+                term: "*",
+                page: 0,
+                limit: 0,
+                filters: "",
+                aggregations: aggregations
             }).then(function (results) {
 
                 return results.results.total;
