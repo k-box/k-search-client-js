@@ -326,20 +326,28 @@ function KSearchClient(options) {
      * @param {mixed} filter The filter object or an already valid filter query
      * @return {string} the filter query
      */
-    function mapFilters(filter){
+    function mapFilters(filters){
 
-        if(!filter){
+        if(!filters){
             return "";
         }
 
-        if(typeof filter === "string"){
-            return filter;
+        if(typeof filters === "string"){
+            return filters;
         }
 
+        // input => {language: ["en", "ru"], mime_type: ["application/pdf"]}
+        // output => (language:en OR language:ru) AND (mime_type:application/pdf)
 
+        var transformed = transform(filters, function (result, filterName, filterValue) {
+            result.push("(" + map(filterValue, function(val){
+                return filterName + ":" + val;
+            }).join(" OR ") + ")");
+        }, []);
+console.log("Filters", transformed);
         // map shortcut to expanded filters
         // removes filters that are not compatible
-        return filter;
+        return transformed.join(' AND ');
     }
     
     /**
@@ -422,12 +430,12 @@ function KSearchClient(options) {
          * @param {string} request.term The keywords or phrase to search for
          * @param {number} request.page The result page to retrieve. Default 1
          * @param {number} request.limit The number of result per page. Default ITEMS_PER_PAGE
-         * @param {string|Object} request.filters The filter query
+         * @param {string|Object} request.filters The filter query. If an object is used the keys must be the filters and for each key the value must be expressed as an array
          * @param {Array} request.aggregations The aggregations to activate
          * @return {Promise} The SearchResults
          */
         find: function (request) {
-            
+
             return search({
                 search: request.term,
                 offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
