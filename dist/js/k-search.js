@@ -11863,7 +11863,7 @@ function KSearchClient(options) {
          * @return {Promise} The SearchResults
          */
         find: function (request) {
-            console.log("find called", request, mapAggregations(request.aggregations));
+            
             return search({
                 search: request.term,
                 offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
