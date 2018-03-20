@@ -9152,6 +9152,7 @@ function KSearchClient(options) {
         // output => (language:en OR language:ru) AND (mime_type:application/pdf)
 
         var transformed = lodash_transform(filters, function (result, filterName, filterValue) {
+            console.log("filter transform", filterName, filterValue);
             result.push("(" + lodash_map(filterValue, function(val){
                 return filterName + ":" + val;
             }).join(" OR ") + ")");
