@@ -90,6 +90,8 @@ function KSearchClient(options) {
      */
     var ITEMS_PER_PAGE = 12;
     
+    var AGGREGATION_VALUES_LIMIT = 10;
+    
     /**
      * Version of the K-Search API to request
      */
@@ -115,6 +117,37 @@ function KSearchClient(options) {
         "tg" : "Тоҷикӣ (Tajik)",
         "ru" : "Русский (Russian)",
     }
+
+    var AGGREGATIONS = {
+        "mime_type": "properties.mime_type",
+        "language": "properties.language",
+        "collections": "properties.collections",
+        "tags": "properties.tags",
+        "created_at": "properties.created_at",
+        "updated_at": "properties.updated_at",
+        "size": "properties.size",
+        "uploader": "uploader.name",
+        "copyright_owner_name": "copyright.owner.name",
+        "copyright_usage_short": "copyright.usage.short",
+    }
+    
+    var INVERTED_AGGREGATIONS = {
+        "properties.mime_type": "mime_type",
+        "properties.language": "language",
+        "properties.collections": "collections",
+        "properties.tags": "tags",
+        "properties.created_at": "created_at",
+        "properties.updated_at": "updated_at",
+        "properties.size": "size",
+        "uploader.name": "uploader",
+        "copyright.owner.name": "copyright_owner_name",
+        "copyright.usage.short": "copyright_usage_short",
+    }
+    
+    var FILTERS = assignIn(AGGREGATIONS, {
+        "uuid": "uuid",
+        "hash": "hash",
+    })
 
     var defaultOptions = {
         /**
@@ -276,7 +309,8 @@ function KSearchClient(options) {
         this.data = items;
         this.term = request.search;
         this.results = {
-            total: results.total_matches
+            total: results.total_matches,
+            aggregations: convertAggregationsToShorthand(results.aggregations)
         };
         this.pagination = {
             current: current,
@@ -286,6 +320,70 @@ function KSearchClient(options) {
         };
     }
 
+
+    /**
+     * Map a filter object to the corresponding filter query
+     * @param {mixed} filter The filter object or an already valid filter query
+     * @return {string} the filter query
+     */
+    function mapFilters(filters){
+
+        if(!filters){
+            return "";
+        }
+
+        if(typeof filters === "string"){
+            return filters;
+        }
+
+        // input => {language: ["en", "ru"], mime_type: ["application/pdf"]}
+        // output => (language:en OR language:ru) AND (mime_type:application/pdf)
+
+        var transformed = transform(filters, function (result, filterValue, filterName) {
+            
+            result.push("(" + map(filterValue, function(val){
+                return (FILTERS[filterName] || filterName) + ":" + val;
+            }).join(" OR ") + ")");
+        }, []);
+
+        // map shortcut to expanded filters
+        return transformed.join(' AND ');
+    }
+    
+    /**
+     * 
+     * @param {Array} aggregations The aggregations 
+     */
+    function mapAggregations(aggregations){
+
+        if(!aggregations){
+            return null;
+        }
+
+        // map shortcut to expanded aggregations and assign default options
+        var transformed = transform(aggregations, function (result, aggregate) {
+            result[AGGREGATIONS[aggregate] || aggregate] = {
+                "limit": AGGREGATION_VALUES_LIMIT,
+                "counts_filtered": true
+            };
+        }, {});
+
+        return transformed;
+    }
+    
+    function convertAggregationsToShorthand(aggregations){
+
+        if(!aggregations){
+            return null;
+        }
+
+        // map raw aggregation name to shorthand property
+        var transformed = transform(aggregations, function (result, value, aggregationName) {
+            result[INVERTED_AGGREGATIONS[aggregationName] || aggregationName] = value;
+        }, {});
+
+        return transformed;
+    }
 
     var module = {
 
@@ -332,16 +430,18 @@ function KSearchClient(options) {
          * @param {string} request.term The keywords or phrase to search for
          * @param {number} request.page The result page to retrieve. Default 1
          * @param {number} request.limit The number of result per page. Default ITEMS_PER_PAGE
-         * @param {string} request.filters The filter query
+         * @param {string|Object} request.filters The filter query. If an object is used the keys must be the filters and for each key the value must be expressed as an array
+         * @param {Array} request.aggregations The aggregations to activate
          * @return {Promise} The SearchResults
          */
         find: function (request) {
-            
+
             return search({
                 search: request.term,
                 offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
                 limit: request.limit || ITEMS_PER_PAGE,
-                filters: request.filters || ""
+                filters: mapFilters(request.filters),
+                aggregations: mapAggregations(request.aggregations)
             });
 
         },
@@ -362,6 +462,21 @@ function KSearchClient(options) {
             }).then(function (results) {
 
                 return results.results.total;
+
+            });
+        },
+        
+        aggregations: function (aggregations) {
+
+            return module.find({
+                term: "*",
+                page: 0,
+                limit: 0,
+                filters: "",
+                aggregations: aggregations
+            }).then(function (results) {
+
+                return results.results.aggregations;
 
             });
         },
