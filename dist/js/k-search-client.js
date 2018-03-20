@@ -8943,6 +8943,19 @@ function KSearchClient(options) {
         "copyright_usage_short": "copyright.usage.short",
     };
     
+    var INVERTED_AGGREGATIONS = {
+        "properties.mime_type": "mime_type",
+        "properties.language": "language",
+        "properties.collections": "collections",
+        "properties.tags": "tags",
+        "properties.created_at": "created_at",
+        "properties.updated_at": "updated_at",
+        "properties.size": "size",
+        "uploader.name": "uploader",
+        "copyright.owner.name": "copyright_owner_name",
+        "copyright.usage.short": "copyright_usage_short",
+    };
+    
     var FILTERS = lodash_assignin(AGGREGATIONS, {
         "uuid": "uuid",
         "hash": "hash",
@@ -9109,7 +9122,7 @@ function KSearchClient(options) {
         this.term = request.search;
         this.results = {
             total: results.total_matches,
-            aggregations: results.aggregations
+            aggregations: convertAggregationsToShorthand(results.aggregations)
         };
         this.pagination = {
             current: current,
@@ -9157,6 +9170,20 @@ function KSearchClient(options) {
                 "limit": AGGREGATION_VALUES_LIMIT,
                 "counts_filtered": true
             };
+        }, {});
+
+        return transformed;
+    }
+    
+    function convertAggregationsToShorthand(aggregations){
+
+        if(!aggregations){
+            return null;
+        }
+
+        // map raw aggregation name to shorthand property
+        var transformed = lodash_transform(aggregations, function (result, value, aggregationName) {
+            result[INVERTED_AGGREGATIONS[aggregationName] || aggregationName] = value;
         }, {});
 
         return transformed;
