@@ -340,14 +340,13 @@ function KSearchClient(options) {
         // output => (language:en OR language:ru) AND (mime_type:application/pdf)
 
         var transformed = transform(filters, function (result, filterValue, filterName) {
-            console.log("filter transform", filterName, filterValue);
+            
             result.push("(" + map(filterValue, function(val){
                 return (FILTERS[filterName] || filterName) + ":" + val;
             }).join(" OR ") + ")");
         }, []);
-console.log("Filters", transformed);
+
         // map shortcut to expanded filters
-        // removes filters that are not compatible
         return transformed.join(' AND ');
     }
     
