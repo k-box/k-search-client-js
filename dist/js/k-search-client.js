@@ -9154,7 +9154,7 @@ function KSearchClient(options) {
         var transformed = lodash_transform(filters, function (result, filterValue, filterName) {
             console.log("filter transform", filterName, filterValue);
             result.push("(" + lodash_map(filterValue, function(val){
-                return filterName + ":" + val;
+                return (FILTERS[filterName] || filterName) + ":" + val;
             }).join(" OR ") + ")");
         }, []);
 console.log("Filters", transformed);
