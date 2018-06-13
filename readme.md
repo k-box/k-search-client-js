@@ -130,17 +130,7 @@ Contact the technical counterpart of the K-Link network you want to connect to o
 
 ## <a name = 'list-k-links'>Non exhaustive list of publicly available K-Link networks</a>
 
-K-Link Asia (Climate Change, Sustainable Land use and Biodiversity in Central Asia):
-  + Landing page: https://www.klink.asia
-  + Endpoint: https://public.klink.asia/kcore
-  + Registry: https://public.klink.asia/registry
-
-SLM TJ (Sustainable Land Management Network in Tajikistan): 
-  + Landing page: https://slmtj.net
-  + Endpoint: ADD HERE THE ENDPOINT
-  + Registry: ADD HERE THE URL OF THE REGISTRY
-
-*Complete this list if you know of any other publicly available K-Link network that you would like to see listed here*
+See https://k-link.technology/network.html to find the Registry pages and Endpoints of a list of publicly available K-Link networks
 
 ## Development
 
