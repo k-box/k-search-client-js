@@ -53,13 +53,13 @@ and the **Javascript before the closing `</body>`** tag.
 <script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
 ```
 
-To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.
+Before proceeding make sure you have the [token](#token) and the [K-Link endpoint url](#endpoint)
 
-?[Before proceed make sure you have the token and the K-Link endpoint url]
+To initialize the K-Search library you can follow: (1) a javascript approach or (2) a data attribute based approach.
 
 More integration examples can be found in the [`examples` folder](./examples).
 
-### via Javascript
+### (1) via Javascript
 
 If you want to initialize the library via javascript you can do that by using the `ksearch` global functions.
 
@@ -83,20 +83,20 @@ By default the library search for the first element that has the `data-ksearch` 
 - `token: String`: (required) The API token to obtain access to the Search
 - `selector: String`: (default `[data-ksearch]`) Where in the page I should put the K-Search.
    If more elements matches on the page only the first one will be used
-- `display: String`: (default `overlay`) The display style.
- - overlay the search box is visible and can expand on top of the other elements of the page when active
- - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
+- `display: String`: (default `overlay`) The display style:
+  + `overlay` the search box is visible and can expand on top of the other elements of the page when active
+  + `embed` the search box and the results are visible in a page area and cannot hide other elements already in the page
 - `collapsed: Boolean`: (default `false`) If the search form should be collapsed to use less space on the page
 - `expandable: Boolean`: (default `true`) If the search input should become bigger when user interacts with it and the
    search results. If the `collapsed` option is set to true the `expandable` option will always be active.
 - `language: String`: (default `en`) The language for user interface localization. Currently supported only `en`
 
-### via data attributes
+### (2) via data attributes
 
 This is the fastest configuration method as its done entirely in html
 
 ```html
-<div class="k-search" data-ksearch-auto data-token="<API_KEY>" data-url="<URL_TO_KLINK>"></div>
+<div class="k-search" data-ksearch-auto data-token="<API_KEY>" data-url="<URL_TO_K-LINK>"></div>
 ```
 
 The following data attributes are supported:
@@ -105,13 +105,32 @@ The following data attributes are supported:
    the configuration values
 - `data-url`: (required) The K-Link compatible endpoint to use for searching
 - `data-token`: (required) The API token to obtain access to the Search
-- `data-display`: The display style.
- - overlay the search box is visible and can expand on top of the other elements of the page when active. The
+- `data-display`: The display style:
+  + `overlay` the search box is visible and can expand on top of the other elements of the page when active. The
    results are presented in a dialog below the search input field
- - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
+  + `embed` the search box and the results are visible in a page area and cannot hide other elements already in the page
 - `data-collapsed`: If the search form should be collapsed to use less space on the page, for example if used in the header.
   This is a boolean attribute, so no explicit value is required.
 
+## <a name = 'token'>How to get a token</a>
+
+Go to the registry page of the K-Link network you want to connect to (typically https://public.your_k-link_network/registry) and create an account. If you don't know the address of the registry, contact the technical counterpart of the K-Link network you want to connect to or check if this K-Link network is referenced [below](#list-k-links).
+
+Go to Applications and click on `Add`
+
+Give a name to the application on which the K-Search client will run, enter the domain of the app ("mywebsite.com", "mycompany.de", etc.) and choose the permissions "data-search" and "data-view"
+
+Put the status on `enabled`
+
+Click on `Save`, your token has been generated
+
+## <a name = 'endpoint'>How to get the K-Link endpoint url</a>
+
+Contact the technical counterpart of the K-Link network you want to connect to or check if this K-Link network is referenced [below](#list-k-links).
+
+## <a name = 'list-k-links'>Non exhaustive list of publicly available K-Link networks</a>
+
+See https://k-link.technology/network.html to find the Registry pages and Endpoints of a list of publicly available K-Link networks
 
 ## Development
 
