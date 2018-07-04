@@ -116,6 +116,10 @@ function KSearchClient(options) {
         "en" : "English",
         "tg" : "Тоҷикӣ (Tajik)",
         "ru" : "Русский (Russian)",
+        'ky' : 'Kyrgyz',
+        'de' : 'German',
+        'it' : 'Italian',
+        'fr' : 'French',
     }
 
     var AGGREGATIONS = {
@@ -253,7 +257,8 @@ function KSearchClient(options) {
         this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscors and file extension
         this.abstract = result.properties.abstract;
         this.thumbnail = result.properties.thumbnail;
-        this.language = LANGUAGES[result.properties.language] || result.properties.language;
+        this.language = LANGUAGES[result.properties.language];
+        this.language_code = result.properties.language;
         this.created_at = Format.datetime(result.properties.created_at);
         this.updated_at = Format.datetime(result.properties.updated_at);
         this.authors = map(result.authors || result.author, function (author) {
