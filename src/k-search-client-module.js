@@ -255,6 +255,7 @@ function KSearchClient(options) {
         this.thumbnail = result.properties.thumbnail;
         this.language = LANGUAGES[result.properties.language] || result.properties.language;
         this.created_at = Format.datetime(result.properties.created_at);
+        this.updated_at = Format.datetime(result.properties.updated_at);
         this.authors = map(result.authors || result.author, function (author) {
             return author.name;
         }).join(', ');
