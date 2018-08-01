@@ -95,7 +95,7 @@ function KSearchClient(options) {
     /**
      * Version of the K-Search API to request
      */
-    var SEARCH_API_VERSION = '3.0';
+    var SEARCH_API_VERSION = '3.4';
     
     /**
      * The URL of the API. It includes the basic path and the requested API version
@@ -253,7 +253,8 @@ function KSearchClient(options) {
         this.embed = null;
         this.mime_type = result.properties.mime_type;
         this.type = MIME_TYPE_MAPPING[result.properties.mime_type] || "unknown";
-        this.url = result.url;
+        this.url = _options.url + "/files/" + result.uuid;
+        this.originalUrl = result.url;
         this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscors and file extension
         this.abstract = result.properties.abstract;
         this.thumbnail = result.properties.thumbnail;
