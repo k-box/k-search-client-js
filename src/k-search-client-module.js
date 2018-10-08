@@ -364,7 +364,7 @@ function KSearchClient(options) {
     function mapAggregations(aggregations){
 
         if(!aggregations){
-            return null;
+            return [];
         }
 
         // map shortcut to expanded aggregations and assign default options
