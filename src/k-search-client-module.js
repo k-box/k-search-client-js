@@ -95,7 +95,7 @@ function KSearchClient(options) {
     /**
      * Version of the K-Search API to request
      */
-    var SEARCH_API_VERSION = '3.4';
+    var SEARCH_API_VERSION = '3.5';
     
     /**
      * The URL of the API. It includes the basic path and the requested API version
