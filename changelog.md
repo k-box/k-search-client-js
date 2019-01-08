@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Removed
 
 - Support for K-Search API v2 [#2](https://github.com/k-box/k-search-client-js/pull/2)
+- Support for collapsed mode and auto-expand behavior to cover the available space on the page ([#15](https://github.com/k-box/k-search-client-js/pull/15))
 
 ## [0.4.0] - 2017-06-19
 
