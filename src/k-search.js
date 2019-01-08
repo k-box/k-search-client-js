@@ -11,7 +11,6 @@ import assignIn from 'lodash.assignin';
 import EventEmitter from './utils/ee.js';
 import LazyLoad from './utils/lazyload.js';
 import Dom from './utils/dom.js';
-// import Ajax from './utils/ajax.js';
 import forEach from 'lodash.foreach';
 import Client from './k-search-client-module.js';
 
@@ -45,24 +44,12 @@ window.ksearch = function (options) {
         selector: '[data-ksearch]',
         /**
          * The display style:
-         * - overlay the search box is visible and can expand on top of the other elements of the page when active
-         * - embed the search box and the results are visible in a page area and cannot hide other elements already in the page
+         * - overlay the search box is visible and results are inlined in a dialog below the search box
+         * - embed the search box and the results are always visible in the specified page area
          * @default overlay
          * @type {string}
          */
         display: 'overlay',
-        /**
-         * If the search form should be collapsed to use less space on the page
-         * @type {boolean}
-         * @default false
-         */
-        collapsed: false,
-        /**
-         * If the search form can expand beyond its current size. Default true, always true if collapsed === true
-         * @type {boolean}
-         * @default true
-         */
-        expandable: true,
         /**
          * The language of the UI
          * @type {string}
@@ -169,7 +156,7 @@ window.ksearch = function (options) {
          * Search form
          */
         searchBox: ' \
-  <form novalidate="novalidate" onsubmit="return false;" role="search" name="klink-search" class="k-search__form {{#state.isCollapsed}}k-search__form--collapsed{{/state.isCollapsed}}"> \
+  <form novalidate="novalidate" onsubmit="return false;" role="search" name="klink-search" class="k-search__form"> \
 		<div class="k-search__logo" data-action="logo"> \
             <svg width=32 height=32 viewBox="0 0 24 24" role="img" aria-label="K-Search"> \
                 <g fill="#fff"><path d="M17.894 16.729c-.107.179-.286.271-.592.271h-3.801c.026 0 .176 0 .308 1h3.281c.152 0 .621-.13.681-.352.035-.13.129-.668.123-.919zM11.193 17H4.62a1.73 1.73 0 0 1-1.729-1.734l.015-12.157c0-.516.317-.85.688-1 .473-.192 1.03-.06 1.537.463.118.122.281.138.402.02.122-.118.109-.306-.008-.428-.681-.704-1.719-.97-2.427-.684C2.499 1.722 2 2.323 2 3.082v12.337C2 16.714 3.322 18 4.62 18h6.725c-.236-1-.14-1-.152-1z"/><path d="M10.496 11.728l.004-.005 4.203-4.2a.306.306 0 0 0 .001-.434.306.306 0 0 0-.434-.001l-4.208 4.206A1.535 1.535 0 1 1 7.89 9.121l6.436-6.433c.831-.83 2.175-1.028 3.006-.198.829.83.727 2.37-.104 3.176L13.435 9.39c-.374.375-.375 1.085-.001 1.461l1.488 1.54c.25-.042.507-.042.767-.042.012 0 .023.014.033.014l-1.853-1.852a.347.347 0 0 1 0-.493l3.902-3.9a2.738 2.738 0 0 0-3.872-3.871l-6.443 6.44a2.153 2.153 0 0 0 0 3.041 2.152 2.152 0 0 0 3.04 0z"/><path d="M12.838 19.807a4.15 4.15 0 0 0 5.094.601l1.918 1.918a1.063 1.063 0 1 0 1.503-1.505l-1.955-1.954a4.149 4.149 0 0 0-.704-4.916 4.144 4.144 0 0 0-5.855.001 4.144 4.144 0 0 0-.001 5.855zm1.106-4.747a2.581 2.581 0 0 1 3.642-.001c.707.708.914 1.728.623 2.619a2.548 2.548 0 0 1-1.438 1.569 2.578 2.578 0 0 1-2.825-.548 2.576 2.576 0 0 1-.002-3.639z"/></g> \
@@ -294,12 +281,6 @@ window.ksearch = function (options) {
         isDialogShowed: false,
 
         /**
-         * If the search box is collapsed
-         * @type {boolean}
-         */
-        isCollapsed: false,
-
-        /**
          * The module options
          * @type {Object}
          */
@@ -350,19 +331,8 @@ window.ksearch = function (options) {
 
     };
 
-    // the dialog must be expandable if is in collapsed mode
-    module.options.expandable = module.options.collapsed ? true : module.options.expandable;
-    module.isCollapsed = module.options.collapsed;
-
     module.searchBoxWidth = module.elements.searchBox.offsetWidth;
-
-    if (module.options.expandable) {
-        var desiredWidth = module.searchBoxWidth + module.elements.searchBox.offsetLeft-20;
-        module.width = desiredWidth;
-    }
-    else {
-        module.width = module.searchBoxWidth;
-    }
+    module.width = module.searchBoxWidth;
 
 
     render(module.elements.searchBox, templates.searchBox, { state: module, dialog: templates.dialog });
@@ -376,8 +346,6 @@ window.ksearch = function (options) {
         
         var output = compiled.render({ results: module.results, pagination: module.page });
 
-
-        console.log(output);
         return output;
 
     }
@@ -401,8 +369,6 @@ window.ksearch = function (options) {
 
         module.isSearching = true;
 
-        // Ajax.get(SEARCH_ENDPOINT, module.options.token, requestData)
-
         SearchClient.find(requestData).then(function (value) {
 
             // value is an instance of SearchClient.SearchResults
@@ -414,7 +380,7 @@ window.ksearch = function (options) {
             }
 
             module.results = value;
-console.log(value);
+
             module.page.current = value.pagination.current;
             module.page.total = value.pagination.total;
             module.page.needed = module.page.total > 1;
@@ -560,7 +526,7 @@ console.log(value);
 
             if (el) {
 
-                if (Dom.data(el, 'action') === 'logo' && !module.isCollapsed && module.isFocus) {
+                if (Dom.data(el, 'action') === 'logo' && module.isFocus) {
                     e.stopPropagation();
                     e.preventDefault();
                     module.elements.searchForm.submit();
@@ -569,19 +535,8 @@ console.log(value);
                     e.stopPropagation();
                     e.preventDefault();
 
-                    if (module.options.collapsed) {
-                        module.isCollapsed = !module.isCollapsed;
-                        if (!module.isCollapsed) {
-                            module.elements.searchInput.focus();
-                        }
-                    }
-                    else {
-                        module.elements.searchInput.focus();
-                    }
-
-
+                    module.elements.searchInput.focus();
                 }
-
 
             }
             
@@ -606,9 +561,7 @@ console.log(value);
                         module.elements.searchInput.value = "";
                         module.isDialogShowed = false;
                         hideDialog();
-                        if (module.options.collapsed) {
-                            module.isCollapsed = true;
-                        }
+
                         module.wasFocused = false;
                     }
                     else {
@@ -645,10 +598,6 @@ console.log(value);
             Dom.classAdd(module.elements.searchBox, containerDisplayClass);
         }
 
-        if (module.options.collapsed) {
-            Dom.classAdd(module.elements.searchBox, 'k-search--collapsed');
-        }
-
         // if display === embed ensure that the area for results is expanded
         if (module.options.display === 'embed') {
             module.isDialogShowed = true;
@@ -662,8 +611,6 @@ console.log(value);
      * Reflect the changes in the module status on the User Interface
      */
     function updateUI() {
-
-        console.log('updateUI', module.results)
 
         if (module.results && module.results.results.total > 0) {
             module.elements.searchResults.innerHTML = getResultsTemplate();
@@ -680,17 +627,6 @@ console.log(value);
             module.elements.searchResults.innerHTML = '';
         }
 
-        if (!module.isCollapsed && module.options.display!=='embed' && Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-            Dom.classRemove(module.elements.searchForm, 'k-search__form--collapsed');
-            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
-            module.elements.searchForm.style.width = module.width+"px";
-        }
-        if (module.isCollapsed && module.options.display!=='embed' && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-            Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
-            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
-            module.elements.searchForm.style.width = "";
-        }
-
         if(module.isFocus || (!module.isFocus && module.isDialogShowed)){
             Dom.classAdd(module.elements.searchBox, "k-search--focus");
         }
@@ -698,17 +634,6 @@ console.log(value);
             Dom.classRemove(module.elements.searchBox, "k-search--focus");
         }
 
-        if(module.isFocus && module.options.expandable && module.options.display!=='embed'){
-            Dom.classAdd(module.elements.searchForm, "k-search__form--float");
-            module.elements.searchForm.style.width = module.width+"px";
-        }
-        else if(!module.isFocus && !module.isDialogShowed && module.options.expandable && module.options.display!=='embed'){
-            Dom.classRemove(module.elements.searchForm, "k-search__form--float");
-            module.elements.searchForm.style.width = "";
-            if (module.options.collapsed && !Dom.classContains(module.elements.searchForm, 'k-search__form--collapsed')) {
-                Dom.classAdd(module.elements.searchForm, 'k-search__form--collapsed');
-            }
-        }
 
         if (!module.results && module.options.display !== 'embed' && module.isDialogShowed) {
             hideDialog();
@@ -727,8 +652,7 @@ console.log(value);
      */
     ee.on('update', updateUI);
 
-
-    setTimeout(function () { initialize() }, 10);
+    setTimeout(function () { initialize() }, 5);
 
     return module;
 
@@ -752,7 +676,6 @@ console.log(value);
             selector: '[data-ksearch-auto]',
             url: Dom.data(ksearch, 'url'),
             display: Dom.data(ksearch, 'display')||'overlay',
-            collapsed: Dom.data(ksearch, 'collapsed') !== undefined && (Dom.data(ksearch, 'collapsed') === 'true' || Dom.data(ksearch, 'collapsed').length === 0) ? true : false,
         }
         
         window.ksearch(options);

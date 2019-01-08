@@ -8907,7 +8907,7 @@ function KSearchClient(options) {
     /**
      * Version of the K-Search API to request
      */
-    var SEARCH_API_VERSION = '3.0';
+    var SEARCH_API_VERSION = '3.5';
     
     /**
      * The URL of the API. It includes the basic path and the requested API version
@@ -8928,6 +8928,10 @@ function KSearchClient(options) {
         "en" : "English",
         "tg" : "Тоҷикӣ (Tajik)",
         "ru" : "Русский (Russian)",
+        'ky' : 'Kyrgyz',
+        'de' : 'German',
+        'it' : 'Italian',
+        'fr' : 'French',
     };
 
     var AGGREGATIONS = {
@@ -9061,12 +9065,15 @@ function KSearchClient(options) {
         this.embed = null;
         this.mime_type = result.properties.mime_type;
         this.type = MIME_TYPE_MAPPING[result.properties.mime_type] || "unknown";
-        this.url = result.url;
+        this.url = _options.url + "/files/" + result.uuid;
+        this.originalUrl = result.url;
         this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscors and file extension
         this.abstract = result.properties.abstract;
         this.thumbnail = result.properties.thumbnail;
-        this.language = LANGUAGES[result.properties.language] || result.properties.language;
+        this.language = LANGUAGES[result.properties.language];
+        this.language_code = result.properties.language;
         this.created_at = format.datetime(result.properties.created_at);
+        this.updated_at = format.datetime(result.properties.updated_at);
         this.authors = lodash_map(result.authors || result.author, function (author) {
             return author.name;
         }).join(', ');
@@ -9169,7 +9176,7 @@ function KSearchClient(options) {
     function mapAggregations(aggregations){
 
         if(!aggregations){
-            return null;
+            return [];
         }
 
         // map shortcut to expanded aggregations and assign default options
