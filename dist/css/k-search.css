@@ -156,7 +156,7 @@
   display: none;
 }
 .k-search--focus .k-search__input {
-  padding-right: 200px !important;
+  width: 280px;
 }
 .k-search__form--expand-overlay {
   position: absolute;

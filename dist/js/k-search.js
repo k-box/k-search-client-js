@@ -12241,21 +12241,7 @@ window.ksearch = function (options) {
             dialogBox: null,
         },
 
-        /**
-         * The width of the search box
-         */
-        searchBoxWidth: 200, 
-        
-        /**
-         * The width to apply when the form is in focus 
-         * and is expanded
-         */
-        width: 200
-
     };
-
-    module.searchBoxWidth = module.elements.searchBox.offsetWidth;
-    module.width = module.searchBoxWidth;
 
 
     render(module.elements.searchBox, templates.searchBox, { state: module, dialog: templates.dialog });
