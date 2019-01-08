@@ -84,11 +84,8 @@ By default the library search for the first element that has the `data-ksearch` 
 - `selector: String`: (default `[data-ksearch]`) Where in the page I should put the K-Search.
    If more elements matches on the page only the first one will be used
 - `display: String`: (default `overlay`) The display style:
-  + `overlay` the search box is visible and can expand on top of the other elements of the page when active
-  + `embed` the search box and the results are visible in a page area and cannot hide other elements already in the page
-- `collapsed: Boolean`: (default `false`) If the search form should be collapsed to use less space on the page
-- `expandable: Boolean`: (default `true`) If the search input should become bigger when user interacts with it and the
-   search results. If the `collapsed` option is set to true the `expandable` option will always be active.
+  + `overlay` the search box is visible and results are inlined in a dialog below the search box
+  + `embed` the search box and the results are always visible in the specified page area
 - `language: String`: (default `en`) The language for user interface localization. Currently supported only `en`
 
 ### (2) via data attributes
@@ -109,8 +106,6 @@ The following data attributes are supported:
   + `overlay` the search box is visible and can expand on top of the other elements of the page when active. The
    results are presented in a dialog below the search input field
   + `embed` the search box and the results are visible in a page area and cannot hide other elements already in the page
-- `data-collapsed`: If the search form should be collapsed to use less space on the page, for example if used in the header.
-  This is a boolean attribute, so no explicit value is required.
 
 ## <a name = 'token'>How to get a token</a>
 
