@@ -67,7 +67,7 @@ To initialize the K-Search library you can follow: (1) a javascript approach or 
 
 More integration examples can be found in the [`examples` folder](./examples).
 
-### (1) via Javascript
+#### (1) via Javascript
 
 If you want to initialize the library via javascript you can do that by using the `ksearch` global functions.
 
@@ -96,7 +96,7 @@ By default the library search for the first element that has the `data-ksearch` 
   + `embed` the search box and the results are always visible in the specified page area
 - `language: String`: (default `en`) The language for user interface localization. Currently supported only `en`
 
-### (2) via data attributes
+#### (2) via data attributes
 
 This is the fastest configuration method as its done entirely in html
 
