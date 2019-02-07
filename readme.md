@@ -6,17 +6,10 @@ _Features_
 
 - Embed the search form on any website.
 - Easy inclusion and configuration snippets for HTML5 or JavaScript.
-- Three different visualization modes
 - Self contained, no pre-requirements
+- Use with predefined UI or create your custom UI
 
-_Planned enhancements_
-
-* [ ] Show to the user that a search is in progress
-* [ ] Support for Localization and i18n
-* [ ] Ctrl+K Ctrl+F for focusing on the K-Search field
-* [ ] Get the search term from the query string if available
-
-## Browser support
+#### Browser support
 
 K-Search support modern browsers: Microsoft Edge (14+), Google Chrome, Mozilla Firefox,
 Opera (40+), Safari (10), iOS Safari 10.3+, Chrome on Android, Firefox on Android and even IE9,
@@ -26,7 +19,19 @@ is not given and will not be considered for future updates.
 For a detailed overview of which technologies we are using and their browser support please
 refer to the [Browser matrix](./docs/browser-matrix.md) documentation page.
 
-## Setup
+## Usage
+
+The K-Search Javascript Library can be used as 
+
+1. client only or
+2. full client.
+
+The _client only_ mode is suitable if you want to connect to the K-Link API without the hassle of creating your 
+own client, while the _full client_ include a pre-defined and basic User Interface.
+
+> A K-Link requires all requests to be authenticated. See the [K-Link](#k-link) of this readme for more information
+
+### Full Client
 
 To include the K-Search on your page you need to have a container element, like a `div`, in the area you want
 the search to appear. For example in the header on the side of the logo
@@ -42,16 +47,19 @@ the search to appear. For example in the header on the side of the logo
   </header>
 ```
 
-Then you need to place our CSS and Javascript dependencies. We suggest to include the **css in the `head`** of the page
-and the **Javascript before the closing `</body>`** tag.
+Then you need to place our CSS and Javascript dependencies.
+We suggest to include the **Javascript before the closing `</body>`** tag.
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://releases.klink.asia/k-search-js/0/k-search.min.css" />
+<link rel="stylesheet" href="dist/css/k-search.css" />
 
 <!-- Javascript -->
-<script type="text/javascript" src="https://releases.klink.asia/k-search-js/0/k-search.min.js"></script>
+<script type="text/javascript" src="dist/js/k-search.js"></script>
 ```
+
+> You can download the files from the repository or reference the repository as [NPM package](https://docs.npmjs.com/cli/install)
+> `npm install k-box/k-search-client-js#master`
 
 Before proceeding make sure you have the [token](#token) and the [K-Link endpoint url](#endpoint)
 
@@ -107,9 +115,17 @@ The following data attributes are supported:
    results are presented in a dialog below the search input field
   + `embed` the search box and the results are visible in a page area and cannot hide other elements already in the page
 
-## <a name = 'token'>How to get a token</a>
 
-Go to the registry page of the K-Link network you want to connect to (typically https://public.your_k-link_network/registry) and create an account. If you don't know the address of the registry, contact the technical counterpart of the K-Link network you want to connect to or check if this K-Link network is referenced [below](#list-k-links).
+## K-Link
+
+This library is not thighly couple to a specific K-Link, but instead it let you connect to hosted or self-hosted K-Links.
+To this aim you might need to identify hos to join a K-Link on its specific website.
+
+A list of OneOff-Tech maintaned K-Links can be found on the [K-Link Technology website](https://k-link.technology/network.html).
+
+#### <a name = 'token'>How to get a token</a>
+
+Go to the registry page of the K-Link network you want to connect to (typically https://public.your_k-link_network/registry) and create an account. If you don't know the address of the registry, contact the technical counterpart of the K-Link network you want to connect to or check if this K-Link network is referenced on the [K-Link Technology website](https://k-link.technology/network.html).
 
 Go to Applications and click on `Add`
 
@@ -119,13 +135,12 @@ Put the status on `enabled`
 
 Click on `Save`, your token has been generated
 
-## <a name = 'endpoint'>How to get the K-Link endpoint url</a>
+#### <a name = 'endpoint'>How to get the K-Link endpoint url</a>
 
-Contact the technical counterpart of the K-Link network you want to connect to or check if this K-Link network is referenced [below](#list-k-links).
+As a general rule the `API_URL` is the URL of the domain of the website that serve as front-facing page of a K-Link.
 
-## <a name = 'list-k-links'>Non exhaustive list of publicly available K-Link networks</a>
+For OneOff-Tech hosted networks you might find the URL on the [K-Link Technology website](https://k-link.technology/network.html).
 
-See https://k-link.technology/network.html to find the Registry pages and Endpoints of a list of publicly available K-Link networks
 
 ## Development
 
