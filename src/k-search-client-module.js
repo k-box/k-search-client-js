@@ -95,12 +95,12 @@ function KSearchClient(options) {
     /**
      * Version of the K-Search API to request
      */
-    var SEARCH_API_VERSION = '3.5';
+    var API_VERSION = '3.7';
     
     /**
      * The URL of the API. It includes the basic path and the requested API version
      */
-    var API_URL = 'api/' + SEARCH_API_VERSION;
+    var API_URL = 'api/' + API_VERSION;
 
     /**
      * K-Search endpoint for performing searches
@@ -111,6 +111,11 @@ function KSearchClient(options) {
      * K-Search endpoint for getting a data entry by UUID
      */
     var GET_ENDPOINT = 'data.get';
+
+    /**
+     * K-Search endpoint for getting information about a K-Link
+     */
+    var KLINKS_ENDPOINT = 'klinks.list';
 
     var LANGUAGES = {
         "en" : "English",
@@ -239,6 +244,26 @@ function KSearchClient(options) {
     }
 
     /**
+     * Get the defined K-Links.
+     * 
+     * @return {Promise|{id, name}} the promise of obtaining a Klink instance
+     */
+    function klinks(){
+        return Ajax.post(_options.url + "/" + API_URL + "/" + KLINKS_ENDPOINT, _options.token, requestData, _options.compatibility).
+        then(function (response) {
+
+            if (response.error && response.error.data && response.error.data['params.uuid']) {
+                return null;
+            }
+            else if (response.error) {
+                throw new Error(response.error.message);
+            }
+
+            return new Data(response.result);
+        });
+    }
+
+    /**
      * Data ViewModel
      * 
      * Abstract a Data entry in the search result list
@@ -251,11 +276,12 @@ function KSearchClient(options) {
         this.isVideo = result.type === 'video';
         this.hasEmbed = false;
         this.embed = null;
+        this.klinks = result.klinks || [];
         this.mime_type = result.properties.mime_type;
         this.type = MIME_TYPE_MAPPING[result.properties.mime_type] || "unknown";
         this.url = _options.url + "/files/" + result.uuid;
         this.originalUrl = result.url;
-        this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscors and file extension
+        this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscores and file extension
         this.abstract = result.properties.abstract;
         this.thumbnail = result.properties.thumbnail;
         this.language = LANGUAGES[result.properties.language];
@@ -484,6 +510,15 @@ function KSearchClient(options) {
             }).then(function (results) {
 
                 return results.results.aggregations;
+
+            });
+        },
+        
+        klinks: function () {
+
+            return klinks().then(function (results) {
+
+                return results.results;
 
             });
         },
