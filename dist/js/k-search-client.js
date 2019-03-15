@@ -8907,12 +8907,12 @@ function KSearchClient(options) {
     /**
      * Version of the K-Search API to request
      */
-    var SEARCH_API_VERSION = '3.5';
+    var API_VERSION = '3.7';
     
     /**
      * The URL of the API. It includes the basic path and the requested API version
      */
-    var API_URL = 'api/' + SEARCH_API_VERSION;
+    var API_URL = 'api/' + API_VERSION;
 
     /**
      * K-Search endpoint for performing searches
@@ -8923,6 +8923,11 @@ function KSearchClient(options) {
      * K-Search endpoint for getting a data entry by UUID
      */
     var GET_ENDPOINT = 'data.get';
+
+    /**
+     * K-Search endpoint for getting information about a K-Link
+     */
+    var KLINKS_ENDPOINT = 'klinks.list';
 
     var LANGUAGES = {
         "en" : "English",
@@ -8960,6 +8965,18 @@ function KSearchClient(options) {
         "copyright.usage.short": "copyright_usage_short",
     };
     
+    var SORTABLE_FIELDS = {
+        "_score": "_score", // a virtual field, containing the relevance of the returned data for a given search
+        "mime_type": "properties.mime_type",
+        "language": "properties.language",
+        "title": "properties.title",
+        "size": "properties.size",
+        "created_at": "properties.created_at",
+        "updated_at": "properties.updated_at",
+        "uploader_url": "uploader.app_url",
+        "copyright_usage_short": "copyright.usage.short",
+    };
+
     var FILTERS = lodash_assignin(AGGREGATIONS, {
         "uuid": "uuid",
         "hash": "hash",
@@ -9051,6 +9068,26 @@ function KSearchClient(options) {
     }
 
     /**
+     * Get the defined K-Links.
+     * 
+     * @return {Promise|{id, name}} the promise of obtaining a Klink instance
+     */
+    function klinks(){
+        return ajax.post(_options.url + "/" + API_URL + "/" + KLINKS_ENDPOINT, _options.token, requestData, _options.compatibility).
+        then(function (response) {
+
+            if (response.error && response.error.data && response.error.data['params.uuid']) {
+                return null;
+            }
+            else if (response.error) {
+                throw new Error(response.error.message);
+            }
+
+            return new Data(response.result);
+        });
+    }
+
+    /**
      * Data ViewModel
      * 
      * Abstract a Data entry in the search result list
@@ -9063,11 +9100,12 @@ function KSearchClient(options) {
         this.isVideo = result.type === 'video';
         this.hasEmbed = false;
         this.embed = null;
+        this.klinks = result.klinks || [];
         this.mime_type = result.properties.mime_type;
         this.type = MIME_TYPE_MAPPING[result.properties.mime_type] || "unknown";
         this.url = _options.url + "/files/" + result.uuid;
         this.originalUrl = result.url;
-        this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscors and file extension
+        this.title = result.properties.title.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""); // replace underscores and file extension
         this.abstract = result.properties.abstract;
         this.thumbnail = result.properties.thumbnail;
         this.language = LANGUAGES[result.properties.language];
@@ -9189,6 +9227,27 @@ function KSearchClient(options) {
 
         return transformed;
     }
+ 
+    /**
+     * 
+     * @param {Object} sort The sorting options
+     */
+    function mapSort(sort){
+
+        if(!sort){
+            return [];
+        }
+
+        // map shortcut to expanded sort fields and assign default options
+        var transformed = lodash_transform(sort, function (result, sortOrder, sortField) {
+            result.push({
+                "field": SORTABLE_FIELDS[sortField] || sortField,
+                "order": sortOrder
+            });
+        }, []);
+
+        return transformed;
+    }
     
     function convertAggregationsToShorthand(aggregations){
 
@@ -9251,16 +9310,20 @@ function KSearchClient(options) {
          * @param {number} request.limit The number of result per page. Default ITEMS_PER_PAGE
          * @param {string|Object} request.filters The filter query. If an object is used the keys must be the filters and for each key the value must be expressed as an array
          * @param {Array} request.aggregations The aggregations to activate
+         * @param {Object} request.sort How the search results should be sorted. An object with fields as key and 'asc' or 'desc' as value, e.g. {"language": "desc", "title":"asc"}
          * @return {Promise} The SearchResults
          */
         find: function (request) {
 
+            var perPage = request.limit || ITEMS_PER_PAGE;
+
             return search({
                 search: request.term,
-                offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
-                limit: request.limit || ITEMS_PER_PAGE,
+                offset: request.page && request.page > 0 ? perPage * (request.page - 1) : 0,
+                limit: perPage,
                 filters: mapFilters(request.filters),
-                aggregations: mapAggregations(request.aggregations)
+                aggregations: mapAggregations(request.aggregations),
+                sort: mapSort(request.sort)
             });
 
         },
@@ -9296,6 +9359,15 @@ function KSearchClient(options) {
             }).then(function (results) {
 
                 return results.results.aggregations;
+
+            });
+        },
+        
+        klinks: function () {
+
+            return klinks().then(function (results) {
+
+                return results.results;
 
             });
         },
