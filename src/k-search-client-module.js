@@ -469,10 +469,12 @@ function KSearchClient(options) {
          */
         find: function (request) {
 
+            var perPage = request.limit || ITEMS_PER_PAGE;
+
             return search({
                 search: request.term,
-                offset: request.page && request.page > 0 ? ITEMS_PER_PAGE * (request.page - 1) : 0,
-                limit: request.limit || ITEMS_PER_PAGE,
+                offset: request.page && request.page > 0 ? perPage * (request.page - 1) : 0,
+                limit: perPage,
                 filters: mapFilters(request.filters),
                 aggregations: mapAggregations(request.aggregations)
             });
