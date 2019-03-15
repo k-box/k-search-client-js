@@ -153,6 +153,18 @@ function KSearchClient(options) {
         "copyright.usage.short": "copyright_usage_short",
     }
     
+    var SORTABLE_FIELDS = {
+        "_score": "_score", // a virtual field, containing the relevance of the returned data for a given search
+        "mime_type": "properties.mime_type",
+        "language": "properties.language",
+        "title": "properties.title",
+        "size": "properties.size",
+        "created_at": "properties.created_at",
+        "updated_at": "properties.updated_at",
+        "uploader_url": "uploader.app_url",
+        "copyright_usage_short": "copyright.usage.short",
+    }
+
     var FILTERS = assignIn(AGGREGATIONS, {
         "uuid": "uuid",
         "hash": "hash",
@@ -403,6 +415,27 @@ function KSearchClient(options) {
 
         return transformed;
     }
+ 
+    /**
+     * 
+     * @param {Object} sort The sorting options
+     */
+    function mapSort(sort){
+
+        if(!sort){
+            return [];
+        }
+
+        // map shortcut to expanded sort fields and assign default options
+        var transformed = transform(sort, function (result, sortOrder, sortField) {
+            result.push({
+                "field": SORTABLE_FIELDS[sortField] || sortField,
+                "order": sortOrder
+            });
+        }, []);
+
+        return transformed;
+    }
     
     function convertAggregationsToShorthand(aggregations){
 
@@ -465,6 +498,7 @@ function KSearchClient(options) {
          * @param {number} request.limit The number of result per page. Default ITEMS_PER_PAGE
          * @param {string|Object} request.filters The filter query. If an object is used the keys must be the filters and for each key the value must be expressed as an array
          * @param {Array} request.aggregations The aggregations to activate
+         * @param {Object} request.sort How the search results should be sorted. An object with fields as key and 'asc' or 'desc' as value, e.g. {"language": "desc", "title":"asc"}
          * @return {Promise} The SearchResults
          */
         find: function (request) {
@@ -476,7 +510,8 @@ function KSearchClient(options) {
                 offset: request.page && request.page > 0 ? perPage * (request.page - 1) : 0,
                 limit: perPage,
                 filters: mapFilters(request.filters),
-                aggregations: mapAggregations(request.aggregations)
+                aggregations: mapAggregations(request.aggregations),
+                sort: mapSort(request.sort)
             });
 
         },
