@@ -115,7 +115,7 @@ function KSearchClient(options) {
     /**
      * K-Search endpoint for getting information about a K-Link
      */
-    var KLINKS_ENDPOINT = 'klinks.list';
+    var KLINKS_ENDPOINT = 'klink.list';
 
     var LANGUAGES = {
         "en" : "English",
@@ -261,13 +261,15 @@ function KSearchClient(options) {
      * @return {Promise|{id, name}} the promise of obtaining a Klink instance
      */
     function klinks(){
+
+        var requestData = {
+            id: "kscjs-" + new Date().getTime()
+        };
+
         return Ajax.post(_options.url + "/" + API_URL + "/" + KLINKS_ENDPOINT, _options.token, requestData, _options.compatibility).
         then(function (response) {
 
-            if (response.error && response.error.data && response.error.data['params.uuid']) {
-                return null;
-            }
-            else if (response.error) {
+            if (response.error) {
                 throw new Error(response.error.message);
             }
 
