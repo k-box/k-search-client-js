@@ -43,4 +43,5 @@ test('k-search-client exposes expected api', () => {
     expect(instance.get).not.toBeUndefined();
     expect(instance.total).not.toBeUndefined();
     expect(instance.aggregations).not.toBeUndefined();
+    expect(instance.klinks).not.toBeUndefined();
 });
