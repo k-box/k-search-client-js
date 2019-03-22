@@ -9085,7 +9085,7 @@ function KSearchClient(options) {
                 throw new Error(response.error.message);
             }
 
-            return new Data(response.result);
+            return response.result;
         });
     }
 
@@ -9369,7 +9369,7 @@ function KSearchClient(options) {
 
             return klinks().then(function (results) {
 
-                return results.results;
+                return results;
 
             });
         },
